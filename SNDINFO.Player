@@ -1,0 +1,440 @@
+$Limit RW/GTaunt 1
+$Limit RW/CTaunt 1
+$Limit RW/FTaunt 1
+$Limit RW/Berserker 1
+
+$Random RW/Berserker {RW/BZRK1 RW/BZRK2 RW/BZRK3 RW/BZRK4 RW/BZRK5 RW/BZRK6 RW/BZRK7 RW/BZRK8 RW/BZRK9 RW/BZRK10 RW/BZRK11 RW/BZRK12 RW/BZRK13}
+
+RW/BZRK1	R_BZRK01
+RW/BZRK2	R_BZRK02
+RW/BZRK3	R_BZRK03
+RW/BZRK4	R_BZRK04
+RW/BZRK5	R_BZRK05
+RW/BZRK6	R_BZRK06
+RW/BZRK7	R_BZRK07
+RW/BZRK8	R_BZRK08
+RW/BZRK9	R_BZRK09
+RW/BZRK10	R_BZRK10
+RW/BZRK11	R_BZRK11
+RW/BZRK12	R_BZRK12
+RW/BZRK13	R_BZRK13
+
+$Random RW/SLOT3A {3A_Pickup1 3A_Pickup2 3A_Pickup3 3A_Pickup4}
+
+3A_Pickup1  R_WP3A01
+3A_Pickup2  R_WP3A02
+3A_Pickup3  R_WP3A03
+3A_Pickup4  R_WP3A04
+
+$Random RW/SLOT3B {3B_Pickup1 3B_Pickup2 3B_Pickup3 3B_Pickup4}
+
+3B_Pickup1  R_WP3B01
+3B_Pickup2  R_WP3B02
+3B_Pickup3  R_WP3B03
+3B_Pickup4  R_WP3B04
+
+$Random RW/SLOT4A {4A_Pickup1 4A_Pickup2 4A_Pickup3 4A_Pickup4}
+
+4A_Pickup1  R_WP4A01
+4A_Pickup2  R_WP4A02
+4A_Pickup3  R_WP4A03
+4A_Pickup4  R_WP4A04
+
+$Random RW/SLOT4B {4B_Pickup1 4B_Pickup2 4B_Pickup3 4B_Pickup4 4B_Pickup5 4B_Pickup6 4B_Pickup7}
+
+4B_Pickup1  R_WP4B01
+4B_Pickup2  R_WP4B02
+4B_Pickup3  R_WP4B03
+4B_Pickup4	R_WP4B04
+4B_Pickup5	R_WP4B05
+4B_Pickup6	R_WP4B06
+4B_Pickup7	R_WP4B07
+
+$Random RW/SLOT5A {5A_Pickup1 5A_Pickup2 5A_Pickup3 5A_Pickup4 5A_Pickup5}
+
+5A_Pickup1  R_WP5A01
+5A_Pickup2  R_WP5A02
+5A_Pickup3  R_WP5A03
+5A_Pickup4  R_WP5A04
+5A_Pickup5  R_WP5A05
+
+$Random RW/SLOT5B {5B_Pickup1 5B_Pickup2 5B_Pickup3 5B_Pickup4 5B_Pickup5 5B_Pickup6}
+
+5B_Pickup1  R_WP5B01
+5B_Pickup2  R_WP5B02
+5B_Pickup3  R_WP5B03
+5B_Pickup4  R_WP5B04
+5B_Pickup5  R_WP5B05
+5B_Pickup6  R_WP5B06
+
+$Random RW/SLOT6A {6A_Pickup1 6A_Pickup2 6A_Pickup3 6A_Pickup4 6A_Pickup5 6A_Pickup6 6A_Pickup7}
+
+6A_Pickup1  R_WP6A01
+6A_Pickup2  R_WP6A02
+6A_Pickup3  R_WP6A03
+6A_Pickup4  R_WP6A04
+6A_Pickup5  R_WP6A05
+6A_Pickup6  R_WP6A06
+6A_Pickup7  R_WP6A07
+
+$Random RW/SLOT6B {6B_Pickup1 6B_Pickup2 6B_Pickup3 6B_Pickup4 6B_Pickup5 6B_Pickup6}
+
+6B_Pickup1  R_WP6B01
+6B_Pickup2  R_WP6B02
+6B_Pickup3  R_WP6B03
+6B_Pickup4  R_WP6B04
+6B_Pickup5  R_WP6B05
+6B_Pickup6  R_WP6B06
+
+$Random RW/SLOT7A {7A_Pickup1 7A_Pickup2 7A_Pickup3 7A_Pickup4 7A_Pickup5}
+
+7A_Pickup1  R_WP7A01
+7A_Pickup2  R_WP7A02
+7A_Pickup3  R_WP7A03
+7A_Pickup4  R_WP7A04
+7A_Pickup5  R_WP7A05
+
+$Random RW/SLOT7B {7B_Pickup1 7B_Pickup2 7B_Pickup3 7B_Pickup4 7B_Pickup5 7B_Pickup6 7B_Pickup7 7B_Pickup8}
+
+7B_Pickup1  R_WP7B01
+7B_Pickup2  R_WP7B02
+7B_Pickup3  R_WP7B03
+7B_Pickup4  R_WP7B01
+7B_Pickup5  R_WP7B02
+7B_Pickup6  R_WP7B03
+7B_Pickup7  R_WP7B01
+7B_Pickup8  R_WP7B02
+
+
+$Random RW/SLOT8A {8A_Pickup1 8A_Pickup2 8A_Pickup3 8A_Pickup4 8A_Pickup5 8A_Pickup6 8A_Pickup7 8A_Pickup8}
+
+8A_Pickup1  R_WP8A01
+8A_Pickup2  R_WP8A02
+8A_Pickup3  R_WP8A03
+8A_Pickup4  R_WP8A04
+8A_Pickup5  R_WP8A05
+8A_Pickup6  R_WP8A06
+8A_Pickup7  R_WP8A07
+8A_Pickup8  R_WP8A08
+
+$Random RW/SLOT8B {8B_Pickup1 8B_Pickup2 8B_Pickup3 8B_Pickup4 8B_Pickup5}
+
+8B_Pickup1  R_WP8B01
+8B_Pickup2  R_WP8B02
+8B_Pickup3  R_WP8B03
+8B_Pickup4  R_WP8B04
+8B_Pickup5  R_WP8B05
+
+$Random RW/8BUpgrade {8B_Upgrade1 8B_Upgrade2 8B_Upgrade3 8B_Upgrade4 8B_Upgrade5 8B_Upgrade6 8B_Upgrade7}
+
+8B_Upgrade1  R_WP8U01
+8B_Upgrade2  R_WP8U02
+8B_Upgrade3  R_WP8U03
+8B_Upgrade4  R_WP8U04
+8B_Upgrade5  R_WP8U05
+8B_Upgrade6  R_WP8U06
+8B_Upgrade7  R_WP8U07
+
+//You Died Normally
+RW/Death1   R_DETH01
+RW/Death2   R_DETH02
+RW/Death3   R_DETH03
+RW/Death4   R_DETH04
+RW/Death5   R_DETH05
+RW/Death6   R_DETH06
+RW/Death7   R_DETH07
+RW/Death8   R_DETH08
+RW/Death9   R_DETH09
+RW/Death10  R_DETH10
+RW/Death11  R_DETH11
+RW/Death12  R_DETH12
+RW/Death13  R_DETH13
+RW/Death14  R_DETH14
+RW/Death15  R_DETH15
+RW/Death16  R_DETH16
+RW/Death17  R_DETH17
+
+//You Died By Fire
+RW/Burnt1  R_BURN01
+RW/Burnt2  R_BURN02
+RW/Burnt3  R_BURN03
+RW/Burnt4  R_BURN04
+RW/Burnt5  R_BURN05
+RW/Burnt6  R_BURN06
+RW/Burnt7  R_BURN07
+RW/Burnt8  R_BURN08
+RW/Burnt9  R_BURN09
+
+
+//Wall Humping
+RW/Ooof1   R_FAIL01
+RW/Ooof2   R_FAIL02
+RW/Ooof3   R_FAIL03
+RW/Ooof4   R_FAIL04
+
+
+RW/Rare1	R_RARE01
+RW/Rare2	R_RARE02
+RW/Rare3	R_RARE03
+RW/Rare4	R_RARE04
+RW/Rare5	R_RARE05
+RW/Rare6	R_RARE06
+RW/Rare7	R_RARE07
+RW/Rare8	R_RARE08
+RW/Rare9	R_RARE09
+RW/Rare10	R_RARE10
+RW/Rare11	R_RARE11
+
+//General Taunts
+RW/General1    R_GTAU01
+RW/General2    R_GTAU02
+RW/General3    R_GTAU03
+RW/General4    R_GTAU04
+RW/General5    R_GTAU05
+RW/General6    R_GTAU06
+RW/General7    R_GTAU07
+RW/General8    R_GTAU08
+RW/General9    R_GTAU09
+RW/General10   R_GTAU10
+RW/General11   R_GTAU11
+RW/General12   R_GTAU12
+RW/General13   R_GTAU13
+RW/General14   R_GTAU14
+RW/General15   R_GTAU15
+RW/General16   R_GTAU16
+
+//Combat Taunts
+RW/Taunt1  R_CTAU01
+RW/Taunt2  R_CTAU02
+RW/Taunt3  R_CTAU03
+RW/Taunt4  R_CTAU04
+RW/Taunt5  R_CTAU05
+RW/Taunt6  R_CTAU06
+RW/Taunt7  R_CTAU07
+RW/Taunt8  R_CTAU08
+RW/Taunt9  R_CTAU09
+RW/Taunt10 R_CTAU10
+RW/Taunt11 R_CTAU11
+RW/Taunt12 R_CTAU12
+RW/Taunt13 R_CTAU13
+RW/Taunt14 R_CTAU14
+RW/Taunt15 R_CTAU15
+RW/Taunt16 R_CTAU16
+RW/Taunt17 R_CTAU17
+RW/Taunt18 R_CTAU18
+RW/Taunt19 R_CTAU19
+RW/Taunt20 R_CTAU20
+RW/Taunt21 R_CTAU21
+RW/Taunt22 R_CTAU22
+RW/Taunt23 R_CTAU23
+RW/Taunt24 R_CTAU24
+RW/Taunt25 R_CTAU25
+RW/Taunt26 R_CTAU26
+RW/Taunt27 R_CTAU27
+RW/Taunt28 R_CTAU28
+RW/Taunt29 R_CTAU29
+RW/Taunt30 R_CTAU30
+RW/Taunt31 R_CTAU31
+RW/Taunt32 R_CTAU32
+RW/Taunt33 R_CTAU33
+RW/Taunt34 R_CTAU34
+RW/Taunt35 R_CTAU35
+RW/Taunt36 R_CTAU36
+RW/Taunt37 R_CTAU37
+RW/Taunt38 R_CTAU38
+RW/Taunt39 R_CTAU39
+RW/Taunt40 R_CTAU40
+RW/Taunt41 R_CTAU41
+RW/Taunt42 R_CTAU42
+RW/Taunt43 R_CTAU43
+RW/Taunt44 R_CTAU44
+RW/Taunt45 R_CTAU45
+RW/Taunt46 R_CTAU46
+RW/Taunt47 R_CTAU47
+RW/Taunt48 R_CTAU48
+RW/Taunt49 R_CTAU49
+RW/Taunt50 R_CTAU50
+RW/Taunt51 R_CTAU51
+RW/Taunt52 R_CTAU52
+RW/Taunt53 R_CTAU53
+RW/Taunt54 R_CTAU54
+RW/Taunt55 R_CTAU55
+
+//Combat Taunts : Fire Weapons
+RW/FTaunt1  R_FTAU01
+RW/FTaunt2  R_FTAU02
+RW/FTaunt3  R_FTAU03
+RW/FTaunt4  R_FTAU04
+RW/FTaunt5  R_FTAU05
+RW/FTaunt6  R_FTAU06
+RW/FTaunt7  R_FTAU07
+RW/FTaunt8  R_FTAU08
+RW/FTaunt9  R_FTAU09
+RW/FTaunt10 R_FTAU10
+RW/FTaunt11 R_FTAU11
+RW/FTaunt12 R_FTAU12
+RW/FTaunt13 R_FTAU13
+
+//Pain and Hurt
+RW/PainSml1  R_PAINS01
+RW/PainSml2  R_PAINS02
+RW/PainSml3  R_PAINS03
+RW/PainSml4  R_PAINS04
+RW/PainSml5  R_PAINS05
+RW/PainSml6  R_PAINS06
+RW/PainSml7  R_PAINS07
+
+RW/PainMed1  R_PAINM01
+RW/PainMed2  R_PAINM02
+RW/PainMed3  R_PAINM03
+RW/PainMed4  R_PAINM04
+RW/PainMed5  R_PAINM05
+RW/PainMed6  R_PAINM06
+RW/PainMed7  R_PAINM07
+RW/PainMed8  R_PAINM08
+RW/PainMed9  R_PAINM09
+RW/PainMed10 R_PAINM10
+RW/PainMed11 R_PAINM11
+
+RW/PainLrg1  R_PAINL01
+RW/PainLrg2  R_PAINL02
+RW/PainLrg3  R_PAINL03
+RW/PainLrg4  R_PAINL04
+RW/PainLrg5  R_PAINL05
+RW/PainLrg6  R_PAINL06
+RW/PainLrg7  R_PAINL07
+RW/PainLrg8  R_PAINL08
+RW/PainLrg9  R_PAINL09
+RW/PainLrg10 R_PAINL10
+RW/PainLrg11 R_PAINL11
+RW/PainLrg12 R_PAINL12
+RW/PainLrg13 R_PAINL13
+RW/PainLrg14 R_PAINL14
+RW/PainLrg15 R_PAINL15
+
+
+
+RW/PainVox1 R_PNVOX1
+RW/PainVox2 R_PNVOX2
+RW/PainVox3 R_PNVOX3
+RW/PainVox4 R_PNVOX4
+RW/PainVox5 R_PNVOX5
+RW/PainVox6 R_PNVOX6
+RW/PainVox7 R_PNVOX7
+
+
+RW/Grunt1   R_GRNT01
+RW/Grunt2   R_GRNT02
+RW/Grunt3   R_GRNT03
+RW/Grunt4   R_GRNT04
+RW/Grunt5   R_GRNT05
+RW/Grunt6   R_GRNT06
+
+
+//Rough Landing
+RW/Land1 Land1
+RW/Land2 Land2
+RW/Land3 Land3
+
+
+$Random RW/Death {RW/Death1 RW/Death2 RW/Death3 RW/Death4 RW/Death5 RW/Death6 RW/Death7 RW/Death8 RW/Death9 RW/Death10 RW/Death11 RW/Death12 RW/Death13 RW/Death14 RW/Death15 RW/Death16 RW/Death17}
+$Random RW/Burnt {RW/Burnt1 RW/Burnt2 RW/Burnt3 RW/Burnt4 RW/Burnt5 RW/Burnt6 RW/Burnt7 RW/Burnt8 RW/Burnt9}
+$Random RW/Ooof {RW/Ooof1 RW/Ooof2 RW/Ooof3 RW/Ooof4 RW/Grunt RW/Rare}
+$Random RW/Rare {RW/Rare1 RW/Rare2 RW/Rare3 RW/Rare4 RW/Rare5 RW/Rare6 RW/Rare7 RW/Rare8 RW/Rare9 RW/Rare10 RW/Rare11}
+$Random RW/FTaunt {RW/FTaunt1 RW/FTaunt2 RW/FTaunt3 RW/FTaunt4 RW/FTaunt5 RW/FTaunt6 RW/FTaunt7 RW/FTaunt8 RW/FTaunt9 RW/FTaunt10 RW/FTaunt11 RW/FTaunt12 RW/FTaunt13}
+$Random RW/CTaunt {RW/Taunt1 RW/Taunt2 RW/Taunt3 RW/Taunt4 RW/Taunt5 RW/Taunt6 RW/Taunt7 RW/Taunt8 RW/Taunt9 RW/Taunt10 RW/Taunt11 RW/Taunt12 RW/Taunt13 RW/Taunt14 RW/Taunt15 RW/Taunt16 RW/Taunt17 RW/Taunt18 RW/Taunt19 RW/Taunt20 RW/Taunt21 RW/Taunt22 RW/Taunt23 RW/Taunt24 RW/Taunt25 RW/Taunt26 RW/Taunt27 RW/Taunt28 RW/Taunt29 RW/Taunt30 RW/Taunt30 RW/Taunt32 RW/Taunt33 RW/Taunt34 RW/Taunt35 RW/Taunt36 RW/Taunt37 RW/Taunt38 RW/Taunt39 RW/Taunt40 RW/Taunt41 RW/Taunt15 RW/Taunt42 RW/Taunt43 RW/Taunt44 RW/Taunt45 RW/Taunt46 RW/Taunt47 RW/Taunt48 RW/Taunt23 RW/Taunt49 RW/Taunt50 RW/Taunt51 RW/Taunt52 RW/Taunt53 RW/Taunt54 RW/Taunt55}
+$Random RW/PainSmall {RW/PainSml1 RW/PainSml2 RW/PainSml3 RW/PainSml4 RW/PainSml5 RW/PainSml6 RW/PainSml7 RW/PainVoiced}
+$Random RW/PainMedium {RW/PainMed1 RW/PainMed2 RW/PainMed3 RW/PainMed4 RW/PainMed5 RW/PainMed6 RW/PainMed7 RW/PainMed8 RW/PainMed9 RW/PainMed10 RW/PainMed11 RW/PainVoiced}
+$Random RW/PainLarge {RW/PainLrg1 RW/PainLrg2 RW/PainLrg3 RW/PainLrg4 RW/PainLrg5 RW/PainLrg6 RW/PainLrg7 RW/PainLrg8 RW/PainLrg9 RW/PainLrg10 RW/PainLrg11 RW/PainLrg12 RW/PainLrg13 RW/PainLrg14 RW/PainLrg15 RW/PainVoiced}
+$Random RW/PainVoiced {RW/PainVox1 RW/PainVox2 RW/PainVox3 RW/PainVox4 RW/PainVox5 RW/PainVox6 RW/PainVox7}
+$Random RW/Land	{RW/Land1 RW/Land2 RW/Land3}
+$Random RW/Grunt{RW/Grunt1 RW/Grunt2 RW/Grunt3 RW/Grunt4 RW/Grunt5 RW/Grunt6}
+$Random RW/GTaunt {RW/General1 RW/General2 RW/General3 RW/General4 RW/General5 RW/General6 RW/General7 RW/General8 RW/General9 RW/General10 RW/General12 RW/General13 RW/General14 RW/General15 RW/General16}
+
+$PitchShift RW/Death 0
+$PitchShift RW/Ooof 0
+$PitchShift RW/Taunt 0
+$PitchShift RW/Pain 0
+
+$PlayerAlias	merc	merc	*death		RW/Death
+$PlayerAlias    merc    merc    *burndeath	RW/Burnt
+$PlayerAlias	merc	merc	*xdeath		Misc/Gibbed //same as normal
+$PlayerAlias	merc	merc	*pain100	RW/PainSmall
+$PlayerAlias	merc	merc	*pain75		RW/PainMedium
+$PlayerAlias	merc	merc	*pain50		RW/PainMedium
+$PlayerAlias	merc	merc	*pain25		RW/PainLarge
+$PlayerAlias	merc	merc	*grunt		RW/Grunt
+$PlayerAlias	merc	merc	*land		RW/Land
+$PlayerAlias	merc	merc	*jump		RW/Jump
+$PlayerAlias	merc	merc	*usefail	RW/Ooof
+$PlayerAlias	merc	merc	*taunt		RW/GTaunt
+
+$random AirHike {AirHike1 AirHike2 AirHike3}
+
+AirHike1 AirHike1
+AirHike2 AirHike2
+AirHike3 AirHike3
+
+misc/k_pkup			CARDGET
+
+$random misc/keytry		{keytry1 keytry2 keytry3 keytry4 keytry5 keytry6 keytry7 keytry8 keytry9 keytry10 keytry11 keytry12 keytry13 keytry14 keytry15 keytry16 keytry17 keytry18 keytry19 keytry20 keytry21 keytry22 keytry23 keytry24 keytry25 keytry26 keytry27 keytry28}
+
+keytry1  R_DOOR01
+keytry2  R_DOOR02
+keytry3  R_DOOR03
+keytry4  R_DOOR04
+keytry5  R_DOOR05
+keytry6  R_DOOR06
+keytry7  R_DOOR07
+keytry8  R_DOOR08
+keytry9  R_DOOR09
+keytry10 R_DOOR10
+keytry11 R_DOOR11
+keytry12 R_DOOR12
+keytry13 R_DOOR13
+keytry14 R_DOOR14
+keytry15 R_DOOR15
+keytry16 R_DOOR16
+keytry17 R_DOOR17
+keytry18 R_DOOR18
+keytry19 R_DOOR19
+keytry20 R_DOOR20
+keytry21 R_DOOR21
+keytry22 R_DOOR22
+keytry23 R_DOOR23
+keytry24 R_DOOR24
+keytry25 R_DOOR25
+keytry26 R_DOOR26
+keytry27 R_DOOR27
+keytry28 R_DOOR28
+
+player/breathing	PLAYBRTH
+
+stinger/playerkilled	stn_pded
+stinger/teamwiped		stn_tded
+
+$random ironman/playerkilled_sp		{vo_spded1 vo_spded2}
+
+vo_spded1	sp_pded1
+vo_spded2	sp_pded2
+
+$random ironman/playerkilled_mp {vo_pk01 vo_pk02 vo_pk03 vo_pk04}
+
+vo_pk01		mp_pded1
+vo_pk02		mp_pded2
+vo_pk03		mp_pded3
+vo_pk04		mp_pded4
+
+$random ironman/lastman 		{vo_lm01 vo_lm02 vo_lm03}
+
+vo_lm01		mp_lmst1
+vo_lm02		mp_lmst2
+vo_lm03		mp_lmst3
+
+$random ironman/teamwiped		{vo_tw01 vo_tw02 vo_tw03}
+
+vo_tw01		mp_tded1
+vo_tw02		mp_tded2
+vo_tw03		mp_tded3
+
+Global/PlayerDead 	YOUBEDED

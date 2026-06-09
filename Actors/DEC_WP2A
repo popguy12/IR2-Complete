@@ -1,0 +1,781 @@
+ACTOR Punisher : IR2Weapon
+{
+    Tag "ASP-36c Punisher"
+    Inventory.PickupMessage "You got the ASP-36C ''Punisher'' Assault Pistol."
+    Inventory.PickupSound "misc/w_pkup"
+    //Weapon.UpSound "Weapons/PunisherUp"
+    Weapon.AmmoGive2 1
+    Weapon.AmmoType "PunisherClip"
+    Weapon.AmmoType2 "LightPistolAmmo"
+	IR2Weapon.BulletGraphics "graphics/MikkOS/PistolBullet.png", "graphics/MikkOS/PistolShell.png"
+    Weapon.AmmoUse 1
+    Weapon.Kickback 100
+    Weapon.Slotnumber 2
+    Weapon.PreferredSkin "Pistol"
+    weapon.bobstyle smooth
+    weapon.bobrangeX 0.4
+    weapon.bobrangeY 0.6
+    weapon.bobspeed 2.5
+	weapon.weaponscalex 1.2
+    Obituary "%o was picked off by %k and %p Pistol."
+    decal "BlazeChip"
+    Scale 0.8
+    +Weapon.NoAutoFire
+    +Weapon.Ammo_Optional
+    +CHEATNOTWEAPON
+    +NOALERT
+	+NOAUTOAIM
+	+UNDROPPABLE
+	+INVENTORY.UNCLEARABLE
+    States
+    {
+    Spawn:
+        KNSP A -1
+        loop
+	Ready:
+        KNSG A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+        loop
+    ReadyEmpty:
+        KNSE A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+        loop
+    Select:
+		TNT1 A 0 A_JumpIfInventory("2AToken",1,"SelectSemi")
+		TNT1 A 0 A_SetCrosshair(3)
+		TNT1 A 8
+		KNSS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,0,2)
+		KNSS ABCDE 1
+		Goto SelectLoop
+	SelectSemi:
+		TNT1 A 0 A_SetCrosshair(2)
+		TNT1 A 8
+		KNSS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,0,2)
+		KNSS ABCDE 1
+	SelectLoop:
+      	KNSG A 1 A_Raise
+      	Goto SelectLoop
+	Deselect:
+		TNT1 A 0 A_SetCrosshair(1)
+		KNSS E 1 A_PlaySound("weapons/CS_Deselect", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,1,2)
+		KNSS EDCBA 1
+		TNT1 A 2 
+	DeselectLoop:
+		TNT1 A 1 A_Lower
+		Goto DeselectLoop
+    Fire: //Semi Auto, Spam the mouse button.
+        TNT1 A 0 A_JumpIfInventory("2AToken", 1, "FireSemi")
+    FireBurst:
+		TNT1 A 0 A_JumpIfInventory("2ATokenDMG", 1, "FireBurstX")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",4,"FireBurstTrue")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",3,"FireBurstLast")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",2,"FireBurst2")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",1,"FireSemiLast")
+		Goto DryFire
+	FireBurstTrue:
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch3",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech3",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire3",99,0,0.99,2)
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", random(-1.25, 1.25), 1, 2.5, 5, 0,random(-1.25, 1.25))
+        KNSF AB 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", random(-1.25, 1.25), 1, 2.5, 5, 0,random(-1.25, 1.25))
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", random(-1.25, 1.25), 1, 2.5, 5, 0,random(-1.25, 1.25))
+        KNSF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG D 1 A_WeaponReady
+        KNSG E 1 A_WeaponReady
+        Goto Ready
+    FireBurstLast: //Semi Auto, Spam the mouse button.
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch3",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech3",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire3",99,0,0.99,2)
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", random(-1.25, 1.25), 1, 2.5, 5, 0,random(-1.25, 1.25))
+        KNSF AB 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", random(-1.25, 1.25), 1, 2.5, 5, 0,random(-1.25, 1.25))
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/PunPing",66,0,0.66,2)
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", random(-1.25, 1.25), 1, 2.5, 5, 0,random(-1.25, 1.25))
+        KNSF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSE C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto ReadyEmpty
+    FireBurst2: //Semi Auto, Spam the mouse button.
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", random(-1.25, 1.25), 1, 2.5, 5, 0,random(-1.25, 1.25))
+        KNSF AB 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+        TNT1 A 0 A_StartSound("Weapons/PunPing",66,0,0.66,2)
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", random(-1.25, 1.25), 1, 2.5, 5, 0,random(-1.25, 1.25))
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSE C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto ReadyEmpty
+	FireBurstX:
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",4,"FireBurstTrueX")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",3,"FireBurstLastX")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",2,"FireBurst2X")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",1,"FireSemiLastX")
+		Goto DryFire
+	FireBurstTrueX:
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/PunisherPunch3",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech3",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire3",99,0,0.99,2)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSF AB 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/PunisherAddAP",88,0,0.88,2)
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG D 1 A_WeaponReady
+        KNSG E 1 A_WeaponReady
+        Goto Ready
+    FireBurstLastX: //Semi Auto, Spam the mouse button.
+		TNT1 A 0 A_TakeInventory("2ATokenDMG",1)
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/PunisherPunch3",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech3",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire3",99,0,0.99,2)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSF AB 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+        TNT1 A 0 A_StartSound("Weapons/PunisherAddAP",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/PunPing",66,0,0.66,2)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSE C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto ReadyEmpty
+    FireBurst2X: //Semi Auto, Spam the mouse button.
+		TNT1 A 0 A_TakeInventory("2ATokenDMG",1)
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSF AB 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherAddAP",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/PunPing",66,0,0.66,2)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSE C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto ReadyEmpty
+		FireSemi:
+		TNT1 A 0 A_Jump(256, "FS_A", "FS_B")
+    FS_A:
+	    TNT1 A 0 A_JumpIfInventory("2ATokenDMG", 1, "FireSemiX")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",2,1)
+		Goto FireSemiLast
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		KNSG B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG D 1 A_WeaponReady
+        KNSG E 1 A_WeaponReady
+        Goto Ready
+	FS_B:
+	    TNT1 A 0 A_JumpIfInventory("2ATokenDMG", 1, "FireSemiX")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",2,1)
+		Goto FireSemiLast
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		KNSG B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG D 1 A_WeaponReady
+        KNSG E 1 A_WeaponReady
+        Goto Ready
+    FireSemiLast: //Semi Auto, Spam the mouse button.
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/PunPing",66,0,0.66,2)
+        TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        TNT1 A 0 A_FireProjectile("p_pistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		KNSG B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSE C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto ReadyEmpty
+    FireSemiX:
+		TNT1 A 0 A_Jump(256, "FS_AX", "FS_BX")
+	FS_AX:
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",2,1)
+		Goto FireSemiLastX
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherAddAP",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+		KNSG B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG D 1 A_WeaponReady
+        KNSG E 1 A_WeaponReady
+        Goto Ready
+	FS_BX:
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",2,1)
+		Goto FireSemiLastX
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherAddAP",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", frandom(-0.5, 0.5), 1, 2.5, 5, 0,frandom(-0.5, 0.5))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+		KNSG B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSG C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG D 1 A_WeaponReady
+        KNSG E 1 A_WeaponReady
+        Goto Ready
+    FireSemiLastX: //Semi Auto, Spam the mouse button.
+	    TNT1 A 0 A_TakeInventory("2ATokenDMG",1)
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+        TNT1 A 0 A_StartSound("Weapons/PunisherPunch1",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherMech1",100,0,1.0,2)
+        TNT1 A 0 A_StartSound("Weapons/PunisherFire1",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/PunisherAddAP",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/PunPing",66,0,0.66,2)
+        TNT1 A 0 A_FireProjectile("SmallSmokeSpawner",0,0,6,8)	
+        TNT1 A 0 A_FireProjectile("p_hpistol_tracer", random(-0, 0), 1, 2.5, 5, 0,random(-0, 0))
+		TNT1 A 0 A_FireProjectile("pcasing_spawner",0,0,1,3,0)
+        KNSG B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+        KNSE C 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE B 1 A_WeaponReady(WRF_NOFIRE)
+        KNSE A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto ReadyEmpty
+    AltFire: //Does checks, if you have no dummy actors, select slugs
+        TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+        TNT1 A 0 A_JumpIfInventory("2AToken", 1, "AltFire2")
+        TNT1 A 0 A_GiveInventory("2AToken", 1)
+        TNT1 A 0 A_SetCrosshair(3)
+        KNSG A 10 A_WeaponReady(WRF_NOFIRE)
+        Goto Ready
+    AltFire2: //Clears dummy actors, to use normal mode
+        TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+        TNT1 A 0 A_TakeInventory("2AToken", 1)
+        TNT1 A 0 A_SetCrosshair(2)
+        KNSG A 10 A_WeaponReady(WRF_NOFIRE)
+        Goto Ready
+    DryFire:
+        TNT1 A 0 A_PlaySound("Pistol/Empty",CHAN_MAYBE_LOCAL,1.0,0,2) // Play the clicky noise.
+        KNSE A 5 A_WeaponReady(WRF_NOFIRE)
+        Goto ReadyEmpty
+    Reload:
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,1)
+		Goto Dryfire
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",25,"Ready")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",1,"ReloadBeginPartial")
+		Goto ReloadBeginEmpty
+    ReloadBeginEmpty:
+        KNSR ABCD 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagOut",CHAN_5,1.0,0,2)
+        KNSR EFGHIJ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("PunisherClipDrop",0,0,20)
+        KNSR J 12 A_WeaponReady(WRF_NOFIRE)
+		Goto ReloadWorkEmpty
+    ReloadWorkEmpty:
+        TNT1 A 0 A_TakeInventory("LightPistolAmmo",1)
+        TNT1 A 0 A_GiveInventory("PunisherClip",24)
+        TNT1 A 0 A_JumpIfInventory("PunisherClip",24,"ReloadFinishEmpty")
+        TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,"ReloadWorkEmpty")
+	ReloadFinishEmpty:
+        KNSR K 2 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagIn",CHAN_6,1.0,0,2)
+        KNSR L 2 A_WeaponReady(WRF_NOFIRE)
+        KNSR MNOP 1 A_WeaponReady(WRF_NOFIRE)
+        KNSR P 8 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagLock",CHAN_7,1.0,0,2)
+        KNSR QRSTUV 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto Ready
+	ReloadBeginPartial:
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",25,"Ready")
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,1)
+		Goto Dryfire
+        KNPR ABCD 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagOut",CHAN_5,1.0,0,2)
+        KNPR EFGHIJ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("PunisherClipDrop",0,0,20)
+        KNPR J 12 A_WeaponReady(WRF_NOFIRE)
+		Goto ReloadWorkPartial
+	ReloadWorkPartial:
+        TNT1 A 0 A_TakeInventory("LightPistolAmmo",1)
+        TNT1 A 0 A_GiveInventory("PunisherClip",24)
+        TNT1 A 0 A_JumpIfInventory("PunisherClip",24,"ReloadFinishPartial")
+        TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,"ReloadWorkPartial")
+    ReloadFinishPartial:
+        KNPR K 2 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagIn",CHAN_6,1.0,0,2)
+        KNPR L 2 A_WeaponReady(WRF_NOFIRE)
+        KNPR MNOP 1 A_WeaponReady(WRF_NOFIRE)
+        KNPR P 8 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagLock",CHAN_7,1.0,0,2)
+        KNPR QRSTUV 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto Ready
+	Zoom:
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,1)
+		Goto Dryfire
+        TNT1 A 0 A_JumpIfInventory("PunisherClip",25,"Ready")
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",1,"ReloadBeginPartialX")
+		Goto ReloadBeginEmptyX
+	ReloadBeginEmptyX:
+        KNSR ABCD 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagOut",CHAN_5,1.0,0,2)
+        KNSR EFGHIJ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("PunisherClipDrop",0,0,20)
+        KNSR J 12 A_WeaponReady(WRF_NOFIRE)
+		goto ReloadWorkEmptyX
+    ReloadWorkEmptyX:
+        TNT1 A 0 A_TakeInventory("LightPistolAmmo",1)
+        TNT1 A 0 A_GiveInventory("PunisherClip",24)
+        TNT1 A 0 A_JumpIfInventory("PunisherClip",24,"ReloadFinishEmptyX")
+        TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,"ReloadWorkEmptyX")
+	ReloadFinishEmptyX:
+        KNSR K 2 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagIn",CHAN_6,1.0,0,2)
+        KNSR L 2 A_WeaponReady(WRF_NOFIRE)
+        KNSR MNOP 1 A_WeaponReady(WRF_NOFIRE)
+        KNSR P 8 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagLock",CHAN_7,1.0,0,2)
+        KNSR QRSTUV 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG A 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_GiveInventory("2ATokenDMG",1)
+        Goto Ready
+	ReloadBeginPartialX:
+		TNT1 A 0 A_JumpIfInventory("PunisherClip",25,"Ready")
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,1)
+		Goto DryFire
+        KNPR ABCD 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagOut",CHAN_5,1.0,0,2)
+        KNPR EFGHII 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("PunisherClipDrop",0,0,20)
+        KNPR I 12 A_WeaponReady(WRF_NOFIRE)
+		goto ReloadWorkPartialX
+	ReloadWorkPartialX:
+        TNT1 A 0 A_TakeInventory("LightPistolAmmo",1)
+        TNT1 A 0 A_GiveInventory("PunisherClip",24)
+        TNT1 A 0 A_JumpIfInventory("PunisherClip",24,"ReloadFinishPartialX")
+        TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,"ReloadWorkPartialX")
+    ReloadFinishPartialX:
+        KNPR JK 1 A_WeaponReady(WRF_NOFIRE)
+        TNT1 A 0 A_PlaySound("Weapons/PunMagIn",CHAN_6,1.0,0,2)
+        KNPR L 2 A_WeaponReady(WRF_NOFIRE)
+        KNPR MNOP 1 A_WeaponReady(WRF_NOFIRE)
+        KNPR P 8 A_WeaponReady(WRF_NOFIRE)
+        KNPR QRSTUV 1 A_WeaponReady(WRF_NOFIRE)
+        KNSG A 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_GiveInventory("2ATokenDMG",1)
+        Goto Ready
+	GunFlash:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true)
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add)
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6)
+		TNT1 A 1 Bright 
+			{
+			A_FireProjectile("PunisherFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+			}
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0)
+		TNT1 A 1 Bright
+		Stop
+    }
+}
+
+ACTOR 2AToken : Inventory {Inventory.MaxAmount 1}
+ACTOR 2ATokenDMG : Inventory {Inventory.MaxAmount 1}
+
+ACTOR PunisherClip : Ammo
+{
+Inventory.Amount 0
+Inventory.MaxAmount 25
+Ammo.BackpackAmount 0
+Ammo.BackpackMaxAmount 25
++IGNORESKILL
+}
+
+actor LightPistolAmmo : Ammo 27124 {
+  radius 16
+  height 8
+  ConversationID 506
+  inventory.pickupmessage "picked up some ammo for your light pistol"
+  Tag "Light Pistol Ammo"
+  inventory.amount 1
+  inventory.maxamount 5
+  inventory.pickupsound "Weapons/LightAmmoUp"
+  +UNDROPPABLE
+  +INVENTORY.UNCLEARABLE
+  ammo.backpackamount 2
+  ammo.backpackmaxamount 10
+  states
+  {
+  Spawn:
+    TNT1 A 0 NoDelay
+    {
+        if (CountInv ("IsMerc1", AAPTR_PLAYER1) == 1)
+        {
+            return State ("Spawn.Punisher");
+        }
+        else if (CountInv ("IsMerc2", AAPTR_PLAYER1) == 1)
+        {
+            return State ("Spawn.Storm");
+        }
+     
+        return State ("Spawn.Nothing");
+    }
+  Spawn.Punisher:
+	CLP1 K -1 A_SetScale(0.2)
+    Stop
+  Spawn.Storm:
+	CLPX J -1 A_SetScale(0.2)
+	Stop
+  Spawn.Nothing:
+	TNT1 A -1 A_SpawnItemEX("JackShit")
+    Stop
+  }
+}
+
+actor HeavyPistolAmmo : Ammo 27125 {
+  radius 16
+  height 8
+  ConversationID 506
+  inventory.pickupmessage "picked up some ammo for your heavy pistol"
+  Tag "Heavy Pistol Ammo"
+  inventory.amount 1
+  inventory.maxamount 5
+  inventory.pickupsound "Weapons/HeavyAmmoUp"
+  +UNDROPPABLE
+  +INVENTORY.UNCLEARABLE
+  ammo.backpackamount 2
+  ammo.backpackmaxamount 10
+  states
+  {
+  Spawn:
+    TNT1 A 0 NoDelay
+    {
+        if (CountInv ("IsMerc1", AAPTR_PLAYER1) == 1)
+        {
+            return State ("Spawn.Tormentor");
+        }
+        else if (CountInv ("IsMerc2", AAPTR_PLAYER1) == 1)
+        {
+            return State ("Spawn.Devastator");
+        }
+        
+        return State ("Spawn.Nothing");
+    }
+  Spawn.Tormentor:
+	MAGN A -1 A_SetScale(0.5)
+    Stop
+  Spawn.Devastator:
+	DEVC A -1 A_SetScale(0.26)
+    Stop
+  Spawn.Nothing:
+	TNT1 A -1 A_SpawnItemEX("JackShit")
+    Stop
+  }
+}
+
+actor pcasing_spawner {
+	speed 15
+	PROJECTILE
+	+NOCLIP
+	+CLIENTSIDEONLY
+	states{
+		spawn:
+			TNT1 A 0
+			TNT1 A 1 A_SpawnItemEx("punisher_casing", 0, 10, 3, 1, random(4,5), random(1,2), 0) 
+			stop
+	}
+
+}
+
+ACTOR Punisher_Casing
+{
+   Radius 2
+   Height 4
+   Speed 8
+   XScale 0.085
+   YScale 0.075
+   BounceSound "Weapons/PistolCasing"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +DONTSPLASH
+   +CLIENTSIDEONLY
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 6
+   BounceFactor 0.66
+   DamageType Nope
+   States
+   {
+   Spawn:
+	  TNT1 A 0 ThrustThingZ(0, Random(6, 16), 0, 1)
+      DBSC ABCDEFG 1
+      Goto Roflcopter
+   Roflcopter:
+      PBCS A 0 A_Jump(128,1,3,5,7)
+      DBSC ABCDEFG 1
+      Loop
+   Death:
+      PBCS A 0 A_SpawnItemEx("Punisher_Casing_Liedown")
+      stop
+   }
+}
+
+actor Punisher_Casing_Liedown
+{
+	-NOGRAVITY
+	XScale 0.085
+    YScale 0.075
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2","Spawn3")
+	  stop
+	Spawn1:
+	  DBSC C 1
+	  Goto Ded
+	Spawn2:
+	  DBSC D 1
+	  Goto Ded
+	Spawn3:
+	  DBSC G 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR PunisherClipDrop
+{
+   Radius 3
+   Height 5
+   Speed 0
+   Scale 0.2
+   BounceSound "Clip/PST"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +BOUNCEONFLOORS
+   +DONTSPLASH
+   +NOTIMEFREEZE
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 3
+   BounceFactor 0.6
+   States
+   {
+   Spawn:
+      CLP1 A 0
+      CLP1 ABCDEFGH 1
+      Loop
+   Death:
+      CLP1 A 0 A_SpawnItemEx("PunisherClipLiedown")
+      stop
+   }
+}
+
+actor PunisherClipLiedown
+{
+	-NOGRAVITY
+	+FLOORCLIP
+	+NOTIMEFREEZE
+    Scale 0.2
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2")
+	  stop
+	Spawn1:
+	  CLP1 J 1
+	  Goto Ded
+	Spawn2:
+	  CLP1 I 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}

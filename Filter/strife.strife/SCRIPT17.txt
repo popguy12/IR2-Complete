@@ -1,0 +1,242 @@
+namespace = "Strife";
+include = "SCRIPT00";
+
+conversation
+{
+	actor = 54;
+	page
+	{
+		name = "Bailey Guard";
+		panel = "M_GUARD2";
+		voice = "RGTBL";
+		dialog = "Move along or taste metal.";
+		drop = 147;
+		link = 2;
+		ifitem
+		{
+			item = 147;
+		}
+	}
+	page
+	{
+		name = "Bailey Guard";
+		panel = "M_GUARD2";
+		voice = "BGG01";
+		dialog = "ID check.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Here, I'm in a hurry.";
+			nomessage = "NO.  you don't have what i want for the  HERE, I'M IN A HURRY.!";
+			giveitem = 302;
+			nextpage = 3;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Bailey Guard";
+		panel = "M_GUARD2";
+		voice = "BGG03";
+		dialog = "Stop waving your ID in my face and go in.";
+		drop = 0;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 57;
+	page
+	{
+		name = "Warehouse Guard";
+		dialog = "Nothing to see here. Move along.";
+		drop = 179;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 5;
+	page
+	{
+		name = "Quincy";
+		panel = "M_QUINCY";
+		voice = "QUI01";
+		dialog = "What a healthy specimen. You don't need my help, do you?";
+		drop = 0;
+		link = 7;
+		ifitem
+		{
+			item = 338;
+		}
+		choice
+		{
+			text = "Well, yes. Macil sent me.";
+			nomessage = "NO.  you don't have what i want for the  WELL, YES. MACIL SENT ME.!";
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Quincy";
+		panel = "M_QUINCY";
+		voice = "QUI02";
+		dialog = "Shhhh... keep it quiet, unless you want us both killed. Now, what can I do for you?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Tell me how to find the Bishop.";
+			nomessage = "NO.  you don't have what i want for the  Tell me how to find The Bishop.!";
+			nextpage = 3;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Quincy";
+		panel = "M_QUINCY";
+		voice = "QUI03";
+		dialog = "Ohhh, I knew you would ask me for that. Look behind you. That's the entrance to the Bishop's Citadel. It's guarded by a force field that is only shut off for official visitors. Not you.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "I must kill the Bishop.";
+			nomessage = "NO.  you don't have what i want for the  I must kill The Bishop.!";
+			giveitem = 330;
+			nextpage = 4;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Quincy";
+		panel = "M_QUINCY";
+		voice = "QUI04";
+		dialog = "Oh, sure you do. First, fight your way into the Security Complex and use the Teleporter. And this might be more to your liking, destroy the computer in Central Administration. No computer, no force field.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Great, that sounds easy.";
+			nomessage = "NO.  you don't have what i want for the  GREAT, THAT SOUNDS EASY.!";
+			nextpage = 5;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Quincy";
+		panel = "M_QUINCY";
+		voice = "QUI05";
+		dialog = "There's an advantage to destroying the Computer, that's where the plans to the Tower are kept. Can you say, \"five finger discount\"? Heh heh!";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Anything else?";
+			nomessage = "NO.  you don't have what i want for the  ANYTHING ELSE?!";
+			log = "LOG1022";
+			nextpage = 6;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Quincy";
+		panel = "M_QUINCY";
+		voice = "QUI06";
+		dialog = "Oh, well. Word has it that the Bailey's warehouse received a shipment of Typhoons, that's the weapon that really shreds em'.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Is that it, now?";
+			nomessage = "NO.  you don't have what i want for the  IS THAT IT, NOW?!";
+			nextpage = 7;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Quincy";
+		panel = "M_QUINCY";
+		voice = "QUTBL";
+		dialog = "Don't you know the meaning of the words \"get lost\"?";
+		drop = 0;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 12;
+	page
+	{
+		name = "Assistant";
+		dialog = "Talk to Quincy first; I'm not allowed to help anyone unless he says it's okay.";
+		drop = 0;
+		link = 2;
+		ifitem
+		{
+			item = 330;
+		}
+	}
+	page
+	{
+		name = "Assistant";
+		dialog = "How can I help you today?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Liquigel Med Patch";
+			cost
+			{
+				item = "Coin";
+				amount = 15;
+			}
+			displaycost = true;
+			yesmessage = "Here's your Patch.";
+			nomessage = "That is 15 gold, my friend.";
+			giveitem = 125;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Liquigel Medkit";
+			cost
+			{
+				item = "Coin";
+				amount = 30;
+			}
+			displaycost = true;
+			yesmessage = "Here's your Medkit.";
+			nomessage = "You're a bit low on funds for that.";
+			giveitem = 126;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Liquigel Restore Kit";
+			cost
+			{
+				item = "Coin";
+				amount = 75;
+			}
+			displaycost = true;
+			yesmessage = "One Restore Kit, done.";
+			nomessage = "Come back when you have money!";
+			giveitem = 127;
+			nextpage = 1;
+			closedialog = false;
+		}
+	}
+}

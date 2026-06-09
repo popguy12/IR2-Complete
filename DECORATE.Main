@@ -1,0 +1,65 @@
+#include "Actors/dec_bfx"  // Base Effects
+#include "Actors/dec_sfx"  // Special Effects
+#include "Actors/dec_wfx"  // Weapon Effects
+#include "Actors/dec_wpn1" // Melee Weapons
+#include "Actors/dec_wp2a" // ASP-36c "Punihser" Assault Pistol
+#include "Actors/dec_wp2b" // ATLS-1134 "Tormentor" Explosive Magnum
+#include "Actors/dec_wp2c" // EXL-36g "Storm" Machine Pistol
+#include "Actors/dec_wp2d" // DVS-500m "Devastator" Auto Magnum
+#include "Actors/dec_wp3a" // D-666a "Malefactor" Shotgun
+#include "Actors/dec_wp3b" // SK-410 "Archangel" Assault Shotgun
+#include "Actors/dec_wp4a" // OE-8 "Boneduster" Coachgun
+//#include "Actors/dec_wp4b" // VLD-919 "Impaler" Rotary Nailgun
+#include "Actors/dec_wp5a" // OMN-106e "Omen" Mk.IV Assault Rifle
+#include "Actors/dec_wp5b" // HST-180f "Hellstorm" Mk.III Personal Defense Weapon
+#include "Actors/dec_wp6a" // FY-2014m "Longinus" Antimateriel Rifle
+#include "Actors/dec_wp6b" // MHC-1227 "Mauler" Assault Cannon
+#include "Actors/dec_wp7a" // FC-GP6 "Incinerator" Flamethrower
+#include "Actors/dec_wp7b" // TY-99A "Typhoon" Gauss Accelarated PDW
+#include "Actors/dec_wp8a" // Evangelizer A.G.P. Mk.V  Gauss Cannon
+#include "Actors/dec_wp8b" // HRC-550h "Harbinger" Modular Weapons Platform
+#include "Actors/dec_misc" // Misc Shit
+#include "Actors/dec_play" // Player Classes
+#include "Actors/dec_terr" // Terrain Effects
+#Include "Actors/dec_itms" // Items
+#Include "Actors/dec_pwup" // Powerups
+#include "Actors/P_FX" // Mobility Effects
+#include "Actors/P_GLOBALVARS" // Mobility Variables
+#include "Actors/Props/Tech.dec" // Technical Props
+#include "Actors/Props/Hell.dec" // Hellish Props
+#include "Actors/Props/Gore.dec" // Gore Props
+
+// Monster Stuff
+#Include "Actors/dec_spwn" // Enemy Spawn Groups
+#Include "Actors/dec_mons" // Enemy Actor Definitions
+#Include "Actors/dec_hevy" // Heavy Hitter Foes
+#Include "Actors/dec_enfx" // Enemy Effects
+#Include "Actors/dec_boss" // BossBrain Stuff
+#Include "Actors/dec_tios" // Icon of Sin Replacer
+
+Actor LightProjectile1
+{
+	Radius 0
+	Height 0
+	Speed 0
+	Damage 0
+	Projectile
+	SeeSound "Null"
+	DeathSound "Null"
+	+THRUACTORS
+	+NONSHOOTABLE
+	+NOGRAVITY
+	
+	States
+	{
+		Spawn:
+			TNT1 A 4
+		Death:
+			TNT1 A 0
+			Stop
+	}
+}
+
+Actor LightProjectile2 : LightProjectile1 {}
+
+Actor LightProjectile3 : LightProjectile1 {}

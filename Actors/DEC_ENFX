@@ -1,0 +1,542 @@
+//Tracers
+
+
+
+ACTOR E_PDWCasingSpawner
+{
+    Radius 1
+    Height 1
+    Speed 15
+    PROJECTILE
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_SpawnItemEx("PDW_Casing", 0, 10, 0, random(0,1), random(4,5), random(0,1), 0, SXF_TRANSFERPOINTERS)
+        Stop
+    }
+}
+
+ACTOR E_HACCasingSpawner1
+{
+    Radius 1
+    Height 1
+    Speed 15
+    PROJECTILE
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_SpawnItemEx("Harbinger_BeltLink", 0, 10, 0, random(0,1), random(4,5), random(0,1), 0, SXF_TRANSFERPOINTERS)
+		TNT1 A 1 A_SpawnItemEx("Harbinger_Casing", 0, 10, 0, random(0,1), random(4,5), random(0,1), 0, SXF_TRANSFERPOINTERS)
+        Stop
+    }
+}
+
+ACTOR E_HACCasingSpawner2
+{
+    Radius 1
+    Height 1
+    Speed 15
+    PROJECTILE
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_SpawnItemEx("Harbinger_BeltLink", 0, 10, 0, random(0,-1), random(-4,-5), random(0,-1), 0, SXF_TRANSFERPOINTERS)
+		TNT1 A 1 A_SpawnItemEx("Harbinger_Casing", 0, 10, 0, random(0,-1), random(-4,-5), random(0,-1), 0, SXF_TRANSFERPOINTERS)
+        Stop
+    }
+}
+
+ACTOR E_PRifleCasingSpawner
+{
+    Radius 1
+    Height 1
+    Speed 15
+    PROJECTILE
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_SpawnItemEx("PRifle_Casing", 0, 10, 0, random(0,1), random(4,5), random(0,1), 0, SXF_TRANSFERPOINTERS)
+        Stop
+    }
+}
+
+actor e_hcannon_tracer : FastProjectile
+{
+	Alpha 1.0
+	RenderStyle Add
+	Radius 2
+	Height 2
+	Speed 200
+	PROJECTILE
+	+BLOODSPLATTER
+	Scale 0.75
+	Damage (random(5,5))
+	Decal "HarbingerPrimary"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		PUFF A 1 Bright
+		Loop
+	/*
+		SPRK A 1 BRIGHT
+		SPRK A 1 BRIGHT A_CheckSightOrRange(192,"Whiz")
+		Loop
+	Whiz:
+		SPRK A 1 BRIGHT A_PlaySound("sfx/bltfly",1.0,CHAN_AUTO,ATTN_NONE)
+	SpawnNoWhiz:
+		SPRK A 1 BRIGHT
+		Loop
+	*/
+	Death:
+	Crash:
+		TNT1 A 1 A_SpawnItemEx("HAC_Impact",0,0,0,0,0,0,0)
+		Stop
+	XDeath:
+		TNT1 A 1 
+		Stop
+	}
+}
+
+actor e_hgatling_tracer : FastProjectile
+{
+	Alpha 1.0
+	RenderStyle Add
+	Radius 2
+	Height 2
+	Speed 200
+	PROJECTILE
+	+BLOODSPLATTER
+	Scale 0.75
+	Damage (random(5,5))
+	Decal "HarbingerPrimary"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		PUFF A 1 Bright
+		Loop
+	/*
+		SPRK A 1 BRIGHT
+		SPRK A 1 BRIGHT A_CheckSightOrRange(192,"Whiz")
+		Loop
+	Whiz:
+		SPRK A 1 BRIGHT A_PlaySound("sfx/bltfly",1.0,CHAN_AUTO,ATTN_NONE)
+	SpawnNoWhiz:
+		SPRK A 1 BRIGHT
+		Loop
+	*/
+	Death:
+	Crash:
+		TNT1 A 1 A_SpawnItemEx("HAC_Impact",0,0,0,0,0,0,0)
+		Stop
+	XDeath:
+		TNT1 A 1 
+		Stop
+	}
+}
+
+actor e_arifle_tracer : FastProjectile
+{
+	Alpha 1.0
+	RenderStyle Add
+	Radius 2
+	Height 2
+	Speed 200
+	PROJECTILE
+	+BLOODSPLATTER
+	Scale 0.75
+	Damage (random(7,7))
+	Decal "BlazeChip"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		PUFF A 1 Bright
+		Loop
+	/*
+		SPRK A 1 BRIGHT
+		SPRK A 1 BRIGHT A_CheckSightOrRange(192,"Whiz")
+		Loop
+	Whiz:
+		SPRK A 1 BRIGHT A_PlaySound("sfx/bltfly",1.0,CHAN_AUTO,ATTN_NONE)
+	SpawnNoWhiz:
+		SPRK A 1 BRIGHT
+		Loop
+	*/
+	Death:
+	Crash:
+		TNT1 A 1 A_SpawnItemEx("BulletImpact",0,0,0,0,0,0,0)
+		Stop
+	XDeath:
+		TNT1 A 1 
+		Stop
+	}
+}
+
+actor e_hellstorm_tracer : FastProjectile
+{
+	Alpha 1.0
+	RenderStyle Add
+	Radius 2
+	Height 2
+	Speed 200
+	PROJECTILE
+	+BLOODSPLATTER
+	Scale 0.75
+	Damage (random(5,5))
+	Decal "BlazeChip"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		PUFF A 1 Bright
+		Loop
+	/*
+		SPRK A 1 BRIGHT
+		SPRK A 1 BRIGHT A_CheckSightOrRange(192,"Whiz")
+		Loop
+	Whiz:
+		SPRK A 1 BRIGHT A_PlaySound("sfx/bltfly",1.0,CHAN_AUTO,ATTN_NONE)
+	SpawnNoWhiz:
+		SPRK A 1 BRIGHT
+		Loop
+	*/
+	Death:
+	Crash:
+		TNT1 A 1 A_SpawnItemEx("BulletImpact",0,0,0,0,0,0,0)
+		Stop
+	XDeath:
+		TNT1 A 1 
+		Stop
+	}
+}
+
+actor e_pellet_tracer : e_arifle_tracer {
+	scale 0.65
+	damage (random(3,3))
+	Decal "BlazeChip"
+}
+
+ACTOR EM_LoudmouthProjectile : FastProjectile
+{
+	Damage (random(5,5))
+	Radius 5
+	Height 3
+	Speed 200
+	MissileHeight 3
+	MissileType "EM_LoudmouthTrailer"
+	Decal "BlazeChip"
+	PROJECTILE
+	+BLOODSPLATTER
+	+NOEXTREMEDEATH
+	+DONTREFLECT
+	States
+	{
+	Spawn:
+		TNT1 AA 0 A_ScaleVelocity(frandom(0.9,1.1))
+		TNT1 A 0 A_SetScale(frandom(0.07,0.05))
+		TNT1 A 1 ThrustThingZ(0,random(10,14),0,1)
+	Looplet:
+		TNT1 A 1 Bright ThrustThingZ(0,frandom(-5.0,-3.0),0,1)
+		Loop
+	Death:
+		TNT1 A 1 A_SpawnItemEx("BulletImpact",0,0,0,0,0,0,0,SXF_CLIENTSIDE,0)
+		TNT1 A 0 A_Explode(10,36,0)
+		TNT1 A 0 A_SpawnItemEx("EM_LoudmouthFX",0,0,0,0,0,0,0,SXF_CLIENTSIDE,0)
+		TNT1 A 1 A_SpawnItemEx("EM_LoudmouthImpact",0,0,0,0,0,0,0,SXF_CLIENTSIDE,0)
+		Stop
+	XDeath:
+		TNT1 A 0 A_Explode(10,36,0)
+		TNT1 A 0 A_SpawnItemEx("EM_LoudmouthFX",0,0,0,0,0,0,0,SXF_CLIENTSIDE,0)
+		TNT1 A 1 A_SpawnItemEx("EM_LoudmouthImpact",0,0,0,0,0,0,0,SXF_CLIENTSIDE,0)
+		Stop
+	}
+}
+
+ACTOR CyberRocketExp
+{
+	Radius 8
+	Height 32
+	Damage (5)
+	Scale 3
+	RENDERSTYLE Add
+	Alpha 1.0
+	DamageType HRocket
+	DamageType LRocket
+	PROJECTILE
+	+Randomize
+	+Ripper
+	+NoClip
+	states
+	{
+	Spawn:
+		MISX A 0
+		NULL A 0 Radius_Quake(3, 20, 0, 3, 0)
+		NULL A 0 Radius_Quake(1, 35, 0, 8, 0)
+		MISX F 3 BRIGHT A_Explode(160,160)
+		MISX G 3 BRIGHT A_RadiusThrust(320,80)
+		MISX BBBBB 0 A_CustomMissile("ExplosionSmoke",0,0,random(0,360),2,random(-45,90))
+		MISX H 3 BRIGHT A_RadiusThrust(640,40)
+		MISX CCCCC 0 A_CustomMissile("ExplosionSmoke",0,0,random(0,360),2,random(-45,90))
+		MISX I 2 BRIGHT A_FadeOut(0.15)
+		MISX DDDDD 0 A_CustomMissile("ExplosionSmoke",0,0,random(0,360),2,random(-45,90))
+		MISX I 2 BRIGHT A_FadeOut(0.15)
+		MISX EEEEE 0 A_CustomMissile("ExplosionSmoke",0,0,random(0,360),2,random(-45,90))
+		MISX J 4 BRIGHT A_FadeOut(0.15)
+		MISX FFFFF 0 A_CustomMissile("ExplosionSmoke",0,0,random(0,360),2,random(-45,90))
+		MISX K 4 BRIGHT A_FadeOut(0.15)
+		NULL AAAAAAAAAAAAAAAAAAAA 1 A_CustomMissile("ExplosionSmoke",0,0,random(0,360),2,random(-45,90))
+		Stop
+	}
+}
+
+ACTOR ExplosionSmoke
+{
+	Radius 1
+	Height 2
+	Speed 1
+	Projectile
+	-NOGRAVITY
+	+CLIENTSIDEONLY
+	+NOINTERACTION
+	Gravity 0.005
+	BounceFactor 0.5
+	RenderStyle Translucent
+	Alpha 0.05
+	Scale 1.25
+	States
+	{
+	Spawn:
+		NULL A 0
+		NULL A 0 A_CheckSight("Death")
+		SMKE A 0 A_Jump(128,1)
+		SMKE A 0 A_Jump(256,"A","B","C","D","E","F")
+		SMKE A 0 A_Jump(256,"DA","DB","DC","DD","DE","DF")
+	A:
+		SMKE AAAAAAAAAA 1 A_Fadein(0.02)
+		SMKE AAAAAAAAAAAAAAAAAAAA 1 A_Fadeout(0.005)
+		SMKE A 1 A_Fadeout(0.001)
+		Wait
+	B:
+		SMKE BBBBBBBBBB 1 A_Fadein(0.02)
+		SMKE BBBBBBBBBBBBBBBBBBBB 1 A_Fadeout(0.005)
+		SMKE B 1 A_Fadeout(0.001)
+		Wait
+	C:
+		SMKE CCCCCCCCCC 1 A_Fadein(0.02)
+		SMKE CCCCCCCCCCCCCCCCCCCC 1 A_Fadeout(0.005)
+		SMKE C 1 A_Fadeout(0.001)
+		Wait
+	D:
+		SMKE DDDDDDDDDD 1 A_Fadein(0.02)
+		SMKE DDDDDDDDDDDDDDDDDDDD 1 A_Fadeout(0.005)
+		SMKE D 1 A_Fadeout(0.001)
+		Wait
+	E:
+		SMKE EEEEEEEEEE 1 A_Fadein(0.02)
+		SMKE EEEEEEEEEEEEEEEEEEEE 1 A_Fadeout(0.005)
+		SMKE E 1 A_Fadeout(0.001)
+		Wait
+	F:
+		SMKE FFFFFFFFFF 1 A_Fadein(0.02)
+		SMKE FFFFFFFFFFFFFFFFFFFF 1 A_Fadeout(0.005)
+		SMKE F 1 A_Fadeout(0.001)
+		Wait
+	DA:
+		SMKB AAAAAAAAAA 1 A_Fadein(0.02)
+		SMKB AAAAAAAAAAAAAAAAAAAA 1 A_Fadeout(0.005)
+		SMKB A 1 A_Fadeout(0.001)
+		Wait
+	DB:
+		SMKB BBBBBBBBBB 1 A_Fadein(0.02)
+		SMKB BBBBBBBBBBBBBBBBBBBB 1 A_Fadeout(0.005)
+		SMKB B 1 A_Fadeout(0.001)
+		Wait
+	DC:
+		SMKB CCCCCCCCCC 1 A_Fadein(0.02)
+		SMKB CCCCCCCCCCCCCCCCCCCC 1 A_Fadeout(0.005)
+		SMKB C 1 A_Fadeout(0.001)
+		Wait
+	DD:
+		SMKB DDDDDDDDDD 1 A_Fadein(0.02)
+		SMKB DDDDDDDDDDDDDDDDDDDD 1 A_Fadeout(0.005)
+		SMKB D 1 A_Fadeout(0.001)
+		Wait
+	DE:
+		SMKB EEEEEEEEEE 1 A_Fadein(0.02)
+		SMKB EEEEEEEEEEEEEEEEEEEE 1 A_Fadeout(0.005)
+		SMKB E 1 A_Fadeout(0.001)
+		Wait
+	DF:
+		SMKB FFFFFFFFFF 1 A_Fadein(0.02)
+		SMKB FFFFFFFFFFFFFFFFFFFF 1 A_Fadeout(0.005)
+		SMKB F 1 A_Fadeout(0.001)
+		Wait
+	Death:
+		NULL A 0
+		Stop
+	}
+}
+
+ACTOR RocketExplosion1
+{
+	Radius 1
+	Height 2
+	Damage 5
+	RenderStyle Add
+	Alpha 0.5
+	DamageType Fire
+	Projectile
+	+RANDOMIZE
+	+RIPPER
+	+NOCLIP
+	+DONTSPLASH
+	+CLIENTSIDEONLY
+	Obituary "$OB_MPROCKET"
+	States
+	{
+	Spawn:
+		EXP1 A 2 Bright
+		EXP1 BCDEFGHIJKLMNOPQQRRSS 1 Bright A_Fadeout(0.02)
+		Stop
+	}
+}
+
+ACTOR RocketFlare
+{
+	Mass 5
+	Radius 1
+	Height 2
+	Speed 6
+	RenderStyle Add
+	Scale 0.2
+	Gravity 0.25
+	Projectile
+	-NOGRAVITY
+	+RANDOMIZE
+	+CLIENTSIDEONLY
+	+BOUNCEONACTORS
+	+HEXENBOUNCE
+	BounceFactor 0.5
+	States
+	{
+	Spawn:
+		EMBR A 1 Bright A_Fadeout(0.05)
+		Wait
+	}
+}
+
+ACTOR ExplosionFlash
+{
+	Radius 1
+	Height 2
+	Scale 3
+	Projectile
+	+CLIENTSIDEONLY
+	+NOINTERACTION
+	RenderStyle Add
+	States
+	{
+	Spawn:
+		SPKO AA 0 A_Jump(256,"E","F","K","L")
+	E:
+		SPKO E 1 BRIGHT A_Fadeout(0.1)
+		Wait
+	F:
+		SPKO F 1 BRIGHT A_Fadeout(0.1)
+		Wait
+	K:
+		SPKO K 1 BRIGHT A_Fadeout(0.1)
+		Wait
+	L:
+		SPKO L 1 BRIGHT A_Fadeout(0.1)
+		Wait
+	}
+}
+
+ACTOR ShockWave
+{
+	Radius 1
+	Height 2
+	RenderStyle Add
+	Alpha 0.05
+	Scale 2
+	Projectile
+	+CLIENTSIDEONLY
+	+NOINTERACTION
+	States
+	{
+	Spawn:
+		SHOK AA 0 A_Jump(128,"SpawnB")
+		SHOK ACEGIKMOQR 1
+		Stop
+	SpawnB:
+		SHOK BDFHJLNPQR 1
+		Stop
+	}
+}
+
+ACTOR ExplosionFlame
+{
+	Radius 1
+	Height 1
+	Speed 8
+	Scale 0.8
+	PROJECTILE
+	+ClientSideOnly
+	+NoInteraction
+	RENDERSTYLE Add
+	Translation "174:176=[255,32,1]:[255,0,0]"
+	Alpha 0.4
+	states
+	{
+	Spawn:
+		BFGV A 0
+		BFGV A 0 A_Jump(256,"A","B","C","D")
+	A:
+		RFL1 ACEGIKM 2 BRIGHT A_FadeOut(0.05)
+		RFL2 AC 2 BRIGHT A_FadeOut(0.05)
+		Wait
+	B:
+		RFL1 BDFHJL 2 BRIGHT A_FadeOut(0.05)
+		RFL2 BD 2 BRIGHT A_FadeOut(0.05)
+		Wait
+	C:
+		RFL1 NPRTVWZ 2 BRIGHT A_FadeOut(0.05)
+		RFL2 EG 2 BRIGHT A_FadeOut(0.05)
+		Wait
+	D:
+		RFL1 OQSUWY 2 BRIGHT A_FadeOut(0.05)
+		RFL2 FH 2 BRIGHT A_FadeOut(0.05)
+		Wait
+	}
+}
+
+ACTOR HeavyHitter_FootStep
+{
++CLIENTSIDEONLY
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 1 A_PlaySound("Heavy/Boot")
+Stop
+}
+}

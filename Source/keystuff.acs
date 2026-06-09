@@ -1,0 +1,44 @@
+#library "smashthineheadagainstkeyboard"
+#include "zcommon.acs"
+
+script "ReloadHoldCheck" Enter
+{
+	int buttons;
+	
+	While(1)
+	{
+		buttons=GetPlayerInput(-1, INPUT_BUTTONS);
+
+		if (buttons & BT_RELOAD)
+		{
+		TakeInventory("ReloadNotHeld",1);	
+		}
+		Else
+		{	
+		GiveInventory("ReloadNotHeld",1);	
+		}
+		
+		Delay(1);
+	}
+}
+
+script "ZoomHoldCheck" Enter
+{
+	int buttons;
+	
+	While(1)
+	{
+		buttons=GetPlayerInput(-1, INPUT_BUTTONS);
+
+		if (buttons & BT_ZOOM)
+		{
+		TakeInventory("ZoomNotHeld",1);	
+		}
+		Else
+		{	
+		GiveInventory("ZoomNotHeld",1);	
+		}
+		
+		Delay(1);
+	}
+}

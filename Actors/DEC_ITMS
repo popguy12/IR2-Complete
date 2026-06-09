@@ -1,0 +1,350 @@
+Actor StartingShield : BasicArmorPickup
+{
+	Height 16
+	Armor.SavePercent 20
+	Armor.SaveAmount 90
+	Inventory.PickupMessage "You Start With This..."
+	Inventory.PickupSound ""
+	inventory.Icon TNT1A0
+	+NOTIMEFREEZE
+	Scale 0.25
+	states
+	{
+	Spawn:
+		TNT1 A 1
+		loop
+	}
+}
+
+Actor MediumShield : BasicArmorPickup replaces GreenArmor
+{
+	Height 16
+	Armor.SavePercent 40
+	Armor.SaveAmount 125
+	Inventory.PickupMessage "ARK Street Enforcment Rig [+125 Armor]"
+	Inventory.PickupSound "misc/shieldgreen"
+	//ActiveSound "sfx/bigitemalert"
+	Tag "\cdARK Street Enforcment Rig [+125 Armor]"
+	inventory.icon ARM1A0
+	+NOTIMEFREEZE
+	Scale 0.25
+	states
+	{
+	Spawn:
+		ARM1 ABCDE 2 BRIGHT
+		ARM1 F 70 BRIGHT
+		ARM1 EDCB 2 BRIGHT
+		TNT1 A 0 A_LoopActiveSound
+		loop
+	}
+}
+
+actor BlueArmor_Spawner : RandomSpawner replaces BlueArmor {
+	DropItem "HeavyShield", 255, 250
+	DropItem "TemperedShield", 255, 5
+}
+
+Actor HeavyShield : BasicArmorPickup
+{
+	Height 16
+	Armor.SavePercent 60
+	Armor.SaveAmount 250
+	Inventory.PickupMessage "ARK Trooper Rig [+250 Armor]"
+	Inventory.PickupSound "misc/shieldblue"
+	//ActiveSound "sfx/bigitemalert"
+	Inventory.Icon ARM2A0
+	Tag "\cyARK Trooper Rig [+250 Armor]"
+	+NOTIMEFREEZE
+	Scale 0.25
+	states
+	{
+	Spawn:
+		ARM2 ABCDE 2 BRIGHT
+		ARM2 F 70 BRIGHT
+		ARM2 EDCB 2 BRIGHT
+		TNT1 A 0 A_LoopActiveSound
+		loop
+	}
+}
+
+Actor TemperedShield : BasicArmorPickup
+{
+	Height 16
+	Armor.SavePercent 80
+	armor.saveamount 400
+	inventory.pickupmessage "Tempered Plate Carrier [+400 Armor]"
+	inventory.pickupsound "misc/shieldred"
+	//ActiveSound "sfx/bigitemalert"
+	inventory.icon ARM3A0
+	Armor.MaxAbsorb 88
+	Armor.MaxFullAbsorb 99
+	Tag "\cgTempered Plate Carrier [+400 Armor]"
+	+NOTIMEFREEZE
+	Scale 0.25
+	states
+	{
+	Spawn:
+		ARM3 ABCDE 2 BRIGHT
+		ARM3 F 70 BRIGHT
+		ARM3 EDCB 2 BRIGHT
+		TNT1 A 0 A_LoopActiveSound
+		loop
+	}
+}
+
+actor JackShit replaces Pistol {}
+
+//health stims
+actor HealthStim : CustomInventory 26100 {
+  inventory.amount 1
+  inventory.maxamount 20
+  inventory.interhubamount 20
+  inventory.icon "HSTMA0"
+  inventory.pickupsound "items/hstim_up"
+  inventory.pickupmessage "picked up a Medstim Injector [+80 Health]"
+  Tag"Medstim Injector [+80 Health]"
+  scale 0.28
+  +INVENTORY.UNCLEARABLE
+  +INVENTORY.INVBAR
+  +COUNTITEM
+  states{
+  	Spawn:
+		HSTI A -1
+		loop
+	Use:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("items/stimshot",CHAN_BODY,1.0,0,1)
+		TNT1 A 0 A_GiveInventory("lifeup", 1)
+		fail
+	}
+}
+
+actor HealthPack : CustomInventory 26101 {
+	scale 0.28
+	Inventory.PickupMessage "Pack of two Medstim Injectors [+80 Health]"
+	inventory.pickupsound "items/hpack_up"
+	Tag "Medstim Injectors X2 [+80 Health]"
+	//+INVENTORY.ALWAYSPICKUP
+	+INVENTORY.UNCLEARABLE
+	-INVENTORY.INVBAR
+    +COUNTITEM
+	States{
+		Spawn:
+			MPAK A -1
+			stop
+		Pickup:
+			TNT1 A 0 A_JumpIfInventory("healthstim",20,"PickupFail")
+			TNT1 A 0 A_GiveInventory("healthstim", 2)
+			stop
+		PickupFail:
+			TNT1 A 0
+			fail
+	}
+
+}
+
+
+
+
+actor lifeup : Health {
+  +COUNTITEM
+  +INVENTORY.ALWAYSPICKUP
+  +INVENTORY.UNCLEARABLE
+  -INVENTORY.INVBAR
+  Inventory.Amount 80
+  Inventory.MaxAmount 125
+}
+
+actor StimReplacer : RandomSpawner replaces Stimpack {
+	DropItem "JackShit", 192, 1
+    DropItem "JackShit", 192, 1
+	DropItem "JackShit", 192, 1
+	DropItem "HealthStim", 128, 4
+	DropItem "HealthPack", 64, 2
+}
+	
+	actor MkitReplacer : RandomSpawner replaces Medikit {
+	DropItem "JackShit", 192, 1
+    DropItem "JackShit", 192, 1
+	DropItem "HealthStim", 128, 4
+	DropItem "HealthStim", 128, 4
+	DropItem "HealthPack", 64, 2
+}
+
+Actor HealthPool : Health
+{
+	Inventory.Amount 1000000
+	Inventory.MaxAmount 1000000
+	-ALWAYSPICKUP
+}
+
+actor HealthBonus_Spawner : RandomSpawner replaces HealthBonus {
+	DropItem "LesserEssence", 255, 32
+    DropItem "GreaterEssence", 255, 16
+	DropItem "SuperiorEssence", 255, 8
+	DropItem "LegendaryEssence", 255, 4
+	DropItem "EpicEssence", 255, 2
+	DropItem "MythicalEssence", 255, 1
+}
+
+Actor ShieldPool : BasicArmorBonus
+{
+	Armor.SaveAmount 1000000
+	Armor.MaxSaveAmount 1000000
+	Armor.SavePercent 66.6
+	Armor.MaxAbsorb 66
+	Armor.MaxFullAbsorb 99
+	-ALWAYSPICKUP
+}
+
+actor ArmorBonus_Spawner : RandomSpawner replaces ArmorBonus {
+	DropItem "NArmorBonus", 255, 40
+    DropItem "GArmorBonus", 255, 20
+	DropItem "SArmorBonus", 255, 10
+	DropItem "LArmorBonus", 255, 5
+	DropItem "EArmorBonus", 255, 1
+}
+
+ACTOR NArmorBonus : ShieldPool
+{
+  Radius 20
+  Height 16
+  Inventory.PickupMessage "Picked up a Lesser Shield Charger [+5 Armor]"
+  Inventory.Icon ""
+  Inventory.PickupSound "Armor/Pickup"
+  Armor.SaveAmount 5
+  Armor.SavePercent 66.6
+  Armor.MaxAbsorb 66
+  Armor.MaxFullAbsorb 77
+  Tag "Shield Charger [+5 Armor]"
+  Scale 0.44
+  +COUNTITEM
+  +NOTIMEFREEZE
+  +INVENTORY.ALWAYSPICKUP
+  States
+  {
+  Spawn:
+    SCR1 A 15 Bright
+	SCR1 BCDEF 2 Bright
+	loop
+  }
+}
+
+ACTOR GArmorBonus : ShieldPool
+{
+  Radius 20
+  Height 16
+  Inventory.PickupMessage "Picked up a Greater Shield Charger [+25 Armor]"
+  Inventory.Icon ""
+  Inventory.PickupSound "Armor/Pickup"
+  Armor.SaveAmount 25
+  Armor.SavePercent 66.6
+  Armor.MaxAbsorb 66
+  Armor.MaxFullAbsorb 77
+  Tag "Shield Charger [+25 Armor]"
+  Scale 0.44
+  +COUNTITEM
+  +NOTIMEFREEZE
+  +INVENTORY.ALWAYSPICKUP
+  States
+  {
+  Spawn:
+    SCR2 A 15 Bright
+	SCR2 BCDEFG 2 Bright
+	loop
+  }
+}
+
+ACTOR SArmorBonus : ShieldPool
+{
+  Radius 20
+  Height 16
+  Inventory.PickupMessage "Picked up a Superior Shield Charger [+50 Armor]"
+  Inventory.Icon ""
+  Inventory.PickupSound "Armor/Pickup"
+  Armor.SaveAmount 50
+  Armor.SavePercent 66.6
+  Armor.MaxAbsorb 66
+  Armor.MaxFullAbsorb 77
+  Tag "Shield Charger [+50 Armor]"
+  +COUNTITEM
+  Scale 0.44
+  +NOTIMEFREEZE
+  +INVENTORY.ALWAYSPICKUP
+  States
+  {
+  Spawn:
+    SCR3 A 15 Bright
+	SCR3 BCDEFGH 2 Bright
+	loop
+  }
+}
+
+ACTOR LArmorBonus : ShieldPool
+{
+  Radius 20
+  Height 16
+  Inventory.PickupMessage "Picked up a Legendary Shield Charger [+75 Armor]"
+  Inventory.Icon ""
+  Inventory.PickupSound "Armor/Pickup"
+  Armor.SaveAmount 75
+  Armor.SavePercent 66.6
+  Armor.MaxAbsorb 66
+  Armor.MaxFullAbsorb 77
+  Tag "Shield Charger [+75 Armor]"
+  +COUNTITEM
+  Scale 0.44
+  +NOTIMEFREEZE
+  +INVENTORY.ALWAYSPICKUP
+  States
+  {
+  Spawn:
+    SCR4 A 15 Bright
+	SCR4 BCDEFGHI 2 Bright
+	loop
+  }
+}
+
+ACTOR EArmorBonus : ShieldPool
+{
+  Radius 20
+  Height 16
+  Inventory.PickupMessage "Picked up a Epic Shield Charger [+100 Armor]"
+  Inventory.Icon ""
+  Inventory.PickupSound "Armor/Pickup"
+  Armor.SaveAmount 100
+  Armor.SavePercent 66.6
+  Armor.MaxAbsorb 66
+  Armor.MaxFullAbsorb 77
+  Tag "Shield Charger [+100 Armor]"
+  +COUNTITEM
+  Scale 0.44
+  +NOTIMEFREEZE
+  +INVENTORY.ALWAYSPICKUP
+  States
+  {
+  Spawn:
+    SCR5 A 15 Bright
+	SCR5 BCDEFGHIJ 2 Bright
+	loop
+  }
+}
+
+Actor DopePack : CustomInventory replaces Backpack
+{
+  Inventory.PickupSound "Backpack/Pickup"
+  //ActiveSound "sfx/bigitemalert"
+  Inventory.PickupMessage "You picked up a 555 Industries Hammerspace Backpack"
+  +COUNTITEM
+  +INVENTORY.ALWAYSPICKUP
+  States
+  {
+  Spawn:
+    CMPK ABCDEFGHI 2
+	CMPK I 70
+    Loop
+  Pickup:
+    TNT1 A 0 ACS_NamedExecuteAlways("HammerspaceBackpack")
+    Stop
+  }
+}

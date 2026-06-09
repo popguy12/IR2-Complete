@@ -1,0 +1,163 @@
+#include "zcommon.acs"
+#define MAX_PLAYERS 64
+
+// Running and Stamina
+int prunning[MAX_PLAYERS];
+Script "Insanity_Stamina" ENTER
+{
+	int pn = PlayerNumber();
+	While(TRUE)
+	{
+		While(prunning[pn] == True)
+		{
+			Delay(1);
+		}
+		If(prunning[pn] == FALSE && CheckInventory("MobilityStamina")!=360)
+		{
+			Until(CheckInventory("MobilityStamina")==240)
+			{
+				If(prunning[pn] == True){restart;}
+				GiveInventory("MobilityStamina",3);
+				Delay(5);
+			}
+		}
+		Delay(1);
+	}
+}
+
+Script "Insanity_Sprint" ENTER
+{
+	int pn = PlayerNumber();
+	int runinput;
+	ACS_NamedExecute("Insanity_Speed",0,100);
+	While(TRUE)
+	{
+		While(CheckInventory("MobilityStamina")!=0)
+		{
+			runinput = GetPlayerInput(-1, INPUT_BUTTONS);
+			If(runinput & BT_SPEED && runinput & BT_FORWARD)
+			{
+				If(GetActorVelX(0)+GetActorVelY(0)!=0)
+				{
+					ACS_NamedTerminate("Insanity_RunCheck",0);
+					prunning[pn] = TRUE;
+					ACS_NamedExecute("Insanity_Speed",0,250);
+					If(GetCvar("cl_sprinttoggle")==FALSE)
+					{
+						TakeInventory("MobilityStamina",1);
+					}
+					Delay(1);
+					ACS_NamedExecute("Insanity_RunCheck",0);
+					If(CheckInventory("MobilityStamina")==0){restart;}
+					Delay(1);
+				}
+				Delay(1);
+			}
+			ACS_NamedExecute("Insanity_Speed",0,100);
+			Delay(1);
+		}
+	Delay(1);
+	ACS_NamedExecute("Insanity_Speed",0,100);
+	}
+}
+Script "Insanity_Speed" (int movespeed)
+{
+	SetActorProperty(0,APROP_SPEED,movespeed*65535/100);
+}
+Script "Insanity_RunCheck" (Void)
+{
+	int pn = PlayerNumber();
+	Delay(100);
+	prunning[pn] = FALSE;
+}
+Script "Insanity_Tired" ENTER
+{
+	While(True)
+	{
+		If(CheckInventory("MobilityStamina")<=25)
+		{
+			Until(CheckInventory("MobilityStamina")>=25)
+			{
+				AmbientSound("player/breathing", 255);
+				Delay(50);
+			}
+		}
+		Delay(1);
+	}
+}
+
+//upon respawning players should still be able to sprint and get worn out
+
+Script "Insanity_Stamina_R" RESPAWN
+{
+	int pn = PlayerNumber();
+	While(TRUE)
+	{
+		While(prunning[pn] == True)
+		{
+			Delay(1);
+		}
+		If(prunning[pn] == FALSE && CheckInventory("MobilityStamina")!=360)
+		{
+			Until(CheckInventory("MobilityStamina")==240)
+			{
+				If(prunning[pn] == True){restart;}
+				GiveInventory("MobilityStamina",3);
+				Delay(5);
+			}
+		}
+		Delay(1);
+	}
+}
+
+Script "Insanity_Sprint_R" RESPAWN
+{
+	int pn = PlayerNumber();
+	int runinput;
+	ACS_NamedExecute("Insanity_Speed",0,100);
+	While(TRUE)
+	{
+		While(CheckInventory("MobilityStamina")!=0)
+		{
+			runinput = GetPlayerInput(-1, INPUT_BUTTONS);
+			If(runinput & BT_SPEED && runinput & BT_FORWARD)
+			{
+				If(GetActorVelX(0)+GetActorVelY(0)!=0)
+				{
+					ACS_NamedTerminate("Insanity_RunCheck",0);
+					prunning[pn] = TRUE;
+					ACS_NamedExecute("Insanity_Speed",0,250);
+					If(GetCvar("cl_sprinttoggle")==FALSE)
+					{
+						TakeInventory("MobilityStamina",1);
+					}
+					Delay(1);
+					ACS_NamedExecute("Insanity_RunCheck",0);
+					If(CheckInventory("MobilityStamina")==0){restart;}
+					Delay(1);
+				}
+				Delay(1);
+			}
+			ACS_NamedExecute("Insanity_Speed",0,100);
+			Delay(1);
+		}
+	Delay(1);
+	ACS_NamedExecute("Insanity_Speed",0,100);
+	}
+}
+
+Script "Insanity_Tired_R" RESPAWN
+{
+	While(True)
+	{
+		If(CheckInventory("MobilityStamina")<=25)
+		{
+			Until(CheckInventory("MobilityStamina")>=25)
+			{
+				AmbientSound("player/breathing", 255);
+				Delay(50);
+			}
+		}
+		Delay(1);
+	}
+}

@@ -1,0 +1,112 @@
+#library "peaceful"
+#include "zcommon.acs"
+
+script "JustPlayerThings" enter {Thing_ChangeTID(0,1337 + playernumber());}
+
+script "PeacefulTimerFuckery" enter
+{
+    if(GameSkill() == 0)
+    {
+        int prevInput = GetPlayerInput(0, INPUT_BUTTONS);
+
+        while (TRUE)
+        {
+            int playerInput = GetPlayerInput(0, INPUT_BUTTONS);
+
+            if (playerInput != prevInput)
+            {
+                ACS_NamedExecute("YouHyuckedUpSonnyJim",0,0,0,0);
+                Terminate;
+            }
+
+            prevInput = playerInput;
+
+            Delay(1);
+    }
+    }
+}
+
+script "YouHyuckedUpSonnyJim" (void)
+{
+		AmbientSound("stinger/playerkilled", 127);
+		Print(s:"\cgYou thought this was going to be easy?\n\cgFoolish Game Journalist! you triggered my curse!\n\cgMake peace with your god, because\n\cgyou have thirty seconds to live.");
+		delay(35*5);
+        AmbientSound("TrapScript/EvilLaugh",127);
+		Print(s:"\cgStarting now.");
+        delay(35*3);
+		Print(s:"\cd30");
+		delay(35);
+		Print(s:"\cd29");
+		delay(35);
+		Print(s:"\cd28");
+		delay(35);
+		Print(s:"\cd27");
+		delay(35);
+		Print(s:"\cd26");
+		delay(35);
+		Print(s:"\cd25");
+		delay(35);
+		Print(s:"\cd24");
+		delay(35);
+		Print(s:"\cd23");
+		delay(35);
+		Print(s:"\cd22");
+		delay(35);
+		Print(s:"\cd21");
+		delay(35);
+		Print(s:"\cd20");
+		delay(35);
+		Print(s:"\cf19");
+		delay(35);
+		Print(s:"\cf18");
+		delay(35);
+		Print(s:"\cf17");
+		delay(35);
+		Print(s:"\cf16");
+		delay(35);
+		Print(s:"\cf15");
+		delay(35);
+		Print(s:"\cf14");
+		delay(35);
+		Print(s:"\cf13");
+		delay(35);
+		Print(s:"\cf12");
+		delay(35);
+		Print(s:"\cf11");
+		delay(35);
+		Print(s:"\cg10");
+		AmbientSound("TrapScript/LastTenSecs",99);
+		delay(35);
+		Print(s:"\cg9");
+		delay(35);
+		Print(s:"\cg8");
+		delay(35);
+		Print(s:"\cg7");
+		delay(35);
+		Print(s:"\cg6");
+		delay(35);
+		Print(s:"\cg5");
+		delay(35);
+		Print(s:"\cg4");
+		delay(35);
+		Print(s:"\cg3");
+		delay(35);
+		Print(s:"\cg2");
+		delay(35);
+		Print(s:"\cg1");
+		delay(35);
+		Print(s:"\cg0");
+		delay(35);
+		Print(s:"\cgAnd now... You die. Farewell...");
+		delay(35);
+        AmbientSound("TrapScript/Smite",127);
+		for(int i = 1337; i < 1400; i++)
+        Thing_Damage(i + playernumber(),999999999,MOD_LAVA);
+		FadeTo (255, 0, 0, 1.0, 0);	
+		SetMusic("M_IRONM1",0);
+		AmbientSound("stinger/playerkilled", 127);
+		SetActivator (0, AAPTR_NULL);
+		ACS_NamedExecuteAlways("Infernis_StatsRun",0,0,0,0);
+		Delay(105); //5 seconds
+		AmbientSound("ironman/playerkilled_sp", 127);
+    }

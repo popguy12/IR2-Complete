@@ -1,0 +1,107 @@
+class IR2Weapon : Weapon
+{
+	string ui_bulletGraphic;
+	string ui_ejectGraphic;
+	double ui_bulletRotation;
+	
+	Property BulletGraphics : ui_bulletGraphic, ui_ejectGraphic;
+	Property BulletAngle : ui_bulletRotation;
+	
+	TSIR_LaserBeam lasersight;
+	
+	Default
+	{
+		IR2Weapon.BulletGraphics "graphics/mikkOS/Bullet.png", "graphics/mikkOS/BulletShell.png";
+		IR2Weapon.BulletAngle 0;
+	}
+	
+	override void DoEffect()
+	{
+		super.DoEffect();
+		if(lasersight && Owner.player && Owner.player.ReadyWeapon != self)
+		{
+			lasersight.SetEnabled(false);
+			lasersight.Destroy();
+			lasersight = NULL;
+		}
+	}
+	
+	action TSIR_LaserBeam A_EnableLaserSight(class<TSIR_LaserBeam> beamtype, double fw, double lr, double ud, double maxDistance = 512)
+	{
+		// If called from deco, just for optimization.
+		if(invoker.lasersight && invoker.lasersight.enabled) return invoker.lasersight;
+		
+		if(!invoker.lasersight)
+			invoker.lasersight = TSIR_LaserBeam.Create(self, fw, lr, ud, maxDist:maxDistance, type:beamtype);
+		
+		// Check needed just in case "Create" fails.
+		if(invoker.lasersight) invoker.lasersight.SetEnabled(true);
+		return invoker.lasersight;
+	}
+	
+	action void A_DisableLaserSight()
+	{
+		if(!invoker.lasersight) return;
+		invoker.lasersight.SetEnabled(false);
+	}
+}
+
+class DoSway_Handler : EventHandler
+{
+	override void PlayerEntered (PlayerEvent e)
+	{
+		PlayerInfo plr = players[e.PlayerNumber];
+		if(plr && plr.mo && !plr.mo.FindInventory("I_DoSway"))
+			plr.mo.GiveInventory("I_DoSway", 1);
+	}
+}
+
+class I_DoSway : Inventory
+{
+	vector2 weapsway;
+	double looksway;
+
+	Default
+	{
+		Inventory.MaxAmount 1;
+	}
+	
+	// Linear interpolate
+	static double Lerp(double a, double b, double lerpFactor)
+	{
+		double result = ((1.f - lerpFactor) * a) + (lerpFactor * b);
+		return result;
+	}
+	
+	void DoLookSway(float swayspeed, bool requirespd=false, Actor ptr = NULL)
+	{
+		double anglemax = 10.0;
+		double pitchmax = 20;
+		if(!ptr.player) return;
+	
+		if(!ptr) ptr = self;
+		if(requirespd)
+		{
+			let plr = PlayerPawn(ptr);
+			if(!plr) return;
+			if(plr.vel.length() == 0) return;
+			plr.player.WeaponState |= WF_WEAPONBOBBING;
+		}
+		// This is a port of Nash's ACS weapon sway: https://forum.zdoom.org/viewtopic.php?f=45&t=52122
+		int yaw = ptr.player.cmd.yaw / 1280; 
+		int wpitch = (1.0 - (ptr.pitch * 4)) / 10;
+		double swayMod = yaw * 20;
+		
+		if (swayMod < 0 && looksway >= swayMod) looksway -= swayspeed - yaw; // left
+		if (swayMod > 0 && looksway <= swayMod) looksway += swayspeed + yaw; // right
+		if (yaw == 0)
+		{
+			if (looksway < 0) looksway = looksway > 0 ? 0 : looksway + 1.0;
+			if (looksway > 0) looksway = looksway < 0 ? 0 : looksway - 1.0;
+		}
+		
+		looksway = clamp(looksway, -anglemax, anglemax);
+		wpitch = clamp(wpitch, -pitchmax, 8 - pitchmax);
+		weapsway = ( looksway, -wpitch ); // -wpitch
+	}
+}

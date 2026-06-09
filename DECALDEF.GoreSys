@@ -1,0 +1,263 @@
+Fader Bye
+{
+	DecayStart 30.0
+	DecayTime 10.0
+}
+
+Stretcher Stretchy
+{
+	GoalY 1.5
+	StretchStart 0.001
+	StretchTime 15.0
+}
+
+Slider Slidey
+{
+	DistY -20
+	SlideStart 0.001
+	SlideTime 15.0
+}
+
+Combiner Yucky
+{
+	Stretchy
+	Slidey
+	//Bye
+}
+
+//===========================================================================
+//
+//
+//
+//===========================================================================
+
+Fader NoBlood
+{
+	DecayStart 0
+	DecayTime 0
+}
+
+//===========================================================================
+//
+//
+//
+//===========================================================================
+
+Decal BloodDrip
+{
+	Pic "graphics/decals/bdrip.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.02
+	RandomFlipX
+	Animator Yucky
+}
+
+Decal BloodSplat1
+{
+	Pic "graphics/decals/bsplat1.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+	//Animator Bye
+	LowerDecal "BloodDrip"
+}
+
+Decal BloodSplat2
+{
+	Pic "graphics/decals/bsplat2.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+	//Animator Bye
+	LowerDecal "BloodDrip"
+}
+
+Decal BloodSplat3
+{
+	Pic "graphics/decals/bsplat3.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+	//Animator Bye
+	LowerDecal "BloodDrip"
+}
+
+Decal BloodSplat4
+{
+	Pic "graphics/decals/bsplat4.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+	//Animator Bye
+	LowerDecal "BloodDrip"
+}
+
+Decal BloodSplat5
+{
+	Pic "graphics/decals/bsplat5.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+	//Animator Bye
+	LowerDecal "BloodDrip"
+}
+
+Decal BloodSplat6
+{
+	Pic "graphics/decals/bsplat6.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+	//Animator Bye
+	LowerDecal "BloodDrip"
+}
+
+Decal BloodSplat7
+{
+	Pic "graphics/decals/bsplat7.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+	//Animator Bye
+	LowerDecal "BloodDrip"
+}
+
+Decal BloodSplatNoDrip1
+{
+	Pic "graphics/decals/bsplat1.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+}
+
+Decal BloodSplatNoDrip2
+{
+	Pic "graphics/decals/bsplat2.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+}
+
+Decal BloodSplatNoDrip3
+{
+	Pic "graphics/decals/bsplat3.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+}
+
+Decal BloodSplatNoDrip4
+{
+	Pic "graphics/decals/bsplat4.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+}
+
+Decal BloodSplatNoDrip5
+{
+	Pic "graphics/decals/bsplat5.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+}
+
+Decal BloodSplatNoDrip6
+{
+	Pic "graphics/decals/bsplat6.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+}
+
+Decal BloodSplatNoDrip7
+{
+	Pic "graphics/decals/bsplat7.png"
+	Shade "BloodDefault"
+	X-Scale 0.18
+	Y-Scale 0.18
+	RandomFlipX
+	RandomFlipY
+}
+
+Decal NoBlood
+{
+	Pic "TNT1A0"
+	Animator NoBlood
+}
+
+//===========================================================================
+//
+//
+//
+//===========================================================================
+
+DecalGroup BloodSplat
+{
+	BloodSplat1 3
+	BloodSplat2 3
+	BloodSplat3 3
+	BloodSplat4 3
+	BloodSplat5 3
+	BloodSplat6 3
+	BloodSplat7 3
+	BloodSplatNoDrip1 2
+	BloodSplatNoDrip2 2
+	BloodSplatNoDrip3 2
+	BloodSplatNoDrip4 2
+	BloodSplatNoDrip5 2
+	BloodSplatNoDrip6 2
+	BloodSplatNoDrip7 2
+	NoBlood 1
+	NoBlood 1
+	NoBlood 1
+	NoBlood 1
+	NoBlood 1
+	NoBlood 1
+	NoBlood 1
+}
+
+DecalGroup BloodSmear
+{
+	BloodSplat1 1
+	BloodSplat2 1
+	BloodSplat3 1
+	BloodSplat4 1
+	BloodSplat5 1
+	BloodSplat6 1
+	BloodSplat7 1
+	BloodSplatNoDrip1 2
+	BloodSplatNoDrip2 2
+	BloodSplatNoDrip3 2
+	BloodSplatNoDrip4 2
+	BloodSplatNoDrip5 2
+	BloodSplatNoDrip6 2
+	BloodSplatNoDrip7 2
+}

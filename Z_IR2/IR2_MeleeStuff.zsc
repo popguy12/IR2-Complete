@@ -1,0 +1,444 @@
+Class SwordGiver : WeaponGiver replaces Chainsaw
+{
+  Default {
+  //$Category IR_Weapons
+  //$Title Kyrei Eleison
+  //$Sprite VORXA0
+  DropItem "Sword";
+  Tag "Kyrei Eleison";
+  ActiveSound "SFX/Rumble";
+  Inventory.PickupMessage "You found the Kyrie Eleison, a legendary sword known for its unquenceable thirst for blood.";
+  }
+  States
+  {
+  Spawn:
+    VORX A 1 A_SpawnItemEx("RedParticleSpawner",0,-10,1);
+	VORX B 1 A_SpawnItemEx("RedParticleSpawner",-10,0,3);
+	VORX C 1 A_SpawnItemEx("RedParticleSpawner",0,10,5);
+	VORX D 1 A_SpawnItemEx("RedParticleSpawner",10,0,7);
+	VORX E 1 A_SpawnItemEx("RedParticleSpawner",5,0,9);
+	VORX F 1 A_SpawnItemEx("RedParticleSpawner",0,5,11);
+	VORX A 1 A_SpawnItemEx("RedParticleSpawner",0-5,13);
+	VORX B 1 A_SpawnItemEx("RedParticleSpawner",-5,0,15);
+	VORX C 1 A_SpawnItemEx("RedParticleSpawner",-10,0,17);
+    VORX D 1 A_SpawnItemEx("RedParticleSpawner",0,-5,19);
+	VORX E 1 A_SpawnItemEx("RedParticleSpawner",0,10,21);
+	VORX F 1 A_SpawnItemEx("RedParticleSpawner",0,0,23);
+	VORX A 70 A_SpawnItemEx("RedParticleSpawner",10,0,25);
+	VORX A 1 A_SpawnItemEx("RedParticleSpawner",0,-10,1);
+	VORX B 1 A_SpawnItemEx("RedParticleSpawner",-10,0,3);
+	VORX C 1 A_SpawnItemEx("RedParticleSpawner",0,10,5);
+	VORX D 1 A_SpawnItemEx("RedParticleSpawner",10,0,7);
+	VORX E 1 A_SpawnItemEx("RedParticleSpawner",5,0,9);
+	VORX F 1 A_SpawnItemEx("RedParticleSpawner",0,5,11);
+	VORX A 1 A_SpawnItemEx("RedParticleSpawner",0-5,13);
+	VORX B 1 A_SpawnItemEx("RedParticleSpawner",-5,0,15);
+	VORX C 1 A_SpawnItemEx("RedParticleSpawner",-10,0,17);
+    VORX D 1 A_SpawnItemEx("RedParticleSpawner",0,-5,19);
+	VORX E 1 A_SpawnItemEx("RedParticleSpawner",0,10,21);
+	VORX F 1 A_SpawnItemEx("RedParticleSpawner",0,0,23);
+	TNT1 A 0 A_LoopActiveSound;
+    Loop;
+  }
+}
+
+Class Sword : Weapon
+{	
+	//To right here
+	
+	//This will rotate an area attack by a given roll for a given area
+    Action void hxa_CustomRollAttack(int damage = 0, double healfactor = 1, bool PierceEnemies = FALSE, double roll = 0, int area = 90, int dist = 1024, name PuffActor = "null", sound HitActorSound = "null", sound HitWallSound = "null")
+    {
+		let player = self.player;
+		if (!player) return;
+
+		bool PlaySoundEnemy = FALSE;
+		bool PlaySoundWall = FALSE;
+		let weapon = player.ReadyWeapon;
+        FLineTraceData h;
+        Array<Actor> Targets;
+        For(int i = 0; i < area; i++)
+        {
+			double horAng = self.angle - area*cos(roll)/2;
+			double pit = self.pitch - area*sin(roll)/2;
+            int hdif = 10;
+			LineAttack (horAng+(i*cos(roll)), dist, pit+(i*sin(roll)), 0, 'Melee', PuffActor, true,offsetz: 10);//, offsetz: self.height-hdif);
+			self.LineTrace(horAng+(i*cos(roll)),dist,pit+(i*sin(roll)),offsetz: self.height-hdif,data: h);
+			If(h.HitActor!=null&&h.HitActor.bSHOOTABLE)
+			{
+				PlaySoundEnemy = TRUE;
+				//Do stuff
+				//do this if you want to hurt the enemy
+				h.HitActor.DamageMobJ(self, self, damage, 'damagetype', DMG_THRUSTLESS);
+				A_DamageSelf(-damage * healfactor);	//healfactor gives back health to the player based on how much damage was done. 
+				if(PierceEnemies)
+				{
+					h.HitActor.bSHOOTABLE=0; //Turn off shootable flag
+					Targets.Push(h.HitActor);
+				}
+			}
+			else if((h.HitType == TRACE_HitWall || h.HitType == TRACE_HitCeiling || h.HitType == TRACE_HitFloor) && (self.pitch > 20 || pit+(i*sin(roll)) < 10))
+			{
+				PlaySoundWall = TRUE;
+			}
+        }
+		if(PlaySoundEnemy)
+		{
+			A_StartSound(HitActorSound,pitch:frandom(.9,1.1));
+		}
+		if(PlaySoundWall)
+		{
+			A_StartSound(HitWallSound,pitch:frandom(.9,1.1));
+		}
+        int z;
+        While(z<Targets.Size())
+        {
+            let act = Targets[z];
+            act.bSHOOTABLE=1; //After everything turn it back on for every monster
+            z++;
+        }
+    } 
+	
+	
+   Default {
+   Weapon.SelectionOrder 9999;
+   Weapon.Kickback 100;
+   Tag "Kyrie Eleison";
+   AttackSound "Sword/Hit";
+   Inventory.PickupMessage "You found the Kyrie Eleison, a legendary sword known for its unquenceable thirst for blood.";
+   Weapon.UpSound "Sword/Draw";
+   Weapon.AmmoType "TNT1Ammo";
+   Weapon.AmmoType2 "TNT1Ammo";
+   Weapon.AmmoUse 0;
+   Weapon.AmmoUse2 0;
+   weapon.bobstyle "inversesmooth";
+   weapon.bobrangeX 0.4;
+   weapon.bobrangeY 0.6;
+   weapon.bobspeed 2.5;
+   weapon.weaponscalex 1.2;
+   //+NoAlert
+   +Weapon.noalert
+   +Inventory.UNDROPPABLE
+   +INVENTORY.UNCLEARABLE
+   Obituary "%o was relieved of %p head by %k's sword.";
+   }
+   States
+   {
+   Spawn:
+      VORX A -1 ;
+      Stop;
+   Ready:
+      VORP A 1 A_WeaponReady;
+      Loop;
+   Deselect:
+      TNT1 A 0 SetPlayerProperty(0,1,2);
+	  VORS A 0 A_StopSoundEx("Body");
+	  VORS ABCDE 1;
+	  Goto DeselectLoop;
+   DeselectLoop:
+      TNT1 A 0 A_StopSoundEx("SoundSlot5");
+      TNT1 A 1 A_Lower;
+      Loop;
+   Select:
+      TNT1 A 0 SetPlayerProperty(0,0,2);
+	  TNT1 A 0 A_SetCrosshair(1);
+      VORS EDCBA 1;
+      Goto SelectLoop;
+   SelectLoop:
+      VORP A 1 A_Raise;
+	  loop;
+   Fire:
+	  TNT1 A 0 NODELAY A_Jump(256,"SwingRighty","SwingLefty");
+	  goto Ready;
+   SwingRighty:
+	  VORR A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 A_PlaySound("Sword/Swing",110,1.0,0,2);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48, PuffActor: "KyreiPuffRight", HitActorSound: "Sword/HitMeat", HitWallSound: "Sword/HitWall");
+	  VORR B 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR C 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR D 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	 // TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR E 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  TNT1 A 3 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 A_ReFire;
+	  Goto PreReady;
+   SwingLefty:
+	  VORL A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 A_PlaySound("Sword/Swing",111,1.0,0,2);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 96, PuffActor: "KyreiPuffLeft", HitActorSound: "Sword/HitMeat", HitWallSound: "Sword/HitWall");
+	  VORL B 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 96);
+	  VORL C 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  VORL D 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 96);
+	  VORL E 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 96);
+	  TNT1 A 3 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 A_ReFire;
+	  Goto PreReady;
+   AltFire:
+	  TNT1 A 0 A_JumpIfHealthLower(50,"Fire"); //This is to prevent people from killing themselves while using the altfire
+	  TNT1 A 0 A_Jump(256,"SwingRightyZerked","SwingLeftyZerked");
+	  goto Ready;
+   SwingRightyZerked:
+	  TNT1 A 0 A_JumpIfInventory("ArgentBloodStone",1,"SwingRightyBladeStorm");
+	  TNT1 A 0 A_SpawnItemEx("DamageNoArmor10",0,0,0,0,0,0,0,0,0,0);
+	  VORR A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 A_PlaySound("Sword/Swing",110,1.0,0,2);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48, PuffActor: "KyreiPuffRight", HitActorSound: "Sword/HitMeat", HitWallSound: "Sword/HitWall");
+	  VORR B 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR C 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash1",0,1,0,0);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR D 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR E 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  TNT1 A 10 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  Goto PreReady;
+   SwingLeftyZerked:
+	  TNT1 A 0 A_JumpIfInventory("ArgentBloodStone",1,"SwingLeftyBladeStorm");
+      TNT1 A 0 A_SpawnItemEx("DamageNoArmor10",0,0,0,0,0,0,0,0,0,0);
+	  VORL A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 A_PlaySound("Sword/Swing",111,1.0,0,2);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48, PuffActor: "KyreiPuffLeft", HitActorSound: "Sword/HitMeat", HitWallSound: "Sword/HitWall");
+	  VORL B 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  VORL C 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash2",0,1,0,0);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  VORL D 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  VORL E 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  //TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  TNT1 A 10 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  Goto PreReady;
+   SwingRightyBladeStorm:
+	  TNT1 A 0 A_SpawnItemEx("DamageNoArmor10",0,0,0,0,0,0,0,0,0,0);
+	  VORR A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 A_PlaySound("Sword/Swing",110,1.0,0,2);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash1",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48, PuffActor: "KyreiPuffRight", HitActorSound: "Sword/HitMeat", HitWallSound: "Sword/HitWall");
+	  VORR B 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash1",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR C 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash1",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR D 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash1",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  VORR E 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash1",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: 45, area: 45, dist: 48);
+	  Goto PreReady;
+   SwingLeftyBladeStorm:
+      TNT1 A 0 A_SpawnItemEx("DamageNoArmor10",0,0,0,0,0,0,0,0,0,0);
+	  VORL A 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 A_PlaySound("Sword/Swing",111,1.0,0,2);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash2",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48, PuffActor: "KyreiPuffLeft", HitActorSound: "Sword/HitMeat", HitWallSound: "Sword/HitWall");
+	  VORL B 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash2",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  VORL C 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash2",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  VORL D 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash2",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  VORL E 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  TNT1 A 0 Bright A_FireProjectile("BladeSlash2",0,1,0,0);
+	  TNT1 A 0 HXA_CustomRollAttack(damage: 2, healfactor: 0.5, PierceEnemies: FALSE, roll: -45, area: 45, dist: 48);
+	  Goto PreReady;
+   PreReady:
+	  VORS EDCBA 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE);
+	  Goto Ready;
+   }
+}
+
+Class ArgentBloodStone : Inventory 
+{
+  Default {
+  +COUNTITEM
+  +INVENTORY.ALWAYSPICKUP
+  +FLOAT
+  Scale 0.33;
+  Inventory.Amount 1;
+  Inventory.MaxAmount 1;
+  Inventory.PickupMessage "An Argent Core formed from the crystallized blood of a Cyberdemon... The Kyrei Eleison seems to resonate with it...";
+  Inventory.PickupSound "misc/p_pkup";
+  }
+  States
+  {
+  Spawn:
+    ARGM A 2 Bright A_SpawnItemEx("RedFlareMedium", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
+	TNT1 AA 0 A_SpawnItemEx("BzrkSphereSpark2",0,0,14,frandom(2.0,-2.0),frandom(2.0,-2.0),frandom(2.0,-2.0),0,32);
+	TNT1 A 0 A_SpawnItemEx("BzrkSphereSpark3",0,0,14,frandom(2.0,-2.0),frandom(2.0,-2.0),frandom(0.05,2.0),0,32);
+	ARGM A 2 Bright A_SpawnItemEx("RedFlareMedium", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
+	TNT1 AA 0 A_SpawnItemEx("BzrkSphereSpark2",0,0,14,frandom(2.0,-2.0),frandom(2.0,-2.0),frandom(2.0,-2.0),0,32);
+	TNT1 A 0 A_SpawnItemEx("BzrkSphereSpark3",0,0,14,frandom(2.0,-2.0),frandom(2.0,-2.0),frandom(0.05,2.0),0,32);
+	ARGM A 2 Bright A_SpawnItemEx("RedFlareMedium", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
+	TNT1 AA 0 A_SpawnItemEx("BzrkSphereSpark2",0,0,14,frandom(2.0,-2.0),frandom(2.0,-2.0),frandom(2.0,-2.0),0,32);
+	TNT1 A 0 A_SpawnItemEx("BzrkSphereSpark3",0,0,14,frandom(2.0,-2.0),frandom(2.0,-2.0),frandom(0.05,2.0),0,32);
+	ARGM A 2 Bright A_SpawnItemEx("RedFlareMedium", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS);
+	TNT1 AA 0 A_SpawnItemEx("BzrkSphereSpark2",0,0,14,frandom(2.0,-2.0),frandom(2.0,-2.0),frandom(2.0,-2.0),0,32);
+	TNT1 A 0 A_SpawnItemEx("BzrkSphereSpark3",0,0,14,frandom(2.0,-2.0),frandom(2.0,-2.0),frandom(0.05,2.0),0,32);
+    Loop;
+  }
+}
+
+Class BladeSlash1 : FastProjectile
+{
+    int SpriteRoll;
+    Property SpriteRoll : SpriteRoll;
+    Default
+    {
+        Radius 2;
+        Height 5;
+        Speed 69;
+        Scale 0.55;
+        Damage 0;
+        Projectile;
+        Renderstyle "Add";
+        Alpha 0.2;
+        Reactiontime 10;
+        +ROLLSPRITE;
+		+ROLLCENTER;
+        +RIPPER;
+		+BLOODSPLATTER;
+        +NODAMAGETHRUST;
+        BladeSlash1.SpriteRoll 0;
+    }
+    States
+    {
+        Spawn:
+            TNT1 A 0 NoDelay A_SetRoll(Random(0,359));
+            VFX4 A 0 A_SpawnItemEx("SlashTrail1",0,0,0,0,0,0,0,SXF_TRANSFERROLL);
+            VFX4 A 1 Bright A_Countdown;
+            Loop;
+        Death:
+            VFX4 A 1 Bright A_Fadeout(0.33);
+            Stop;
+    }
+}
+
+Class BladeSlash2 : FastProjectile
+{
+    int SpriteRoll;
+    Property SpriteRoll : SpriteRoll;
+    Default
+    {
+        Radius 2;
+        Height 5;
+        Speed 69;
+        Scale 0.55;
+        Damage 0;
+        Projectile;
+        Renderstyle "Add";
+        Alpha 0.2;
+        Reactiontime 10;
+        +ROLLSPRITE;
+		+ROLLCENTER;
+        +RIPPER;
+		+BLOODSPLATTER;
+        +NODAMAGETHRUST;
+        BladeSlash2.SpriteRoll 0;
+    }
+    States
+    {
+        Spawn:
+            TNT1 A 0 NoDelay A_SetRoll(Random(0,359));
+            VFX4 C 0 A_SpawnItemEx("SlashTrail2",0,0,0,0,0,0,0,SXF_TRANSFERROLL);
+            VFX4 C 1 Bright A_Countdown;
+            Loop;
+        Death:
+            VFX4 C 1 Bright A_Fadeout(0.33);
+            Stop;
+    }
+}
+
+Class SlashTrail1 : Actor
+{
+	Default {
+	Scale 0.45;
+	+ROLLSPRITE
+	+ROLLCENTER
+	+NOINTERACTION
+	}
+	States
+	{
+	Spawn:
+		VFX4 B 1 NoDelay Bright A_FadeOut(0.2);
+		Loop;
+	}
+}
+
+Class SlashTrail2 : Actor
+{
+	Default {
+	Scale 0.45;
+	+ROLLSPRITE
+	+ROLLCENTER
+	+NOINTERACTION
+	}
+	States
+	{
+	Spawn:
+		VFX4 D 1 NoDelay Bright A_FadeOut(0.2);
+		Loop;
+	}
+}
+
+Class RedParticleSpawner : Actor {
+
+	Default {
+	+NoBlockMap 
+	+NoGravity 
+	+NoSector 
+	+NoInteraction 
+	+NoClip 
+	-Solid 
+	+CLIENTSIDEONLY
+	+NOTIMEFREEZE
+	}
+        states
+        {
+        Spawn:
+        	TNT1 A 25;
+        	TNT1 A 1 A_SpawnItemEx ("RedRisingEnergy", random(-Args[0], Args[0]), random(-Args[0], Args[0]), random(0, 8), 0, 0, random(1,3), 0, 129, 0);
+			Stop;
+        }          
+}
+
+
+Class RedRisingEnergy : Actor
+{
+ Default {
+ RenderStyle "Add";
+ Radius 0;
+ Height 0;
+ Alpha 0.01;
+ Scale 0.37;
+ +Missile
+ +NoGravity
+ +NoBlockmap
+ +NoInteraction
+ +NoTimeFreeze
+ -Solid
+ }
+ States
+ {
+  Spawn:
+   KEFX AAAAA 1 Bright A_FadeIn(0.2);
+   KEFX AAAAAAAAAAAAAAAA 1 Bright A_FadeOut(0.06);
+   Stop;
+ }
+}

@@ -1,0 +1,355 @@
+#library "JPMOBILITY"
+#include "zcommon.acs"
+
+//This code is hellspawn. If you can make sense of it and fix it up for your own projects, go ahead. Just toss me some credit and s'all good. -JetPlane
+
+#DEFINE HUD_X 320
+#DEFINE HUD_Y 240
+#DEFINE HTIC 1.0/35 + 1
+
+#DEFINE SLIDEPOWER 1.0
+
+#DEFINE STAMINATAKESLIDE 20
+#DEFINE STAMINATAKEJUMP 30
+#DEFINE CAMLOWER 6.0
+
+global int 56:camheight;
+
+Script "JPMobilityEnter" ENTER
+{
+
+	ACS_NamedExecuteAlways("JPMobilityInit",0,0,0,0);
+	
+}
+
+Script "JPMobilitySpawn" RESPAWN
+{
+
+	ACS_NamedExecuteAlways("JPMobilityInit",0,0,0,0);
+	
+}
+
+Script "JPMobilityInit" (void)
+{
+
+	if(camheight > 0)
+	{
+	
+		SetActorProperty(0,APROP_VIEWHEIGHT,camheight);
+	
+	}
+	
+	TakeInventory("SpectreSliding",9999);
+	GiveInventory("MobilityStamina",360);
+	
+	ACS_NamedExecuteAlways("SpectreSlide",0,0,0,0);
+	ACS_NamedExecuteAlways("SpectreJump",0,0,0,0);
+	
+	//ACS_NamedExecuteAlways("SpectreDishStam",0,0,0,0);
+	ACS_NamedExecuteAlways("SpectreDrawStam",0,0,0,0);
+
+}
+
+//actual scripts
+Script "SpectreSlide" (void)
+{
+	int slidecountdown = 0;
+	int slideangle = 0;
+	int curhealth = 100;
+
+	if (slidecountdown == 0)
+	{
+		while(curhealth > 0)
+		{	
+			int cvarslide = GetCvar("jpm_enable_slide");
+			
+			if(cvarslide == 1)
+			{
+				int keydown = GetPlayerInput(-1,INPUT_BUTTONS);
+				
+				curhealth = GetActorProperty(0,APROP_HEALTH);
+				
+				int sliding = CheckInventory("SpectreSliding");
+				
+				int xv = GetActorVelX(0);
+				int yv = GetActorVelY(0);
+				int zv = GetActorVelZ(0);
+				
+				int x = GetActorX(0);
+				int y = GetActorY(0);
+				int z = GetActorZ(0) - GetActorFloorZ(0);
+				
+				
+				if((keydown & BT_SPEED && keydown & BT_CROUCH) && sliding < 1 && CheckInventory("MobilityStamina") > STAMINATAKESLIDE - 1 && z < 1.0)
+				{
+					
+					
+					GiveInventory("SpectreSliding",10);
+					
+					slideangle = GetActorAngle(0);
+					int slidevel = GetCvar("jpm_pref_slidevel");
+					
+					SetActorVelocity(0,xv + FixedMul(cos(slideangle),slidevel),yv + FixedMul(sin(slideangle),slidevel),0.0,0,0);
+					
+					camheight = GetActorProperty(0,APROP_VIEWHEIGHT);
+					
+					SetActorProperty(0,APROP_VIEWHEIGHT,FixedDiv(camheight,CAMLOWER));
+					
+					PlaySound(0,"MOBILITY/SLIDE");
+					
+					TakeInventory("MobilityStamina",STAMINATAKEJUMP);
+				
+				}
+				
+				if(sliding > 0)
+				{
+				
+					if(z == 0.0)
+					{
+						SetActorVelocity(0,xv + FixedMul(cos(slideangle),1.0),yv + FixedMul(sin(slideangle),1.0),0.0,0,0);
+	
+					}
+					
+					if((keydown & BT_JUMP))
+					{
+					
+					
+						TakeInventory("SpectreSliding",999);
+						SetActorProperty(0,APROP_VIEWHEIGHT,camheight);
+					
+					}
+					
+					else
+					{
+					
+						TakeInventory("SpectreSliding",1);
+					
+					}
+					
+					if((sliding - 1) == 0)
+					{	
+						
+						int currentlow = CAMLOWER;
+						
+						while(currentlow > 1.0)
+						{
+							
+							if(currentlow < 1.0)
+							{
+							
+								currentlow = 1.0;
+							
+							}
+							
+							SetActorProperty(0,APROP_VIEWHEIGHT,FixedDiv(camheight,currentlow));
+							currentlow -= 0.5;
+							Delay(1);
+							
+						}
+					
+						SetActorProperty(0,APROP_VIEWHEIGHT,camheight);
+						SetActorFlag(0,"SHOOTABLE",1);
+						slidecountdown = 10;
+						Delay(1);
+						
+					}
+					
+				}
+				
+			}
+			
+			Delay(1);
+			
+		}
+	}
+	else
+	{
+		slidecountdown = slidecountdown - 1;
+		Delay(35);
+	}
+}
+
+function int GetFloorDist(int tid)
+{
+	return GetActorZ(tid) - GetActorFloorZ(tid);
+}
+
+//   Double Jump Script    //
+// 		  Credits:  	   // 
+//	  Xaser and AgentME    //
+// 		With Edits By:     // 
+//	  TZK, Polygon, and    //
+//		 TiberiumSoul      //
+
+//Temp Global Variables
+int djumpEnabled=-99999;
+int fireonce=-99999;
+
+//We need to check to see if the cvar has changed or not
+script "CheckCvars" enter
+{
+//This while script well constantly check if the cvar has changed
+//fireonce is so that it only execute the double jump script once. Otherwise you'll get infinite double jumps.
+
+while(true)
+{
+	djumpEnabled=GetCVAR("jpm_enable_djump");
+		if(djumpEnabled>0)
+		{
+			fireonce=1;
+		}
+		if(djumpEnabled>0 && fireonce>0)
+		{
+			ACS_NamedExecute("SpectreJump", 0);
+			fireonce=0;
+		}
+	delay(1);
+}
+}
+
+script "SpectreJump" (void)
+{
+	int hasDoubleJumped;
+	int dblJumpThrust = 12;
+	int x, y, ang;
+	
+	while (djumpEnabled>0)
+	{   
+		//while (CheckActorClass(0, "mightneedthislater") == 1)
+		//{
+			if (GetFloorDist(0) > 0.0)
+			{
+				while (GetPlayerInput(-1, INPUT_BUTTONS) & BT_JUMP && !hasDoubleJumped)
+				{
+					Delay(1);
+				}
+				
+				while (GetFloorDist(0) > 0)
+				{
+					if (GetPlayerInput(-1, INPUT_BUTTONS) & BT_JUMP && !hasDoubleJumped)
+					{
+						Thing_Stop(0);
+						x = GetPlayerInput(-1, INPUT_FORWARDMOVE);
+						y = -GetPlayerInput(-1, INPUT_SIDEMOVE);
+						ang = GetActorAngle(0) + VectorAngle(x, y);
+						if (x || y)
+							ThrustThing(ang >> 8, dblJumpThrust, 1, 0);
+						ThrustThingZ(0, 48, 0, 0);
+						PlaySound(0, "MOBILITY/DOUBLE", CHAN_VOICE, 1.0);
+						TakeInventory("MobilityStamina",STAMINATAKEJUMP);
+						hasDoubleJumped = 1;
+						Delay(1);
+					}
+					
+					Delay(1);
+				}
+				hasDoubleJumped = 0;
+				Delay(1);
+			}
+			Delay(1);
+		//}
+	}
+}
+
+/*cript "SpectreDishStam" (void)
+{
+	
+	int curhealth = 100;
+	
+	while(curhealth > 0)
+	{	
+
+		curhealth = GetActorProperty(0,APROP_HEALTH);
+		
+		int stamina = CheckInventory("MobilityStamina");
+		
+		if(stamina < 100)
+		{
+			
+			GiveInventory("MobilityStamina",5);
+			
+		}
+		
+		Delay(16);
+	
+	}
+}
+*/
+Script "SpectreDrawStam" (void) CLIENTSIDE
+{
+	
+	int curhealth = 100;
+	int hasblipped = 1;
+	
+	while(curhealth > 0)
+	{	
+		
+		int cvarbar = GetCvar("jpm_draw_staminabar");
+		
+		if(cvarbar == 1)
+		{
+		
+			curhealth = GetActorProperty(0,APROP_HEALTH);
+			
+			int stamina = CheckInventory("MobilityStamina");
+			
+			SetHudSize(HUD_X,HUD_Y,0);
+			
+			if(stamina < 100)
+			{
+				
+				int offsety = 15;
+				int offsetwidth = 30;
+				
+				int percent = offsetwidth - ((100 - stamina)*offsetwidth)/100;
+				
+				SetHudClipRect(HUD_X/2 - offsetwidth/2,HUD_Y/2,percent,30,0,1);
+				SetFont("RADBARC");
+				HudMessage(s:"A";HUDMSG_PLAIN|HUDMSG_NOTWITHFULLMAP,0,CR_WHITE,1.0 + (HUD_X/2 << 16),1.0 + ((HUD_Y/2 + offsety) << 16),HTIC,1.0);
+				
+				SetHudClipRect(0,0,0,0,0);
+				SetFont("RADBARB");
+				HudMessage(s:"A";HUDMSG_PLAIN|HUDMSG_NOTWITHFULLMAP,0,CR_WHITE,1.0 + (HUD_X/2 << 16),1.0 + ((HUD_Y/2 + offsety) << 16),HTIC,1.0);
+				
+			}
+			
+			if(hasblipped == 0 && stamina > 99)
+			{
+				hasblipped = 1;
+				
+				int flash = 3;
+				
+				while(flash > 0)
+				{
+					SetFont("RADBARR");
+					HudMessage(s:"A";HUDMSG_PLAIN|HUDMSG_NOTWITHFULLMAP,0,CR_WHITE,1.0 + (HUD_X/2 << 16),1.0 + ((HUD_Y/2 + offsety) << 16),FixedMul(HTIC,2.0),1.0);
+
+					Delay(2);
+					
+					SetFont("RADBARC");
+					HudMessage(s:"A";HUDMSG_PLAIN|HUDMSG_NOTWITHFULLMAP,0,CR_WHITE,1.0 + (HUD_X/2 << 16),1.0 + ((HUD_Y/2 + offsety) << 16),FixedMul(HTIC,2.0),1.0);
+				
+					Delay(2);
+					
+					flash--;
+				}
+				Delay(1);
+				SetFont("RADBARR");
+				HudMessage(s:"A";HUDMSG_PLAIN|HUDMSG_NOTWITHFULLMAP,0,CR_WHITE,1.0 + (HUD_X/2 << 16),1.0 + ((HUD_Y/2 + offsety) << 16),HTIC,1.0);
+				
+				SetFont("RADBARC");
+				HudMessage(s:"A";HUDMSG_FADEOUT|HUDMSG_NOTWITHFULLMAP,0,CR_WHITE,1.0 + (HUD_X/2 << 16),1.0 + ((HUD_Y/2 + offsety) << 16),0.1,0.2,1.0);
+			}
+			else if(hasblipped == 1 && stamina < 100)
+			{
+			
+				hasblipped = 0;
+			
+			}
+		
+		}
+		
+		Delay(1);
+	
+	}
+}

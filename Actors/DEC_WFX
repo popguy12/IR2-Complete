@@ -1,0 +1,534 @@
+Actor PunisherFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashRifle")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor TormentorFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashNitro")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor StormFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashSMG")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor DevastatorFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashNitro")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor MalefactorFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashNitro")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor ArchangelFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashShotgun")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor BonedusterFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashNitro")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor OmenFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashRifle")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor OmenFX_EX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashRifle_EX")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor HellstormFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashSMG")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor LonginusFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashNitro")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor MaulerFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashNitro")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor TyphoonFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashSMG_EX")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor EvangelizerFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashRailgun")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+Actor HCannonFX
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("MuzzleFlashNitro")
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("gausssmoke_spawner2")
+	Stop
+}
+}
+
+
+
+Actor HCannonFX_EXP
+{
++NOINTERACTION
++NOGRAVITY
+Speed 30
+States
+{
+	Spawn:
+	TNT1 A 1
+	TNT1 A 0 A_SpawnItemEx("MuzzleSmoke")
+	TNT1 A 0 A_SpawnItemEx("ImpactFlashNitro")
+	Stop
+}
+}
+
+Actor MuzzleSmoke
+{
+	RenderStyle Add
+	Alpha 1.0
+	Scale 0.25
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		TNT1 A 1 A_Jump(256,"SpawnVar1","SpawnVar2","SpawnVar3")
+		Goto Death
+	SpawnVar1:
+		SMK1 ABCDEFGH 2{
+		A_SetRoll(roll-12,SPF_INTERPOLATE);
+		A_FadeTo(0.0,0.05,false);
+		}
+		Goto Death
+	SpawnVar2:
+		SMK2 ABCDEFGH 2{
+		A_SetRoll(roll-12,SPF_INTERPOLATE);
+		A_FadeTo(0.0,0.05,false);
+		}
+		Goto Death
+	SpawnVar3:
+		SMK3 ABCDEFGH 2{
+		A_SetRoll(roll-12,SPF_INTERPOLATE);
+		A_FadeTo(0.0,0.05,false);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MuzzleFlashRifle
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.155
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ2 ABBCDDEFFGHHH 1 Bright{
+		A_SetScale(scaleX+0.0600, scaleY+0.0600);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		A_FadeOut(0.2);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MuzzleFlashRifle_EX
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.155
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ5 ABBCDDEFFGHHH 1 Bright{
+		A_SetScale(scaleX+0.0600, scaleY+0.0600);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		A_FadeOut(0.2);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MuzzleFlashSMG
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.155
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ2 ABBCDDEFFGHHH 1 Bright{
+		A_SetScale(scaleX+0.0425, scaleY+0.0425);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		A_FadeOut(0.2);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MuzzleFlashSMG_EX
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.155
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ5 ABBCDDEFFGHHH 1 Bright{
+		A_SetScale(scaleX+0.0425, scaleY+0.0425);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		A_FadeOut(0.2);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MuzzleFlashShotgun
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.155
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ1 ABBCDDEFFGHHH 1 Bright{
+		A_SetScale(scaleX+0.0425, scaleY+0.0425);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		//A_SetRoll(roll-12,SPF_INTERPOLATE);
+		A_FadeOut(0.2);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MuzzleFlashNitro
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.155
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ1 ABBCDDEFFGHHH 1 Bright{
+		A_SetScale(scaleX+0.0750, scaleY+0.0750);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		//A_SetRoll(roll-12,SPF_INTERPOLATE);
+		A_FadeOut(0.2);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor ImpactFlashNitro
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.275
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ1 AABBCCDDEEFFGGHHHH 1 Bright{
+		A_SetScale(scaleX+0.0750, scaleY+0.0750);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		//A_SetRoll(roll-12,SPF_INTERPOLATE);
+		A_FadeOut(0.15);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MuzzleFlashRailgun
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.155
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ4 ABBCDDEFFGHHH 1 Bright{
+		A_SetScale(scaleX+0.0750, scaleY+0.0750);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		//A_SetRoll(roll-12,SPF_INTERPOLATE);
+		A_FadeOut(0.2);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MuzzleFlashSmall
+{
+	RenderStyle Add
+	Alpha 0.88
+	Scale 0.0755
+	VSpeed -0.25
+	+NOINTERACTION
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+ROLLSPRITE
+	States
+	{
+	Spawn:
+		MUZ3 ABBCDDEFFGHHH 1 Bright{
+		A_SetScale(scaleX+0.0333, scaleY+0.0333);
+		A_SetRoll(random(0, 359),SPF_INTERPOLATE);
+		A_FadeOut(0.2);
+		}
+		Goto Death
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}

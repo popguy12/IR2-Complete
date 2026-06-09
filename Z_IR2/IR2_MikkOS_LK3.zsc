@@ -1,0 +1,460 @@
+class stimCharge : inventory    
+{
+    default
+    {
+        inventory.MaxAmount 99;
+    }
+}
+ 
+class I_HideTibHUD : Inventory
+{
+    default
+    {
+        inventory.maxamount 1;
+    }
+}
+ 
+class tib_hud : baseStatusBar
+{
+    HUDfont tib_hudfont_small;
+    HUDfont tib_hudfont_large;
+    
+    const ANIM_FPS = 60.0;    // Desired framerate for animated elements.
+    double prevMS, deltaTime; // Used for animation timings.
+    
+    Weapon curWeapon;
+    int prevAmmo; // Keep track of ammo use.
+ 
+    dynamicValueInterpolator tib_healthbar;
+    dynamicValueInterpolator tib_armorBar;
+    dynamicValueInterpolator tib_staminaBar;
+    
+    // Animation lists 
+    
+    // IMPORTANT: This list should always be traversed in reverse order not doing
+    // so will result in a VM Abort.
+    Array<HudBullet> animBullets;
+    
+    HudBullets_Animator animStorage;
+ 
+    override void Init()
+    {
+        super.Init();
+ 
+        setSize(0, 1920, 1080);
+ 
+        font fnt1 = "MM2FONTO"; tib_hudfont_large = HUDFont.Create(fnt1, 0, 0, 2, 2);
+        font fnt2 = "MM2SFNTO"; tib_hudfont_small = HUDFont.Create(fnt2, 0, 0, 2, 2);
+ 
+        //diparms = InventoryBarState.Create();
+ 
+        tib_healthbar   = dynamicValueInterpolator.Create(0, 0.25, 1, 8);
+        tib_armorbar    = dynamicValueInterpolator.Create(0, 0.25, 1, 8);
+        tib_staminabar  = dynamicValueInterpolator.Create(0, 0.25, 1, 8);
+        
+        animStorage = HudBullets_Animator.Create( ((base_x-246) - 16,(base_y-72) - 36), (16,0) );
+    }
+ 
+    override void NewGame()
+    {
+        super.NewGame();
+ 
+        tib_healthbar.Reset(0);
+    }
+        
+    override void Tick()
+    {
+        super.Tick();
+ 
+        tib_healthBar.Update(CPlayer.mo.Health);
+        tib_armorBar.Update(GetArmorAmount());
+        tib_staminaBar.Update(CPlayer.mo.CountInv("MobilityStamina"));
+        
+        UpdateAnimBullets();
+        UpdateDeltaTime();
+        animStorage.Update(deltaTime);
+    }
+    
+    virtual bool ShouldDrawHUD()
+    {
+        return !CPlayer.mo.CountInv("I_HideTibHUD");
+    }
+ 
+    const base_x = 8;
+    const base_y = -8;
+ 
+    override void Draw(int state, double ticfrac)
+    {
+        super.Draw(state, ticfrac);
+ 
+        if(!ShouldDrawHUD()) return;
+        BeginHUD();
+		
+        DrawImage("graphics/mikkOS/baseHUD.png", (base_x,base_y), DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM);
+        DrawString(tib_hudfont_Large, GetWeaponTag(), (base_x+288,base_y-152), DI_ITEM_LEFT_BOTTOM|DI_SCREEN_LEFT_BOTTOM);
+ 
+        DrawBar("graphics/mikkOS/baseHealth.png", "graphics/mikkOS/barBack.png", tib_healthBar.GetValue(), CPlayer.mo.GetMaxHealth(), (base_x+34, base_y-57), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM );
+        DrawString(tib_hudfont_Large, FormatNumber(tib_healthbar.GetValue()), (base_x+512,base_y-40), DI_ITEM_LEFT_BOTTOM|DI_SCREEN_LEFT_BOTTOM, font.CR_LIGHTBLUE);
+ 
+        DrawBar("graphics/mikkOS/baseArmor.png", "graphics/mikkOS/barBack.png", tib_ArmorBar.GetValue(), 100, (base_x+34, base_y-57), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM );
+        DrawString(tib_hudfont_Large, FormatNumber(tib_ArmorBar.GetValue()), (base_x+490,base_y-24), DI_ITEM_LEFT_BOTTOM|DI_SCREEN_LEFT_BOTTOM, font.CR_GREEN);
+ 
+        DrawBar("graphics/mikkOS/baseStamina.png", "graphics/mikkOS/stamBack.png", tib_StaminaBar.GetValue(), 360, (base_x+118, base_y-14), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM );
+		
+        Weapon readyWeapon = CPlayer.ReadyWeapon;
+		ammo ammo1type; ammo ammo2type;
+		int ammo1count; int ammo2count;
+
+		[ammo1type, ammo2type, ammo1count, ammo2count] = GetCurrentAmmo();		
+
+		if(ammo1type)
+		{
+			// DrawImage("graphics/mikkOS/BaseCurrentAmmo.png", ((base_x-246)-16,(base_y-72)+16), DI_ITEM_RIGHT_BOTTOM |DI_SCREEN_RIGHT_BOTTOM, scale:(0.5, 0.5));
+			DrawString(tib_hudfont_Large, FormatNumber(ammo1count), animStorage.drawPos+(-120,-28), DI_ITEM_RIGHT_BOTTOM|DI_SCREEN_RIGHT_BOTTOM, scale:(2.0,2.0));
+			//DrawBar("graphics/mikkOS/baseAmmo.png", "graphics/mikkOS/ammoBack.png", tib_ammoBar.GetValue(), ammo1Type.maxAmount, ((base_x+30)+34, (base_y-113)-14), 0, SHADER_HORZ, DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM );
+		}
+		if(ammo2type)
+		{
+			DrawImage("graphics/mikkOS/BaseReserveAmmo.png", ((base_x-204)-16,(base_y-28)+19), DI_ITEM_RIGHT_BOTTOM |DI_SCREEN_RIGHT_BOTTOM, scale:(0.5, 0.5));
+			DrawString(tib_hudfont_Large, FormatNumber(ammo2count), (base_x-196,base_y-36), DI_ITEM_RIGHT_BOTTOM|DI_SCREEN_RIGHT_BOTTOM);
+		}
+        
+        // Add animated bullets.
+        let IRCurWeapon = IR2Weapon(readyWeapon);
+        if(IRCurWeapon)
+        {
+            string ammoGraphic = IRCurWeapon.ui_bulletGraphic;
+            string ejectGraphic = IRCurWeapon.ui_ejectGraphic;
+            double ammoRotation = IRCurWeapon.ui_bulletRotation;
+            if(ammo1count != prevAmmo)
+            {           
+                vector2 ejectPos = animStorage.drawPos;
+                if(animStorage.bullets.Size() > 0) 
+                {
+                    ejectPos = animStorage.bullets[0].drawPos;
+                }
+                if(ammo1count < prevAmmo && curWeapon == readyWeapon)
+                {
+                    for(int i = 0; i < prevAmmo-ammo1count; i++)
+                    {
+                        let boolet = HudBullet.Create(
+                            ejectGraphic, ejectPos
+                        );
+                        animBullets.push(boolet);
+                        animStorage.Unload();
+                    }
+                }
+                
+                if(ammo1count > prevAmmo)
+                {
+                    for(int i = 0; i < ammo1count-prevAmmo; i++)
+                        animStorage.LoadNew(ammoGraphic, rotation:ammoRotation);
+                }
+                
+                // Clear bullet storage if empty.
+                if(ammo1count <= 0 && animStorage.bullets.Size() > 0) animStorage.Clear();
+                
+                prevAmmo = ammo1count;
+            }
+            
+            if(curWeapon != readyWeapon)
+            {
+                animStorage.Clear();
+                for(int i = 0; i < ammo1count; i++)
+                        animStorage.LoadNew(ammoGraphic, rotation:ammoRotation);
+                        
+                curWeapon = readyWeapon;
+            }
+        }
+		
+        // Draw animated bullets.
+        DrawAnimBullets();
+        
+        int bulletMaxCount = 10;
+        
+        // Fill(0xFFFF0000, animStorage.drawPos.x - 70, animStorage.drawPos.y - 48, (animStorage.bulletOffs.x * bulletMaxCount) + 16, 64, DI_SCREEN_RIGHT_BOTTOM);
+        SetClipRect(animStorage.drawPos.x - 70, animStorage.drawPos.y - 48, (animStorage.bulletOffs.x * bulletMaxCount) + 16, 64, DI_SCREEN_RIGHT_BOTTOM);   
+        animStorage.Draw(self, bulletMaxCount + 1);
+        ClearClipRect();
+ 
+        string sk_red = (CPlayer.mo.CountInv("RedSkull"))?     "RSKLA2" : "RSKLA1";
+        string cd_red = (CPlayer.mo.CountInv("RedCard"))?     "RKEYA2" : "RKEYA1";
+        DrawImage(sk_red, (base_x+64,base_y-128), DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM);
+        DrawImage(cd_red, (base_x+64,base_y-128), DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM);
+ 
+        string sk_blu = (CPlayer.mo.CountInv("BlueSkull"))?     "BSKLA2" : "BSKLA1";
+        string cd_blu = (CPlayer.mo.CountInv("BlueCard"))?     "BKEYA2" : "BKEYA1";
+        DrawImage(sk_blu, (base_x+64,base_y-128), DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM);
+        DrawImage(cd_blu, (base_x+64,base_y-128), DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM);        
+ 
+        string sk_yel = (CPlayer.mo.CountInv("YellowSkull"))?     "YSKLA2" : "YSKLA1";
+        string cd_yel = (CPlayer.mo.CountInv("YellowCard"))?     "YKEYA2" : "YKEYA1";
+        DrawImage(sk_yel, (base_x+64,base_y-128), DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM);
+        DrawImage(cd_yel, (base_x+64,base_y-128), DI_ITEM_LEFT_BOTTOM |DI_SCREEN_LEFT_BOTTOM);
+ 
+        tib_DrawStimCharges();
+    }
+    
+    void tib_DrawStimCharges()
+    {
+        int charges = CPlayer.mo.CountInv("HealthStim");
+        
+        if(!charges)
+            return;
+        
+        for(int i; i < charges; i++)
+        {
+            int charge_y = (i % 2 == 0)? 15 : 24;
+            int charge_x = (i % 2 == 0)? -1 : 8;
+            int step = i * 9 + charge_x;
+            DrawImage("graphics/mikkOS/baseMedStim.png", ((base_x+270)+step, (base_y-charge_y)), DI_ITEM_LEFT_BOTTOM | DI_SCREEN_LEFT_BOTTOM);
+        }
+    }
+    
+    void UpdateAnimBullets()
+    {
+        for(int i = animBullets.Size()-1; i >= 0; i--) 
+        {
+            if(animBullets[i] == null) 
+            {
+                animBullets.Delete(i);
+                continue;
+            }
+            animBullets[i].Update(deltaTime);
+        }
+    }
+    void DrawAnimBullets()
+    {   
+        for(int i = animBullets.Size()-1; i >= 0; i--) 
+        {
+            if(animBullets[i]) animBullets[i].Draw(self);   
+        }
+    }
+    void UpdateDeltaTime()
+    {
+        if(!prevMS)
+        {
+            prevMS = MSTime();
+            return;
+        }
+        double ftime = MSTime()-prevMS;
+        prevMS = MSTime();
+        double dtime = 1000.0 / ANIM_FPS;
+        deltaTime = (ftime/dtime);
+    }
+}
+	
+// Simple boolet physics animations, written by Lewisk3
+class HudBullet : Object ui
+{
+    String graphic;
+    double toRotation;
+    double curRotation;
+    double lifeTime;
+    double alpha;
+    vector2 scale;
+    vector2 vel;
+    vector2 drawPos;
+    
+    static HudBullet Create(string graphic, vector2 pos, double alpha = 1.0, vector2 scale = (1.0,1.0), double lifeTime = 60, class<HudBullet> type = "HudBullet")
+    {   
+        let boolet = HudBullet(new(type));
+        if(boolet)
+        {
+            boolet.graphic = graphic;
+            boolet.drawPos = pos;
+            boolet.lifeTime = lifeTime;
+            boolet.alpha = alpha;
+            boolet.scale = scale;
+            boolet.OnCreate();
+        }
+        return boolet;
+    }
+    
+    // Linear interpolate
+    static double Lerp(double a, double b, double lerpFactor)
+    {
+        double result = ((1.f - lerpFactor) * a) + (lerpFactor * b);
+        return result;
+    }
+    
+    virtual void OnCreate()
+    {
+        toRotation = frandom(0,180);
+        vel.x = frandom(-10,-2);
+        vel.y = frandom(0,-10);
+    }
+ 
+    virtual void Update(double deltaTime)
+    {
+        // Apply gravity
+        vel.y += 1.35;
+    
+        // Apply rotation and velocity.
+        curRotation = Lerp(curRotation, toRotation, 0.10 * deltaTime);
+        toRotation += 1.5 * deltaTime;
+        drawPos += vel * deltaTime;
+        lifeTime -= deltaTime;
+        
+        if(lifeTime <= 0) Destroy();
+    }
+    
+    virtual void Draw(StatusBarCore sbar)
+    {
+        sbar.DrawImageRotated(graphic,
+            ( drawPos.x-48, drawPos.Y-16 ), 
+            (sbar.DI_ITEM_CENTER | sbar.DI_SCREEN_RIGHT_BOTTOM),
+            curRotation, alpha, (1.0/scale.x, 1.0/scale.y)
+        );
+    }
+}
+ 
+// Animators for clip or magazine count.
+class HudBullets_Animator : Object ui
+{
+    vector2 drawPos;
+    vector2 bulletOffs;
+    
+    Array<HudBullets_Item> bullets;
+    
+    static HudBullets_Animator Create(vector2 pos, vector2 loadOffs)
+    {
+        let bulletAnim = new("HudBullets_Animator");
+        if(bulletAnim)
+        {
+            bulletAnim.drawPos = pos;
+            bulletAnim.bulletOffs = loadOffs;
+        }
+        
+        return bulletAnim;
+    }
+    
+    void LoadNew(string graphic, double alpha = 1.0, double rotation = 0, vector2 scale = (1.0,1.0))
+    {
+        let bullet = HudBullets_Item(HudBullet.Create(graphic, (0,0), alpha, scale, type:"HudBullets_Item"));
+        if(bullet)
+        {
+            bullet.drawPos = drawPos + (bulletOffs * bullets.Size());
+            bullet.curRotation = rotation;
+            bullet.OnCreate();
+            bullets.Push(bullet);
+        }
+    }
+    
+    void Unload()
+    {
+        if(bullets.Size() <= 0) return;
+        
+        bullets.Delete(0);
+        for(int i = bullets.Size()-1; i >= 0; i--) 
+        {
+            if(bullets[i]) bullets[i].toPos -= bulletOffs;
+        }
+    }
+    
+    void Clear()
+    {
+        bullets.Clear();
+    }
+        
+    virtual void Update(double deltaTime)
+    {
+        for(int i = bullets.Size()-1; i >= 0; i--) 
+        {
+            if(bullets[i] == null) 
+            {
+                bullets.Delete(i);
+                continue;
+            }
+            bullets[i].Update(deltaTime);
+        }
+    }
+    
+    virtual void Draw(StatusBarCore sbar, int maxBullets)
+    {
+        for(int i = min(bullets.Size()-1, maxBullets); i >= 0; i--) 
+        {
+            if(bullets[i]) bullets[i].Draw(sbar);   
+        }
+    }
+}
+ 
+class HudBullets_Item : HudBullet
+{
+    vector2 toPos;
+ 
+    override void OnCreate()
+    {
+        toPos = drawPos;
+    }
+ 
+    override void Update(double deltaTime)
+    {
+        drawPos.x = Lerp(drawPos.x, toPos.x, 0.10 * deltaTime);
+        drawPos.y = Lerp(drawPos.y, toPos.y, 0.10 * deltaTime);
+    }
+}
+
+		/*IR2_DrawPowerups((16, -76));
+		
+		override void DrawPowerups() {} //blank this out so it doesn't cause issues
+    
+    string FormatPowerupTime(Powerup item)
+	{
+		int sec = 1 + Thinker.Tics2Seconds(item.EffectTics);
+		return String.Format("%02d:%02d", (sec % 3600) / 60, sec % 60);
+	}
+    void IR2_DrawPowerups(vector2 initialpos, int step = 22) 
+    {
+		string image;
+		string powerTime;
+		name powerName;
+		bool invalidPower;
+		int fontCol;
+		
+		for(let i = CPlayer.mo.inv; i != null; i = i.inv)
+		{
+			let power = Powerup(i);
+			
+			if(power)
+			{
+				powername = i.GetClassName();
+				powertime = FormatPowerupTime(power);
+				
+				switch(powername)
+				{
+					case 'IR2_Invulnerability':
+						image = "INVLA0";
+						break;
+					case 'IR2_IronFeet':
+						image = "ENVIA0";
+						break;
+					case 'ReflexBooster':
+						image = "HASTA0";
+						break;
+					case 'Quicksilver':
+						image = "TIMEA0";
+						break;
+					case 'BzrkRage':
+						image = "BZRKA0";
+						break;
+					case 'AmmoJunkie':
+						image = "SOULA0";
+						break;
+					Default:
+						image = "TNT1A0";
+						break;
+				}
+				
+				if(TexMan.GetName(Texman.CheckForTexture(image)) == "TNT1A0")
+                {
+                    continue;
+                }
+				
+				fontCol = Font.FindFontColor(powername);
+				PBHud_DrawImage(image, initialpos, DI_SCREEN_LEFT_BOTTOM | DI_ITEM_LEFT_BOTTOM, playerBoxAlpha);
+				PBHud_DrawString(mBoldFont, powertime, (initialpos.x + 28, initialpos.y - 20), DI_SCREEN_LEFT_BOTTOM | DI_TEXT_ALIGN_LEFT, fontcol);
+				initialpos.y -= step;
+			}
+		}
+    }*/

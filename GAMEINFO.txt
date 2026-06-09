@@ -1,0 +1,5 @@
+//STARTUPTYPE = "HEXEN"
+STARTUPTITLE = "Insanity's Requiem Mk.2"
+STARTUPCOLORS = "0177DB", "000000"
+STARTUPSONG = "IR2"
+DISCORDAPPID = "Insanity's Requiem Mk.2"

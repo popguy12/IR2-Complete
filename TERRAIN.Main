@@ -1,0 +1,245 @@
+//********** Splashes **********
+splash 	Nukage
+{
+ smallclass 	IR2_nukagesplashbasesmall
+ smallclip		12
+ smallsound	world/lavasizzlesmall
+
+ baseclass		IR2_nukageSplashBase
+ chunkclass	    sludgechunk
+ chunkxvelshift	8
+ chunkyvelshift	8
+ chunkzvelshift	6
+ chunkbasezvel	2
+ sound		world/lavasizzle
+ NoAlert
+}
+
+splash Slime
+{
+	smallclass		IR2_SlimeSplashBaseSmall
+	smallclip		12
+	smallsound		world/sludgegloopsmall
+	
+
+	baseclass		IR2_SlimeSplashBase
+	chunkclass		SlimeChunk
+	chunkxvelshift	8
+	chunkyvelshift	8
+	chunkzvelshift	8
+	chunkbasezvel	2
+	sound			world/sludgegloop
+	NoAlert
+}
+
+splash 	Water
+{
+ smallclass 	IR2_watersplashbasesmall
+ smallclip		12
+ smallsound world/watersplashsmall
+
+ baseclass		IR2_watersplashbase2
+ chunkclass	watersplash
+ chunkxvelshift	8
+ chunkyvelshift	8
+ chunkzvelshift	8
+ chunkbasezvel	2
+ sound		world/watersplash
+ NoAlert
+}
+
+splash 	Blood
+{
+ smallclass 	IR2_bloodsplashbasesmall
+ smallclip		12
+ smallsound	blood
+
+
+ baseclass		IR2_bloodsplashbase1
+ chunkclass	bloodsplash
+ chunkxvelshift	8
+ chunkyvelshift	8
+ chunkzvelshift	8
+ chunkbasezvel	2
+ sound		bloodsmall
+ NoAlert
+}
+
+splash 	Lava
+{
+ smallclass 	IR2_lavasplashbasesmall
+ smallclip		12
+ smallsound	world/lavasizzlesmall
+
+
+ baseclass		IR2_lavasplashbase1
+ //chunkclass	lavasmoke2
+ chunkxvelshift	8
+ chunkyvelshift	8
+ chunkzvelshift	8
+ chunkbasezvel	2
+ sound		world/lavasizzle
+ NoAlert
+}
+
+splash 	Smoke
+{
+ smallclass 	IR2_smokesplashbasesmall
+ smallclip		12
+ smallsound	world/lavasizzlesmall
+
+
+ baseclass		IR2_smokesplashbase1
+ //chunkclass	lavasmoke2
+ chunkxvelshift	8
+ chunkyvelshift	8
+ chunkzvelshift	8
+ chunkbasezvel	2
+ sound		world/lavasizzle
+ NoAlert
+}
+
+//********** Terrain **********
+
+terrain	 nukage_t
+{
+ splash 	nukage
+ footclip	 16
+ liquid
+}
+
+terrain	water_t
+{
+ splash 	water
+ footclip 16
+ liquid
+}
+
+terrain	lava_t
+{
+ splash 	lava
+ footclip 16
+ liquid
+}
+
+terrain	blood_t
+{
+ footclip 16
+ liquid
+ splash 	blood
+ friction	.65
+}
+
+terrain Slime
+{
+ footclip 16
+ liquid
+ splash Slime
+ friction .65
+}
+
+//Terrains
+
+terrain Water
+{
+	splash			Water
+	footclip		5
+	liquid
+}
+
+terrain Lava
+{
+	splash			Lava
+	footclip		5
+	liquid
+}
+
+terrain Lav2
+{
+	splash			Lava
+	footclip		5
+	liquid
+}
+
+terrain Lav3
+{
+	splash			Lava
+	footclip		0
+	liquid
+}
+
+terrain Smoke
+{
+	splash			Smoke
+	footclip		-3
+	liquid
+}
+
+terrain Blood
+{
+	splash			Blood
+	footclip		5
+	liquid
+}
+
+terrain Nukage
+{
+	splash			Nukage
+	footclip		5
+	liquid
+}
+
+terrain Slime
+{
+	splash			Slime
+	footclip		5
+	liquid
+}
+
+terrain Grey
+{
+	//splash			Grey
+	footclip		5
+	liquid
+}
+
+terrain Sludge
+{
+	splash			Sludge
+	footclip		5
+	liquid
+}
+
+ifdoom
+floor BLOOD1 Blood
+floor BLOOD2 Blood
+floor BLOOD3 Blood
+floor FWATER1 Water
+floor FWATER2 Water
+floor FWATER3 Water
+floor FWATER4 Water
+floor LAVA1 Lava
+floor LAVA2 Lava
+floor LAVA3 Lava
+floor LAVA4 Lava
+floor NUKAGE1 Nukage
+floor NUKAGE2 Nukage
+floor NUKAGE3 Nukage
+floor SLIME01 Slime
+floor SLIME02 Slime
+floor SLIME03 Slime
+floor SLIME04 Slime
+floor SLIME05 Slime
+floor SLIME06 Slime
+floor SLIME07 Slime
+floor SLIME08 Slime
+floor SLIME09 Smoke
+floor SLIME10 Smoke
+floor SLIME11 Smoke
+floor SLIME12 Smoke
+floor RROCK01 Smoke
+floor RROCK02 Smoke
+floor RROCK05 Smoke
+floor RROCK06 Smoke
+floor RROCK07 Smoke
+floor RROCK08 Smoke

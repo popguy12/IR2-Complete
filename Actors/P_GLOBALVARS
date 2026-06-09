@@ -1,0 +1,37 @@
+Actor MobilityStamina : Inventory
+{
+
+	Inventory.MaxAmount 360
+
+}
+
+Actor SpectreSlide : Inventory
+{
+
+	Inventory.MaxAmount 1
+
+}
+
+Actor SpectreHop : Inventory
+{
+
+	Inventory.MaxAmount 1
+
+}
+
+Actor SpectreSliding : Inventory
+{
+
+	Inventory.MaxAmount 30
+
+}
+
+Actor SpectreSlideCam : Inventory
+{
+
+}
+
+Actor Cat_EXTCAM : Inventory
+{
+
+}

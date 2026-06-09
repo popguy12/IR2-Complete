@@ -1,0 +1,111 @@
+hitmark
+{
+	A HMXA
+	B HMXKA
+}
+
+hitmarkanimated
+{
+	A HMXA
+	B HMXB
+	C HMXC
+	D HMXD
+	E HMXE
+}
+
+hitmarkanimatedkill
+{
+	A HMXKA
+	B HMXKB
+	C HMXKC
+	D HMXKD
+	E HMXKE
+	F HMXKF
+	G HMXKG
+	H HMXKH
+	I HMXKI
+}
+
+hitmarkanimatedreverse
+{
+	A HMXE
+	B HMXD
+	C HMXC
+	D HMXB
+	E HMXA
+}
+
+hitmarkanimatedkillreverse
+{
+	A HMXKI
+	B HMXKH
+	C HMXKG
+	D HMXKF
+	E HMXKE
+	F HMXKD
+	G HMXKC
+	H HMXKB
+	I HMXKA
+}
+
+hitmarksmall
+{
+	A HMXSA
+	B HMXSKA
+}
+
+hitmarkanimatedsmall
+{
+	A HMXSA
+	B HMXSB
+	C HMXSC
+	D HMXSD
+	E HMXSE
+}
+
+hitmarkanimatedsmallkill
+{
+	A HMXSKA
+	B HMXSKB
+	C HMXSKC
+	D HMXSKD
+	E HMXSKE
+	F HMXSKF
+	G HMXSKG
+	H HMXSKH
+	I HMXSKI
+}
+
+hitmarkanimatedsmallreverse
+{
+	A HMXSE
+	B HMXSD
+	C HMXSC
+	D HMXSB
+	E HMXSA
+}
+
+hitmarkanimatedsmallkillreverse
+{
+	A HMXSKI
+	B HMXSKH
+	C HMXSKG
+	D HMXSKF
+	E HMXSKE
+	F HMXSKD
+	G HMXSKC
+	H HMXSKB
+	I HMXSKA
+}
+
+hitmarkcircle
+{
+	A HMC
+	B HMCK
+}
+
+hitmarkcirclesmall
+{
+	A HMCS
+	B HMCSK
+}

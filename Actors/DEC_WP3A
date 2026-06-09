@@ -1,0 +1,1258 @@
+ACTOR Malefactor : IR2Weapon
+{
+  //$Category IR_Weapons
+  //$Title D-666A Malefactor
+  //$Sprite D3SPX0
+  Tag "D-666A Malefactor"
+  Weapon.SelectionOrder 64
+  Weapon.AmmoUse 1
+  Weapon.AmmoGive2 18
+  Weapon.PreferredSkin "Shotgun"
+  //Weapon.UpSound "Weapons/MalefactorUp"
+  Weapon.AmmoType "10GaugeShells"
+  Weapon.AmmoType2 "Shotgun_Ammo_X"
+  IR2Weapon.BulletGraphics "graphics/MikkOS/ShotgunShellA.png", "graphics/MikkOS/ShotgunShellB.png"
+  decal "BlazeChip"
+  Weapon.SlotNumber 3
+  Scale 0.8
+  weapon.bobstyle smooth
+   weapon.bobrangeX 0.4
+   weapon.bobrangeY 0.6
+   weapon.bobspeed 2.5
+   weapon.weaponscalex 1.2
+  Inventory.PickupMessage "You got the D-666A ''Malefactor'' Combat Shotgun! Want it dead? Blast it in the face."
+  Obituary "%k flattened %o with the Malefactor."
+  +WEAPON.AMMO_OPTIONAL
+  +NOAUTOFIRE
+  +NOALERT
+  +NOAUTOAIM
+  +UNDROPPABLE
+  States
+  {
+  Ready:
+    W3SG A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+    loop
+  Select:
+	Checker:
+	TNT1 A 0 A_JumpIfInventory("ShotgunTokenDB",1,"Select3")
+	TNT1 A 0 A_JumpIfInventory("ShotgunTokenSF",1,"Select2")
+	TNT1 A 0 A_JumpIfInventory("MalefactorFirstTime",1,"FirstTime")
+	Goto FirstTime
+	Goto Select1
+  FirstTime:
+	TNT1 A 0 A_StartSound("RW/SLOT3A",251,0,2.0,2)
+  Select1:
+    TNT1 A 0 A_TakeInventory("MalefactorFirstTime",1)
+	TNT1 A 0 A_SetCrosshair(52)
+	TNT1 A 0 A_GiveInventory("ShotgunReloading",999)
+	TNT1 A 1
+	W3SS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON)
+	TNT1 A 0 SetPlayerProperty(0,0,2)
+	W3SS BCDEFG 1
+  SelectLoop:
+    W3SG A 1 A_Raise
+    Goto SelectLoop
+  Select2:
+	TNT1 A 0 SetPlayerProperty(0,0,2)
+	TNT1 A 0 A_SetCrosshair(50)
+	TNT1 A 0 A_GiveInventory("ShotgunReloading",999)
+	TNT1 A 1
+	W3SS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON)
+	TNT1 A 0 SetPlayerProperty(0,0,2)
+	W3SS BCDEFG 1
+  SelectLoop2:
+    W3SG A 1 A_Raise
+    Goto SelectLoop2
+  Select3:
+	TNT1 A 0 SetPlayerProperty(0,0,2)
+	TNT1 A 0 A_SetCrosshair(51)
+	TNT1 A 0 A_GiveInventory("ShotgunReloading",999)
+	TNT1 A 1
+	W3SS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON)
+	TNT1 A 0 SetPlayerProperty(0,0,2)
+	W3SS BCDEFG 1
+  SelectLoop3:
+    W3SG A 1 A_Raise
+    Goto SelectLoop3
+  Deselect:
+	TNT1 A 0 A_SetCrosshair(1)
+	TNT1 A 0 A_TakeInventory("ShotgunReloading",999)
+	W3SS G 1 A_PlaySound("Weapons/CS_Deselect", CHAN_WEAPON)
+	TNT1 A 0 SetPlayerProperty(0,1,2)
+	W3SS FEDCBA 1
+	TNT1 A 2 
+  DeselectLoop:
+	TNT1 A 1 A_Lower
+	Goto deselectLoop
+ Fire:
+	TNT1 A 0 A_JumpIfInventory("ShotgunTokenDB", 1, "FireDBreath")
+	TNT1 A 0 A_JumpIfInventory("ShotgunTokenSF", 1, "FireSlam")
+ FireNormal:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",2,1)
+    Goto FireNormalLast
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",1,1)
+    Goto DryFire
+	TNT1 A 0 A_AlertMonsters
+	TNT1 A 0 A_StartSound("Weapons/CS_Sweetener",88,0,0.88,2)
+    TNT1 A 0 A_StartSound("Weapons/CS_Add",66,0,0.66,2)
+	TNT1 A 0 A_StartSound("Weapons/CS_Fire",99,0,0.99,2)
+	TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	TNT1 A 0 A_Overlay(-3, "GunFlash")
+	TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+    TNT1 A 0 A_FireProjectile("p_pellet_tracer", frandom(-1, 1), 1, 2.5, 5, 0,frandom(-1, 1))
+	TNT1 AAAAAAAAAAA 0 A_FireProjectile("p_pellet_tracer", frandom(-1, 1), 0, 2.5, 5, 0,frandom(-1, 1))
+    W3NF A 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF C 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    W3NF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_SetPitch(pitch - 3.3)
+	TNT1 A 0 A_SetAngle(angle + (frandom(-3.3,3.3)))
+    W3NF E 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("Weapons/CS_PumpCycle",100,0,1.0,2)
+	W3NF IJKK 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_FireProjectile("SCMITRCasing_Spawner",0,0,0,3,0)
+	W3NF K 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF LMNN 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF OPQR 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF STUV 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SG A 3 A_Refire
+    Goto Ready
+  PrePump:
+    W3RL E 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3RL EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+  Pump:
+	W3SG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("Weapons/CS_PumpCycleFast",100,0,1.0,2)
+	W3PN ABCDE 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_FireProjectile("SCMITRCasing_Spawner",0,0,0,3,0)
+	W3PN E 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3PN FGHII 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    Goto Ready
+  FireNormalLast:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",1,1)
+    Goto DryFire
+	TNT1 A 0 A_AlertMonsters
+	TNT1 A 0 A_StartSound("Weapons/CS_Sweetener",88,0,0.88,2)
+    TNT1 A 0 A_StartSound("Weapons/CS_Add",66,0,0.66,2)
+	TNT1 A 0 A_StartSound("Weapons/CS_Fire",99,0,0.99,2)
+	TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	TNT1 A 0 A_Overlay(-3, "GunFlash")
+	TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+    TNT1 A 0 A_FireProjectile("p_pellet_tracer", frandom(-1, 1), 1, 2.5, 5, 0,frandom(-1, 1))
+	TNT1 AAAAAAAAAAA 0 A_FireProjectile("p_pellet_tracer", frandom(-1, 1), 0, 2.5, 5, 0,frandom(-1, 1))
+    W3NF B 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF C 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    W3NF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_SetPitch(pitch - 3.3)
+	TNT1 A 0 A_SetAngle(angle + (frandom(-3.3,3.3)))
+    W3NF E 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SG A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    Goto Ready
+  FireDBreath:
+	TNT1 A 0 A_JumpIfInventory("ShotgunTokenSF", 1, "FireSlamDBreath")
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",2,1)
+    Goto FireDBreathLast
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",1,1)
+    Goto DryFire
+	TNT1 A 0 A_AlertMonsters
+	TNT1 A 0 A_StartSound("Weapons/CS_Sweetener",88,0,0.88,2)
+    TNT1 A 0 A_StartSound("Weapons/CS_Add",66,0,0.66,2)
+	TNT1 A 0 A_StartSound("Weapons/CS_Fire",99,0,0.99,2)
+	TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	TNT1 A 0 A_Overlay(-3, "GunFlash")
+	TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+    TNT1 A 0 A_FireProjectile("DragonsBreathProjectile", frandom(-2, 2), 1, 2.5, 5, 0,frandom(-2, 2))
+	TNT1 AAAA 0 A_FireProjectile("DragonsBreathProjectile", frandom(-4, 4), 0, 2.5, 5, 0,frandom(-2, 2))
+	TNT1 AAAAAAAAAAAA 0 A_FireProjectile("p_pellet_tracer", frandom(-1, 1), 0, 2.5, 5, 0,frandom(-1, 1))
+    W3NF B 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF C 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    W3NF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_SetPitch(pitch - 3.3)
+	TNT1 A 0 A_SetAngle(angle + (frandom(-3.3,3.3)))
+    W3NF E 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("Weapons/CS_PumpCycle",100,0,1.0,2)
+	W3DF IJKK 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_FireProjectile("SCMITRCasing_Spawner_DB",0,0,0,3,0)
+	W3DF K 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3DF LMNN 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3DF OPQR 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3DF STUV 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SG A 3 A_Refire
+    Goto Ready
+  PrePump_DB:
+	W3RL E 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3RL EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+  Pump_DB:
+    TNT1 A 0 A_SetCrosshair(53)
+	TNT1 A 0 A_GiveInventory("ShotgunTokenDB",1)
+    W3SG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("Weapons/CS_PumpCycleFast",100,0,1.0,2)
+	W3PD ABCDE 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_FireProjectile("SCMITRCasing_Spawner_DB",0,0,0,3,0)
+	W3PD E 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3PD FGHII 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    Goto Ready
+  FireDBreathLast:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",1,1)
+    Goto DryFire
+	TNT1 A 0 A_AlertMonsters
+	TNT1 A 0 A_StartSound("Weapons/CS_Sweetener",88,0,0.88,2)
+    TNT1 A 0 A_StartSound("Weapons/CS_Add",66,0,0.66,2)
+	TNT1 A 0 A_StartSound("Weapons/CS_Fire",99,0,0.99,2)
+	TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	TNT1 A 0 A_Overlay(-3, "GunFlash")
+	TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+    TNT1 A 0 A_FireProjectile("DragonsBreathProjectile", frandom(-2, 2), 1, 2.5, 5, 0,frandom(-2, 2))
+	TNT1 AAAA 0 A_FireProjectile("DragonsBreathProjectile", frandom(-4, 4), 0, 2.5, 5, 0,frandom(-2, 2))
+	TNT1 AAAAAAAAAAAA 0 A_FireProjectile("p_pellet_tracer", frandom(-1, 1), 0, 2.5, 5, 0,frandom(-1, 1))
+	TNT1 A 0 A_TakeInventory("ShotgunTokenDB", 1)
+	TNT1 A 0 A_SetCrosshair(52)
+    W3NF A 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF C 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    W3NF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_SetPitch(pitch - 3.3)
+	TNT1 A 0 A_SetAngle(angle + (frandom(-3.3,3.3)))
+    W3NF E 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SG A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    Goto Ready
+ FireSlam:
+	D3SG A 0 A_JumpIfInventory("10GaugeShells",2,1)
+    Goto FireSlamLast
+	D3SG A 0 A_JumpIfInventory("10GaugeShells",1,1)
+    Goto DryFire
+	TNT1 A 0 A_AlertMonsters
+	TNT1 A 0 A_StartSound("Weapons/CS_Sweetener",88,0,0.88,2)
+    TNT1 A 0 A_StartSound("Weapons/CS_Add",66,0,0.66,2)
+	TNT1 A 0 A_StartSound("Weapons/CS_Fire",99,0,0.99,2)
+	TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	TNT1 A 0 A_Overlay(-3, "GunFlash")
+	TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+    TNT1 A 0 A_FireProjectile("p_pellet_tracer", frandom(-3, 3), 1, 2.5, 5, 0,frandom(-3, 3))
+	TNT1 AAAAAAAAAAA 0 A_FireProjectile("p_pellet_tracer", frandom(-3, 3), 0, 2.5, 5, 0,frandom(-3, 3))
+	W3SN A 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SN C 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("Weapons/CS_PumpCycleFast",100,0,1.0,2)
+	TNT1 A 0 A_SetPitch(pitch - 6.6)
+	TNT1 A 0 A_SetAngle(angle + (frandom(-6.6,6.6)))
+    W3SN DEF 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_FireProjectile("SCMITRCasing_Spawner",0,0,0,3,0)
+	W3SN GHI 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SN JKL 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SN MNN 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_ReFire
+    Goto Ready
+  FireSlamLast:
+	D3SG A 0 A_JumpIfInventory("10GaugeShells",1,1)
+    Goto DryFire
+	W3NF A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_AlertMonsters
+	TNT1 A 0 A_StartSound("Weapons/CS_Sweetener",88,0,0.88,2)
+    TNT1 A 0 A_StartSound("Weapons/CS_Add",66,0,0.66,2)
+	TNT1 A 0 A_StartSound("Weapons/CS_Fire",99,0,0.99,2)
+	TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	TNT1 A 0 A_Overlay(-3, "GunFlash")
+	TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+    TNT1 A 0 A_FireProjectile("p_pellet_tracer", frandom(-3, 3), 1, 2.5, 5, 0,frandom(-3, 3))
+	TNT1 AAAAAAAAAAA 0 A_FireProjectile("p_pellet_tracer", frandom(-3, 3), 0, 2.5, 5, 0,frandom(-3, 3))
+    W3NF B 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF C 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    W3NF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_SetPitch(pitch - 6.6)
+	TNT1 A 0 A_SetAngle(angle + (frandom(-6.6,6.6)))
+    W3NF E 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SG A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    Goto Ready
+FireSlamDBreath:
+	D3SG A 0 A_JumpIfInventory("10GaugeShells",2,1)
+    Goto FireSlamDBreathLast
+	D3SG A 0 A_JumpIfInventory("10GaugeShells",1,1)
+    Goto DryFire
+	TNT1 A 0 A_AlertMonsters
+	TNT1 A 0 A_StartSound("Weapons/CS_Sweetener",88,0,0.88,2)
+    TNT1 A 0 A_StartSound("Weapons/CS_Add",66,0,0.66,2)
+	TNT1 A 0 A_StartSound("Weapons/CS_Fire",99,0,0.99,2)
+	TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	TNT1 A 0 A_Overlay(-3, "GunFlash")
+	TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+    TNT1 A 0 A_FireProjectile("DragonsBreathProjectile", frandom(-2.5, 2.5), 1, 2.5, 5, 0,frandom(-2.5, 2.5))
+	TNT1 AAAA 0 A_FireProjectile("DragonsBreathProjectile", frandom(-2.5, 2.5), 0, 2.5, 5, 0,frandom(-2.5, 2.5))
+	TNT1 AAAAAAAAAAAA 0 A_FireProjectile("p_pellet_tracer", frandom(-3, 3), 0, 2.5, 5, 0,frandom(-3, 3))
+	W3SD B 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SD C 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("Weapons/CS_PumpCycleFast",100,0,1.0,2)
+	TNT1 A 0 A_SetPitch(pitch - 6.6)
+	TNT1 A 0 A_SetAngle(angle + (frandom(-6.6,6.6)))
+    W3SD DEF 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_FireProjectile("SCMITRCasing_Spawner_DB",0,0,0,3,0)
+	W3SD GHI 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SD JKL 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SD MNN 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_ReFire
+    Goto Ready
+  FireSlamDBreathLast:
+	D3SG A 0 A_JumpIfInventory("10GaugeShells",1,1)
+    Goto DryFire
+	TNT1 A 0 A_AlertMonsters
+	TNT1 A 0 A_StartSound("Weapons/CS_Sweetener",88,0,0.88,2)
+    TNT1 A 0 A_StartSound("Weapons/CS_Add",66,0,0.66,2)
+	TNT1 A 0 A_StartSound("Weapons/CS_Fire",99,0,0.99,2)
+	TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	TNT1 A 0 A_Overlay(-3, "GunFlash")
+	TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+    TNT1 A 0 A_FireProjectile("DragonsBreathProjectile", frandom(-2.5, 2.5), 1, 2.5, 5, 0,frandom(-2.5, 2.5))
+	TNT1 AAAA 0 A_FireProjectile("DragonsBreathProjectile", frandom(-2.5, 2.5), 0, 2.5, 5, 0,frandom(-2.5, 2.5))
+	TNT1 AAAAAAAAAAAA 0 A_FireProjectile("p_pellet_tracer", frandom(-3, 3), 0, 2.5, 5, 0,frandom(-3, 3))
+	TNT1 A 0 A_TakeInventory("ShotgunTokenDB", 1)
+	TNT1 A 0 A_SetCrosshair(51)
+    W3NF A 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF C 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    W3NF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_SetPitch(pitch - 6.6)
+	TNT1 A 0 A_SetAngle(angle + (frandom(-6.6,6.6)))
+    W3NF E 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3NF H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3SG A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+    Goto Ready
+  AltFire: //Does checks, if you have no dummy actors, select hellfire shells
+	TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+	TNT1 A 0 A_JumpIfInventory("ShotgunTokenDB", 1, "AltFire3")
+	TNT1 A 0 A_JumpIfInventory("ShotgunTokenSF", 1, "AltFire2")
+	TNT1 A 0 A_GiveInventory("ShotgunTokenSF", 1)
+	TNT1 A 0 A_SetCrosshair(50)
+	W3SG A 10 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  AltFire2: //Clears dummy actors, to use regular buckshot
+	TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+	TNT1 A 0 A_TakeInventory("ShotgunTokenSF", 1)
+	TNT1 A 0 A_SetCrosshair(52)
+	W3SG A 10 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  AltFire3: //Clears dummy actors, to use regular buckshot
+	TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+	TNT1 A 0 A_JumpIfInventory("ShotgunTokenSF", 1, "AltFire4")
+	TNT1 A 0 A_GiveInventory("ShotgunTokenSF", 1)
+	TNT1 A 0 A_SetCrosshair(51)
+	W3SG A 10 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  AltFire4: //Clears dummy actors, to use regular buckshot
+	TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+	TNT1 A 0 A_TakeInventory("ShotgunTokenSF", 1)
+	TNT1 A 0 A_SetCrosshair(53)
+	W3SG A 10 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  DryFire:
+	TNT1 A 0 A_StartSound("Shotgun/Empty",CHAN_MAYBE_LOCAL,0,1.0,2) // Play the clicky noise.
+	W3SG A 5 A_WeaponReady(WRF_NOFIRE)
+	Goto Ready
+  Reload:
+  Reload_Check:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",9,2)
+ 	TNT1 A 0 A_JumpIfInventory("Shotgun_Ammo_X",1, 2)
+	TNT1 A 0
+    Goto Ready
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",1,"Reload_Quick")
+	TNT1 A 0
+	Goto Reload_Full
+	//////////////////////////////////////////////////////////
+  Reload_Full:
+	W3RL ABCDE 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	W3RL EE 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+  InsertF:
+	W3BS F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("Weapons/CS_Insert",100,0,1.0,2)
+	W3BS GHI 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	W3BS JKKLMMN 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	TNT1 A 0 A_TakeInventory("Shotgun_Ammo_X",1)
+	TNT1 A 0 A_GiveInventory("10GaugeShells",1)
+	TNT1 A 0 A_JumpIfInventory("ReloadNotHeld", 1, "PrePump")
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells", 9, "Reload_Finish")
+			
+  RF_Continue:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",9,2) //full chamber, cancel reload
+//	TNT1 A 0 A_JumpIfInventory("Shotgun_Ammo_X",1,"InsertF") //more than 1 shell availble, reload continues
+	TNT1 A 0
+	W3RL E 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3RL EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	goto Pump
+		
+		//////////////////////////////////////////////////////////
+  Reload_Quick:
+	W3RL A 1
+	W3RL BCDE 1// A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	W3RL EE 1// A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+  Insert:
+	W3BS F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("weapons/CS_Insert",100,0,1.0,2)
+	W3BS GHI 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	W3BS JKKLMMN 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	TNT1 A 0 A_TakeInventory("Shotgun_Ammo_X",1)
+	TNT1 A 0 A_GiveInventory("10GaugeShells",1)
+	TNT1 A 0 A_JumpIfInventory("ReloadNotHeld", 1, "Reload_Finish")
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells", 9, "Reload_Finish")
+	Goto R_Continue
+			
+  Reload_Finish:
+	W3RL E 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3RL EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	Goto Ready
+			
+  R_Continue:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",9,2) //recamara llena, cancela recarga
+	TNT1 A 0 A_JumpIfInventory("Shotgun_Ammo_X",1,"Insert") //mas de 1 cartucho disponible, continua la recarga
+	TNT1 A 0
+	W3RL E 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	
+  ReloadCancel:
+	W3RL EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	goto ready
+  Zoom:
+  Reload_Check_DB:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",9,2)
+ 	TNT1 A 0 A_JumpIfInventory("Shotgun_Ammo_X",1, 2)
+	TNT1 A 0
+    Goto Ready
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",1,"Reload_Quick_DB")
+	TNT1 A 0
+	Goto Reload_Full_DB
+	//////////////////////////////////////////////////////////
+  Reload_Full_DB:
+	W3RL ABCDE 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	W3RL EE 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+  InsertF_DB:
+	W3YS F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("Weapons/CS_Insert",100,0,1.0,2)
+	W3YS GHI 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	W3YS JKKLMMN 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	TNT1 A 0 A_TakeInventory("Shotgun_Ammo_X",1)
+	TNT1 A 0 A_GiveInventory("10GaugeShells",1)
+	TNT1 A 0 A_JumpIfInventory("ZoomNotHeld", 1, "PrePump_DB")
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells", 9, "Reload_Finish_DB")
+			
+  RF_Continue_DB:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",9,2) //full chamber, cancel reload
+//	TNT1 A 0 A_JumpIfInventory("Shotgun_Ammo_X",1,"InsertF") //more than 1 shell availble, reload continues
+	TNT1 A 0
+	W3RL E 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3RL EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	goto Pump_DB
+		
+		//////////////////////////////////////////////////////////
+  Reload_Quick_DB:
+	W3RL A 1
+	W3RL BCDE 1// A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	W3RL EE 1// A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+  Insert_DB:
+	W3YS F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	TNT1 A 0 A_StartSound("weapons/CS_Insert",100,0,1.0,2)
+	W3YS GHI 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	W3YS JKKLMMN 1 //A_JumpIfInventory("ReloadNotHeld", 1, "ReloadCancel")
+	TNT1 A 0 A_TakeInventory("Shotgun_Ammo_X",1)
+	TNT1 A 0 A_GiveInventory("10GaugeShells",1)
+	TNT1 A 0 A_JumpIfInventory("ZoomNotHeld", 1, "Reload_Finish_DB")
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells", 9, "Reload_Finish_DB")
+	Goto R_Continue_DB
+			
+  Reload_Finish_DB:
+	W3RL E 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	W3RL EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	Goto Ready
+			
+  R_Continue_DB:
+	TNT1 A 0 A_JumpIfInventory("10GaugeShells",9,2) //recamara llena, cancela recarga
+	TNT1 A 0 A_JumpIfInventory("Shotgun_Ammo_X",1,"Insert_DB") //mas de 1 cartucho disponible, continua la recarga
+	TNT1 A 0
+	W3RL E 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	
+  ReloadCancel_DB:
+	W3RL EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	goto ready
+  GunFlash:
+	TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true)
+	TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add)
+	TNT1 A 0 A_OverlayAlpha(-3, 0.6)
+	TNT1 A 1 Bright
+		{
+		A_FireProjectile("MalefactorFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+		}
+	TNT1 A 0 A_OverlayAlpha(-3, 9.0)
+	TNT1 A 1 Bright
+	Stop
+  Spawn:
+    W3SP A -1
+	Stop
+  }
+}
+
+ACTOR MalefactorFirstTime : Inventory
+{
+	+INVENTORY.UNCLEARABLE
+	-INVENTORY.INVBAR
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+	Inventory.InterHubAmount 1
+}
+
+ACTOR ShotgunTokenSF : Inventory
+{
+	+INVENTORY.UNCLEARABLE
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+	Inventory.InterHubAmount 1
+}
+
+ACTOR ShotgunTokenDB : Inventory
+{
+	+INVENTORY.UNCLEARABLE
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+	Inventory.InterHubAmount 1
+}
+
+actor ShotgunReloading : Inventory
+{
+	+INVENTORY.UNCLEARABLE
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+	Inventory.InterHubAmount 1
+}
+
+Actor ReloadNotHeld : Inventory
+{
+	+INVENTORY.UNCLEARABLE
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+	Inventory.InterHubAmount 1
+}
+
+Actor ZoomNotHeld : Inventory
+{
+	+INVENTORY.UNCLEARABLE
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+	Inventory.InterHubAmount 1
+}
+
+ACTOR 10GaugeShells : Ammo
+{
+  Inventory.PickupMessage "You shouldn't see this!"
+  Inventory.Amount 0
+  Inventory.MaxAmount 9
+  Ammo.BackpackAmount 0
+  Ammo.BackpackMaxAmount 9
+  States
+  {
+  Spawn:
+    TNT1 A -1
+    Stop
+  }
+}
+
+ACTOR Shotgun_Ammo_X : Ammo
+{
+	Inventory.PickupMessage ""
+	Inventory.Amount 1
+	Inventory.MaxAmount 42
+	Inventory.Icon "10GAA0"
+	+UNDROPPABLE
+	Ammo.BackpackAmount 18
+	Ammo.BackpackMaxAmount 84
+	States
+	{
+	Spawn:
+		TNT1 A -1
+		Stop
+	}
+}
+
+ACTOR 12ShellsX1 : Shotgun_Ammo_X 27100
+{
+  Game Doom
+  ConversationID 502
+  Inventory.PickupMessage "Picked up a pile of 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shellbox"
+  Tag "10 Gauge Shells X12"
+  Inventory.Amount 12
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10GB A -1
+    Stop
+  }
+}
+
+ACTOR 12ShellsX2 : Shotgun_Ammo_X 27101
+{
+  Game Doom
+  ConversationID 502
+  Inventory.PickupMessage "Picked up a pile of 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shellbox"
+  Tag "10 Gauge Shells X12"
+  Inventory.Amount 12
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10GB B -1
+    Stop
+  }
+}
+
+ACTOR 8ShellsX1 : Shotgun_Ammo_X 27102
+{
+  Game Doom
+  ConversationID 502
+  Inventory.PickupMessage "Picked up a Bandolier of 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shellbox"
+  Tag "10 Gauge Shells X8"
+  Inventory.Amount 8
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G8 A -1
+    Stop
+  }
+}
+
+ACTOR 8ShellsX2 : Shotgun_Ammo_X 27103
+{
+  Game Doom
+  ConversationID 502
+  Inventory.PickupMessage "Picked up a Bandolier of 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shellbox"
+  Tag "10 Gauge Shells X8"
+  Inventory.Amount 8
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G8 B -1
+    Stop
+  }
+}
+
+ACTOR 4ShellsX1 : Shotgun_Ammo_X 27104
+{
+
+  Inventory.PickupMessage "Picked up some 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shell"
+  Tag "10 Gauge Shells X4"
+  Inventory.Amount 4
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G4 A -1
+    Stop
+  }
+}
+
+ACTOR 4ShellsX2 : Shotgun_Ammo_X 27105
+{
+
+  Inventory.PickupMessage "Picked up some 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shell"
+  Tag "10 Gauge Shells X4"
+  Inventory.Amount 4
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G4 B -1
+    Stop
+  }
+}
+
+ACTOR 3ShellsX1 : Shotgun_Ammo_X 27106
+{
+
+  Inventory.PickupMessage "Picked up a few 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shell"
+  Tag "10 Gauge Shells X3"
+  Inventory.Amount 3
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G3 A -1
+    Stop
+  }
+}
+
+ACTOR 3ShellsX2 : Shotgun_Ammo_X 27107
+{
+
+  Inventory.PickupMessage "Picked up a few 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shell"
+  Tag "10 Gauge Shells X3"
+  Inventory.Amount 3
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G3 B -1
+    Stop
+  }
+}
+
+ACTOR 2ShellsX1 : Shotgun_Ammo_X 27108
+{
+
+  Inventory.PickupMessage "Picked up a pair of 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shell"
+  Tag "10 Gauge Shells X2"
+  Inventory.Amount 2
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G2 A -1
+    Stop
+  }
+}
+
+ACTOR 2ShellsX2 : Shotgun_Ammo_X 27109
+{
+
+  Inventory.PickupMessage "Picked up a pair of 10 Gauge Shotgun Shells."
+  Inventory.PickupSound "items/shell"
+  Tag "10 Gauge Shells X2"
+  Inventory.Amount 2
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G2 B -1
+    Stop
+  }
+}
+
+ACTOR 1ShellsX1 : Shotgun_Ammo_X 27110
+{
+
+  Inventory.PickupMessage "Picked up a 10 Gauge Shotgun Shell."
+  Inventory.PickupSound "items/shell"
+  Tag "10 Gauge Shells X1"
+  Inventory.Amount 1
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G1 A -1
+    Stop
+  }
+}
+
+ACTOR 1ShellsX2 : Shotgun_Ammo_X 27111
+{
+
+  Inventory.PickupMessage "Picked up a 10 Gauge Shotgun Shell."
+  Inventory.PickupSound "items/shell"
+  Tag "10 Gauge Shells X1"
+  Inventory.Amount 1
+  Scale 0.29
+  States
+  {
+  Spawn:
+    10G1 B -1
+    Stop
+  }
+}
+
+ACTOR SCMITRCasing_Spawner
+{
+    Radius 1
+    Height 1
+    Speed 18
+    PROJECTILE
+	+NOCLIP
+	+CLIENTSIDEONLY
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_SpawnItemEx("scmitrshell_casing", 0, 10, -4, random(-3,0), random(-7,-5), random(0,1), 0)
+        Stop
+    }
+}
+
+ACTOR SCMITRShell_Casing
+{
+   Radius 2
+   Height 4
+   Speed 8
+   Scale 0.16
+   BounceSound "Weapons/ShellCasing"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +DONTSPLASH
+   +CLIENTSIDEONLY
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 6
+   BounceFactor 0.6
+   DamageType Nope
+   States
+   {
+   Spawn:
+	  TNT1 A 0 ThrustThingZ(0, Random(6, 16), 0, 1)
+      BSHC ABCDEFG 1
+      Goto Roflcopter
+   Roflcopter:
+      PBCS A 0 A_Jump(128,1,3,5,7)
+      BSHC ABCDEFG 1
+      Loop
+   Death:
+      PBCS A 0 A_SpawnItemEx("SCMITRShell_Casing_Liedown")
+      stop
+   }
+}
+
+actor SCMITRShell_Casing_Liedown
+{
+	-NOGRAVITY
+    Scale 0.16
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2","Spawn3")
+	  stop
+	Spawn1:
+	  BSHC C 1
+	  Goto Ded
+	Spawn2:
+	  BSHC D 1
+	  Goto Ded
+	Spawn3:
+	  BSHC G 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR SCMITRCasing_Spawner_DB
+{
+    Radius 1
+    Height 1
+    Speed 18
+    PROJECTILE
+	+NOCLIP
+	+CLIENTSIDEONLY
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_SpawnItemEx("scmitrshell_casing_db", 0, 10, -4, random(-3,0), random(-7,-5), random(0,1), 0)
+        Stop
+    }
+}
+
+ACTOR SCMITRShell_Casing_DB
+{
+   Radius 2
+   Height 4
+   Speed 8
+   Scale 0.16
+   BounceSound "Weapons/ShellCasing"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +DONTSPLASH
+   +CLIENTSIDEONLY
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 6
+   BounceFactor 0.6
+   DamageType Nope
+   States
+   {
+   Spawn:
+	  TNT1 A 0 ThrustThingZ(0, Random(6, 16), 0, 1)
+      YSHC ABCDEFG 1
+      Goto Roflcopter
+   Roflcopter:
+      PBCS A 0 A_Jump(128,1,3,5,7)
+      YSHC ABCDEFG 1
+      Loop
+   Death:
+      PBCS A 0 A_SpawnItemEx("SCMITRShell_Casing_Liedown_DB")
+      stop
+   }
+}
+
+actor SCMITRShell_Casing_Liedown_DB
+{
+	-NOGRAVITY
+    Scale 0.16
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2","Spawn3")
+	  stop
+	Spawn1:
+	  YSHC C 1
+	  Goto Ded
+	Spawn2:
+	  YSHC D 1
+	  Goto Ded
+	Spawn3:
+	  YSHC G 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR DragonsBreathProjectile : FastProjectile
+{
+    Projectile
+    Speed 600
+    +NOGRAVITY
+    +BLOODSPLATTER
+    Damage 8
+    Scale 0.5
+    Radius 1
+    Height 1
+    Renderstyle Add
+    Damagetype "Blast"
+    MissileType "DragonsBreathTrail"
+    var int user_lifespan;
+    States
+	{
+	Spawn:
+        TRAC AAAAA 1 Bright NoDelay
+    
+    FadeOut:
+        TNT1 A 0
+        Stop
+    
+	Death:
+	XDeath:
+	Crash:
+        TNT1 A 0 A_Explode(16, 64, 0, False, 32, 0, 0, 0, Fire)
+        TNT1 A 0 A_PlaySound("Inferno/DBImpact", 0)
+        TNT1 A 0 A_SpawnItemEx("DragonsBreathDropFire2", 0, 0, 0, 0, 0, 0, 0, 0)
+        TNT1 AAA 0 A_SpawnItemEx("DragonsBreathFragment", 0, 0, 0, 3*frandom(8, 12), 0, 3*frandom(-10, 10), frandom(0, 360))
+        TNT1 AAAAAAAA 1 
+        {
+        A_SpawnItemEx("DragonsBreathExplosion", frandom(-20, 20), frandom(-20, 20), frandom(-20, 20));
+        }
+        Stop
+	}
+}
+
+ACTOR DragonsBreathProjectile2 : DragonsBreathProjectile
+{
+    Damage 64
+    Damagetype "Blast"
+    MissileType "DragonsBreathTrail"
+    States
+	{
+	Spawn:
+        TRAC AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 Bright NoDelay
+    
+	Death:
+	XDeath:
+	Crash:
+        TNT1 A 0 A_Explode(16, 64, 0, False, 32, 0, 0, 0, Fire)
+        TNT1 A 0 A_PlaySound("Inferno/DBImpact", 0)
+        TNT1 A 0 A_SpawnItemEx("DragonsBreathDropFire2", 0, 0, 0, 0, 0, 0, 0, 0)
+        TNT1 AAA 0 A_SpawnItemEx("DragonsBreathFragment", 0, 0, 0, 3*frandom(8, 12), 0, 3*frandom(-10, 10), frandom(0, 360))
+        TNT1 AAAAAAAAAA 1 
+        {
+        A_SpawnItemEx("DragonsBreathExplosion", frandom(-20, 20), frandom(-20, 20), frandom(-20, 20));
+        }
+        TNT1 AA 0 A_Explode(16, 64, 0, False, 32, 0, 0, 0, Fire)
+        TNT1 AA 0 A_PlaySound("Inferno/DBImpact", 0)
+        TNT1 AA 0 A_SpawnItemEx("DragonsBreathDropFire2", 0, 0, 0, 0, 0, 0, 0, 0)
+        TNT1 AAAAAA 0 A_SpawnItemEx("DragonsBreathFragment", 0, 0, 0, 3*frandom(8, 12), 0, 3*frandom(-10, 10), frandom(0, 360))
+        TNT1 AAAAAAAAAA 1 
+        {
+        A_SpawnItemEx("DragonsBreathExplosion", frandom(-20, 20), frandom(-20, 20), frandom(-20, 20));
+        }
+        TNT1 AAA 0 A_Explode(16, 64, 0, False, 32, 0, 0, 0, Fire)
+        TNT1 AAA 0 A_PlaySound("Inferno/DBImpact", 0)
+        TNT1 AAA 0 A_SpawnItemEx("DragonsBreathDropFire2", 0, 0, 0, 0, 0, 0, 0, 0)
+        TNT1 AAAAAAAAA 0 A_SpawnItemEx("DragonsBreathFragment", 0, 0, 0, 3*frandom(8, 12), 0, 3*frandom(-10, 10), frandom(0, 360))
+        TNT1 AAAAAAAA 1 
+        {
+        A_SpawnItemEx("DragonsBreathExplosion", frandom(-20, 20), frandom(-20, 20), frandom(-20, 20));
+        }
+        Stop
+	Stop
+	}
+}
+
+ACTOR E_DragonsBreathProjectile : FastProjectile
+{
+    Projectile
+    Speed 600
+    +NOGRAVITY
+    +BLOODSPLATTER
+    Damage 3
+    Scale 0.5
+    Radius 1
+    Height 1
+    Renderstyle Add
+    Damagetype "Blast"
+    MissileType "DragonsBreathTrail"
+    var int user_lifespan;
+    States
+	{
+	Spawn:
+        TRAC AAAAA 1 Bright NoDelay
+    
+    FadeOut:
+        TNT1 A 0
+        Stop
+    
+	Death:
+	XDeath:
+	Crash:
+        TNT1 A 0 A_Explode(16, 64, 0, False, 32, 0, 0, 0, Fire)
+        TNT1 A 0 A_PlaySound("Inferno/DBImpact", 0)
+        TNT1 A 0 A_SpawnItemEx("DragonsBreathDropFire2", 0, 0, 0, 0, 0, 0, 0, 0)
+        TNT1 AAA 0 A_SpawnItemEx("DragonsBreathFragment", 0, 0, 0, 3*frandom(8, 12), 0, 3*frandom(-10, 10), frandom(0, 360))
+        TNT1 AAAAAAAA 1 
+        {
+        A_SpawnItemEx("DragonsBreathExplosion", frandom(-20, 20), frandom(-20, 20), frandom(-20, 20));
+        }
+        Stop
+	}
+}
+
+ACTOR DragonsBreathExplosion
+{
++NOINTERACTION
++ROLLSPRITE
+Scale 1
+Renderstyle Add
+States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay
+		{
+		A_SetRoll(frandom(0.0,360.0), SPF_INTERPOLATE);
+		A_SetScale(ScaleX * frandom(0.75,1.25));
+		}
+		TNT1 A 0 A_Jump(256, "SpawnA", "SpawnB", "SpawnC", "SpawnD")
+		Stop
+		
+	SpawnA:
+		IPF2 AB 1 Bright
+		Stop
+		
+	SpawnB:
+		IPF2 CD 1 Bright
+		Stop
+		
+	SpawnC:
+		IPF2 EF 1 Bright
+		Stop
+		
+	SpawnD:
+		IPF2 GH 1 Bright
+		Stop
+	}
+}
+
+ACTOR DragonsBreathFragment
+{
+  Projectile
+  Radius 1
+  Height 1
+  Speed 75
+  Scale 0.5
+  Damage 10
+  RenderStyle Translucent
+  BounceType None
+  DamageType "Fire"
+  -NOGRAVITY
+  +BOUNCEONWALLS
+  +BOUNCEONFLOORS
+  +BOUNCEONCEILINGS
+  BounceType Doom
+  BounceFactor 0.8
+  WallBounceFactor 0.8
+  BounceCount 3
+  Gravity 0.7
+  var int user_lifespan;
+  states
+  {
+  Spawn:
+    TNT1 AAAAAA 1 NoDelay A_SpawnItemEx("DragonsBreathTrailBig")
+    Stop
+  }
+}
+
+Actor DragonsBreathTrail : DragonsBreathExplosion
+{
+Scale 0.2
+States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay
+		{
+		A_SetRoll(frandom(0.0,360.0), SPF_INTERPOLATE);
+		A_SetScale(ScaleX * frandom(0.75,1.25));
+        A_SpawnItemEx("DragonsBreathDropFire", 0, 0, 0, 0, 0, 0, 0, 0, 240);
+		}
+        
+    Spawn2:
+        TNT1 A 0 A_JumpIf(ScaleX <= 0, "Death")
+        TNT1 A 0 A_SetScale(ScaleX - 0.02)
+		TNT1 A 0 A_Jump(256, "SpawnA", "SpawnB", "SpawnC", "SpawnD")
+		Stop
+		
+	SpawnA:
+		IPF2 B 1 Bright
+		Goto Spawn2
+		
+	SpawnB:
+		IPF2 D 1 Bright
+		Goto Spawn2
+		
+	SpawnC:
+		IPF2 F 1 Bright
+		Goto Spawn2
+		
+	SpawnD:
+		IPF2 H 1 Bright
+		Goto Spawn2
+        
+    Death:
+        TNT1 A 0
+        Stop
+	}
+}
+
+Actor DragonsBreathTrailBig : DragonsBreathTrail
+{
+Scale 0.5
+}
+
+Actor DragonsBreathDropFire
+{
+Height 1
+Gravity 0.25
+Scale 0.4
+Renderstyle Add
+Alpha 0.25
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(GetCVar("ir_perfmode") == 3, "Death2")
+TNT1 A 0 A_Jump(128, 2)
+TNT1 A 0 A_PlaySound("Flame/Loop", Chan_Auto, 0.4)
+FLME ABCDEFGHIJKLMN 1 Bright
+TNT1 A 0 A_Jump(64, "Death")
+Loop
+
+Death:
+FLME ABCDEFGHIJ 1 
+{
+A_SetScale(ScaleX - 0.02);
+}
+TNT1 A 0 A_SpawnItemEx("DragonsBreathDropFireSmall")
+Stop
+
+Death2:
+TNT1 A 1
+Stop
+}
+}
+
+Actor DragonsBreathDropFireSmall
+{
+Gravity 0.25
+Scale 0.2
+Renderstyle Add
+Alpha 0.25
+States
+{
+Spawn:
+TNT1 A 0 NoDelay
+
+Death:
+FLME ABCDEFGHIJ 1 
+{
+A_SetScale(ScaleX - 0.02);
+}
+Stop
+
+Death2:
+TNT1 A 1
+Stop
+}
+}
+
+
+Actor DragonsBreathDropFire2 : DragonsBreathDropFire
+{
++NoGravity
+States
+{
+Spawn:
+TNT1 A 0
+TNT1 A 0 A_JumpIf(GetCVar("ir_perfmode") == 3, "Death2")
+TNT1 A 0 A_Jump(128, 2)
+TNT1 A 0 A_PlaySound("Flame/Loop", Chan_Auto, 0.4)
+FLME ABCDEFGHIJKLMN 1 Bright
+TNT1 A 0 A_Jump(64, "Death")
+Loop
+
+Death:
+FLME ABCDEFGHIJ 1 
+{
+A_SetScale(ScaleX - 0.02);
+}
+TNT1 A 0 A_SpawnItemEx("DragonsBreathDropFireSmall2")
+Stop
+
+Death2:
+TNT1 A 1
+Stop
+}
+}
+
+Actor DragonsBreathDropFireSmall2 : DragonsBreathDropFireSmall { +NoGravity }

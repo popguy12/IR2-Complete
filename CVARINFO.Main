@@ -1,0 +1,156 @@
+server bool ir2_replacemonsters = false;
+server bool ir2_replacetracers = true;
+
+user bool tb_dashholdspeed	= false;
+user int tb_dashframes		= 7;
+user int tb_dashcooldown	= 35;
+
+server int ir2_barrelamount = 10;
+server int ir_perfmode = 1;
+
+//Toggle CVars
+
+server int jpm_enable_djump = 1;
+server int jpm_enable_slide = 1;
+
+//Velocity Control CVars
+
+server float jpm_pref_slidevel = 16.0;
+
+// Tilt++ CVars
+
+// Strafe Tilting CVars
+
+server bool sv_strafetilt = true;
+server bool sv_strafetiltreversed = false;
+server float sv_strafetiltspeed = 1.0;
+server float sv_strafetiltangle = 0.5;
+
+// Movement Tilting CVars
+
+server bool sv_movetilt = true;
+server float sv_movetiltspeed = 15.000;
+server float sv_movetiltangle = 0.015;
+server float sv_movetiltscalar = 0.5;
+
+// Underwater Tilting CVars
+
+server bool sv_underwatertilt = true;
+server float sv_underwatertiltspeed = 0.8;
+server float sv_underwatertiltangle = 0.2;
+server float sv_underwatertiltscalar = 1.0;
+
+// Death tilting
+
+server bool sv_deathtilt = true;
+
+// Leaning CVars
+
+server float sv_leanangle = 22.5;
+user bool cl_strafelean = false;
+
+// RealAim CVars
+
+server bool sv_syncmovetilt = true;
+server bool sv_realaimspring = true;
+server bool sv_realaimtoggle = true;
+server float sv_realaimsway = 1.0;
+server float sv_realaimrate = 1.0;
+
+// Footsteps CVars
+
+server bool sv_playFootsteps = true;
+server float sv_footstepVolume = 1.0;
+
+//Hitmarkers
+
+user bool hm_enabled = true;
+user bool hm_hitdamage = true;
+user bool hm_hitsounds = true;
+user bool hm_hitspeed = false;
+user bool hm_killsounds = true;
+user bool hm_killspeed = false;
+user bool hm_showhitmarkers = true;
+user bool hm_showkillmarkers = true;
+user bool hm_soundlimit = false;
+user float hm_fade = 0.75;
+user int hm_hitdamagehigh = 75;
+user int hm_hitdamagemedium = 25;
+user int hm_hitsound = 0;
+user int hm_hitstyle = 0;
+user int hm_killsound = 0;
+user int hm_killstyle = 0;
+user int hm_opacity = 100;
+user int hm_volume = 100;
+
+user noarchive int hm_bridge_damage;
+user noarchive int hm_bridge_hitmarker;
+
+//Tiber's Edited Droplets CVars
+
+server float blood_rand = 1.0;
+server float blood_size = 1.0;
+server float blood_alpha = 0.75;
+server float blood_grav = 1.0;
+server int blood_amt = 1;
+server bool blood_pools = false;
+server bool blood_gibs = false;
+server bool blood_chunky = false;
+server bool blood_alwaysgib = false;
+server bool blood_splash = false;
+server bool blood_mist = true;
+
+//LK3_UCMinimap
+
+user bool  ucm_showrepeatable = true;
+user bool  ucm_showdistance = true;
+user bool  ucm_hide = false;
+user bool  ucm_mustuse = true;
+user bool  ucm_drawmap = true;
+user bool  ucm_drawplayer = true;
+user bool  ucm_drawrotation = true;
+user bool  ucm_mapfollow = true;
+user bool  ucm_drawcompass = true;
+user bool  ucm_drawmissiles = true;
+user bool  ucm_hidemonsters = false;
+user bool  ucm_drawhealthbars = true;
+user bool  ucm_markstartexit = true;
+user bool  ucm_drawkeys = true;
+user int   ucm_drawitems = 1;
+user int   ucm_maprenderdist = 8192;
+user int   ucm_specific = 0;
+user int   ucm_maxswitchdist = 0;
+user int   ucm_xoffset = -1;
+user int   ucm_yoffset = -1;
+user int   ucm_map_playtime = 0;
+user int   ucm_map_deaths = 0;
+user float ucm_radarzoom = 3;
+user float ucm_radardist = 256;
+user float ucm_mapsize = 170;
+
+// Map colors
+
+user color ucm_color_normal = "B47446";
+user color ucm_color_solid  = "D90000";
+user color ucm_color_action = "CDCE00";
+user color ucm_color_border = "760000";
+user color ucm_color_backg  = "000000";
+user color ucm_color_compas = "1614D3";
+user color ucm_color_stats  = "1614D3";
+user float ucm_color_lum    = 1.0;
+user float ucm_color_alpha  = 1.0;
+user float ucm_color_backgalpha = 1.0;
+
+// Temporary
+
+noarchive user bool ucm_mapshowall = false;
+noarchive user bool ucm_drawmaxsize = false;
+noarchive user bool ucm_drawfullscreen = false;
+noarchive user string waypoint_name = "Waypoint";
+noarchive user color waypoint_color = "00FF00";
+
+//CVars I borrowed from other mods >_>
+
+user int ir2_effectdistance = 1000;
+
+server string infernis_obittemp = "None";

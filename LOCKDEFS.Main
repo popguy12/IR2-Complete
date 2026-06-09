@@ -1,0 +1,235 @@
+ClearLocks
+ 
+Lock 1 Doom
+{
+	RedCard
+	Message "$NEEDREDKEYD"
+	RemoteMessage "$NEEDREDKEYO"
+	Mapcolor 255 0 0
+}
+ 
+ 
+Lock 2 Doom
+{
+	BlueCard
+	Message "$NEEDBLUKEYD"
+	RemoteMessage "$NEEDBLUKEYO"
+	Mapcolor 0 0 255
+}
+ 
+ 
+Lock 3 Doom
+{
+	YellowCard
+	Message "$NEEDYELKEYD"
+	RemoteMessage "$NEEDYELKEYO"
+	Mapcolor 255 255 0
+}
+ 
+ 
+Lock 4 Doom
+{
+	RedSkull
+	Message "$NEEDORGKEYD"
+	RemoteMessage "$NEEDORGKEYO"
+	Mapcolor 255 127 27
+}
+ 
+ 
+Lock 5 Doom
+{
+	BlueSkull
+	Message "$NEEDSILKEYD"
+	RemoteMessage "$NEEDSILKEYO"
+	Mapcolor 159 159 159
+}
+ 
+ 
+Lock 6 Doom
+{
+	YellowSkull
+	Message "$NEEDGRNKEYD"
+	RemoteMessage "$NEEDGRNKEYO"
+	Mapcolor 119 255 111
+}
+ 
+ 
+Lock 129 Doom
+{
+	RedCard
+	Message "$NEEDREDKEYD"
+	RemoteMessage "$NEEDREDKEYO"
+	Mapcolor 255 0 0
+}
+ 
+ 
+Lock 130 Doom
+{
+	BlueCard
+	Message "$NEEDBLUKEYD"
+	RemoteMessage "$NEEDBLUKEYO"
+	Mapcolor 0 0 255
+}
+ 
+ 
+Lock 131 Doom
+{
+	YellowCard
+	Message "$NEEDYELKEYD"
+	RemoteMessage "$NEEDYELKEYO"
+	Mapcolor 255 255 0
+}
+ 
+ 
+Lock 132 Doom
+{
+	RedSkull
+	Message "$NEEDORGKEYD"
+	RemoteMessage "$NEEDORGKEYO"
+	Mapcolor 255 127 27
+}
+ 
+ 
+Lock 133 Doom
+{
+	BlueSkull
+	Message "$NEEDSILKEYD"
+	RemoteMessage "$NEEDSILKEYO"
+	Mapcolor 159 159 159
+}
+ 
+ 
+Lock 134 Doom
+{
+	YellowSkull
+	Message "$NEEDGRNKEYD"
+	RemoteMessage "$NEEDGRNKEYO"
+	Mapcolor 119 255 111
+}
+ 
+Lock 100
+{
+	Message "$NEEDANYKEYD"
+	RemoteMessage "$NEEDANYKEYO"
+	Mapcolor 128 128 255
+}
+ 
+Lock 228
+{
+	Message "$NEEDANYKEYD"
+	RemoteMessage "$NEEDANYKEYO"
+	Mapcolor 128 128 255
+}
+ 
+Lock 229 Doom
+{
+	RedCard
+	BlueCard
+	YellowCard
+	Message "$NEEDRBYKEYD"
+	RemoteMessage "$NEEDRBYKEYO"
+	Mapcolor 191 123 75
+}
+ 
+Lock 101 Doom
+{
+	RedCard
+	BlueCard
+	YellowCard
+	RedSkull
+	BlueSkull
+	RedSkull
+	Message "$NEEDALLKEYD"
+	RemoteMessage "$NEEDALLKEYO"
+	Mapcolor 191 123 75
+}
+ 
+ 
+Lock 10
+{
+	RedCard
+	Mapcolor 123 127 99
+}
+ 
+Lock 11
+{
+	RedCard
+	Mapcolor 155 91 19
+}
+ 
+Lock 12
+{
+	RedCard
+	Mapcolor 155 51 51
+}
+ 
+Lock 13
+{
+	RedCard
+	Mapcolor 223 147 99
+}
+ 
+Lock 14
+{
+	RedCard
+	Mapcolor 255 123 123
+}
+ 
+Lock 15
+{
+	RedCard
+	Mapcolor 207 0 207
+}
+ 
+Lock 21 Doom
+{
+	RedCard
+	Message "NEEDREDKEYD"
+	RemoteMessage "NEEDREDKEYO"
+	Mapcolor 255 0 0
+}
+ 
+ 
+Lock 22 Doom
+{
+	BlueCard
+	Message "NEEDBLUKEYD"
+	RemoteMessage "NEEDBLUKEYO"
+	Mapcolor 0 0 255
+}
+ 
+ 
+Lock 23 Doom
+{
+	YellowCard
+	Message "$NEEDYELKEYD"
+	RemoteMessage "$NEEDYELKEYO"
+	Mapcolor 255 255 0
+}
+ 
+ 
+Lock 24 Doom
+{
+	RedSkull
+	Message "$NEEDORGKEYD"
+	RemoteMessage "$NEEDORGKEYO"
+	Mapcolor 255 127 27
+}
+ 
+ 
+Lock 25 Doom
+{
+	BlueSkull
+	Message "$NEEDSILKEYD"
+	RemoteMessage "$NEEDSILKEYO"
+	Mapcolor 159 159 159
+}
+ 
+ 
+Lock 26 Doom
+{
+	YellowSkull
+	Message "$NEEDGRNKEYD"
+	RemoteMessage "$NEEDGRNKEYO"
+	Mapcolor 119 255 111
+}

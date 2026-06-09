@@ -1,0 +1,322 @@
+A2HU/Warning A2HUWARN
+
+Barrel/Explode	BARRELEX
+
+items/hstim_up		DIREGEN
+items/hpack_up		DIHPACK
+items/stimshot		DIREGIN
+
+Misc/ChatSound	CHATSND
+
+Mobility/Dash PQSTEP
+Mobility/Double PDJUMP
+$Random Mobility/Slide {SLIDE1 SLIDE2 SLIDE3}
+
+SLIDE1 PSLIDE1
+SLIDE2 PSLIDE2
+SLIDE3 PSLIDE3
+
+$Limit Mobility/MovementFoley 2
+
+$Random Mobility/MovementFoley {Move_1 Move_2 Move_3 Move_4 Move_5 Move_6}
+
+Move_1 PFOLEY1
+Move_2 PFOLEY2
+Move_3 PFOLEY3
+Move_4 PFOLEY4
+Move_5 PFOLEY5
+Move_6 PFOLEY6
+
+$Limit Move/Step 2
+
+$random Move/Step {Move/Step1 Move/Step2 Move/Step3 Move/Step4 Move/Step5 Move/Step6}
+
+Move/Step1	MOVESTP1
+Move/Step2	MOVESTP2
+Move/Step3	MOVESTP3
+Move/Step4	MOVESTP4
+Move/Step5	MOVESTP5
+Move/Step6	MOVESTP6
+
+$rolloff Weapons/PistolCasing 100 200
+$random Weapons/PistolCasing { PCASE1 PCASE2 PCASE3 PCASE4 PCASE5 PCASE6 PCASE7 PCASE8 PCASE9 PCASE10 PCASE11 PCASE12}
+PCASE1 PCASE01
+PCASE2 PCASE02
+PCASE3 PCASE03
+PCASE4 PCASE04
+PCASE5 PCASE05
+PCASE6 PCASE06
+PCASE7 PCASE07
+PCASE8 PCASE08
+PCASE9 PCASE09
+PCASE10 PCASE10
+PCASE11 PCASE11
+PCASE12 PCASE12
+
+$rolloff Weapons/ShellCasing 100 200
+$random Weapons/ShellCasing { SCASE1 SCASE2 SCASE3 SCASE4 SCASE5 SCASE6 SCASE7 SCASE8 SCASE9 SCASE10 SCASE11 SCASE12}
+SCASE1 SCASE01
+SCASE2 SCASE02
+SCASE3 SCASE03
+SCASE4 SCASE04
+SCASE5 SCASE05
+SCASE6 SCASE06
+SCASE7 SCASE07
+SCASE8 SCASE08
+SCASE9 SCASE09
+SCASE10 SCASE10
+SCASE11 SCASE11
+SCASE12 SCASE12
+
+$rolloff Weapons/RifleCasing 100 200
+$random Weapons/RifleCasing { RCASE1 RCASE2 RCASE3 RCASE4 RCASE5 RCASE6 RCASE7 RCASE8 RCASE9 RCASE10 RCASE11 RCASE12}
+RCASE1 RCASE01
+RCASE2 RCASE02
+RCASE3 RCASE03
+RCASE4 RCASE04
+RCASE5 RCASE05
+RCASE6 RCASE06
+RCASE7 RCASE07
+RCASE8 RCASE08
+RCASE9 RCASE09
+RCASE10 RCASE10
+RCASE11 RCASE11
+RCASE12 RCASE12
+
+$rolloff Weapons/HeavyCasing 100 200
+$random Weapons/HeavyCasing { HCASE1 HCASE2 HCASE3 HCASE4 HCASE5 HCASE6 HCASE7 HCASE8 HCASE9 HCASE10 HCASE11 HCASE12}
+HCASE1 HCASE01
+HCASE2 HCASE02
+HCASE3 HCASE03
+HCASE4 HCASE04
+HCASE5 HCASE05
+HCASE6 HCASE06
+HCASE7 HCASE07
+HCASE8 HCASE08
+HCASE9 HCASE09
+HCASE10 HCASE10
+HCASE11 HCASE11
+HCASE12 HCASE12
+
+$rolloff Weapons/BeltLink 100 200
+$random Weapons/BeltLink { BLINK1 BLINK2 BLINK3 BLINK4 BLINK5 BLINK6 BLINK7 BLINK8 BLINK9 BLINK10 BLINK11 BLINK12}
+BLINK1 BLINK01
+BLINK2 BLINK02
+BLINK3 BLINK03
+BLINK4 BLINK04
+BLINK5 BLINK05
+BLINK6 BLINK06
+BLINK7 BLINK07
+BLINK8 BLINK08
+BLINK9 BLINK09
+BLINK10 BLINK10
+BLINK11 BLINK11
+BLINK12 BLINK12
+
+$rolloff Clip/PST 100 200
+$random Clip/PST { Clip/PST1 Clip/PST2 Clip/PST3 Clip/PST4 Clip/PST5 Clip/PST6 }
+Clip/PST1	PSTCLIP1
+Clip/PST2	PSTCLIP2
+Clip/PST3	PSTCLIP3
+Clip/PST4	PSTCLIP4
+Clip/PST5	PSTCLIP5
+Clip/PST6	PSTCLIP6
+
+$rolloff Clip/ASR 100 200
+$random Clip/ASR { Clip/ASR1 Clip/ASR2 Clip/ASR3 Clip/ASR4 Clip/ASR5 Clip/ASR6 }
+Clip/ASR1	ASRCLIP1
+Clip/ASR2	ASRCLIP2
+Clip/ASR3	ASRCLIP3
+Clip/ASR4	ASRCLIP4
+Clip/ASR5	ASRCLIP5
+Clip/ASR6	ASRCLIP6
+
+$rolloff Clip/FLK 100 200
+$random Clip/FLK { Clip/FLK1 Clip/FLK2 Clip/FLK3 Clip/FLK4 Clip/FLK5 Clip/FLK6 }
+Clip/FLK1	FLKCLIP1
+Clip/FLK2	FLKCLIP2
+Clip/FLK3	FLKCLIP3
+Clip/FLK4	FLKCLIP4
+Clip/FLK5	FLKCLIP5
+Clip/FLK6	FLKCLIP6
+
+Sphere/Time			DSTIME
+Sphere/Haste		DSHAST
+Sphere/Enviro		DSENVI
+Sphere/Invuln		DSINVL
+Sphere/Bzrk			DSBZRK
+Sphere/Soul			DSSOUL
+Sphere/Mega			DSMEGA
+Sphere/Salvation	S_MEGA
+Sphere/Blessing		S_SOUL
+Sphere/Damocles		S_BZRK
+Sphere/Protection	S_INVL
+Sphere/AHaste		S_HAST
+Sphere/Junkie		S_JUNK
+Sphere/Quicksilver	S_TIME
+
+misc/shieldgreen	SHLDGRN
+misc/shieldblue		SHLDBLU
+misc/shieldred		SHLDRED
+
+ABS1	RHSOUL1
+ABS2	RHSOUL2
+ABS3	RHSOUL3
+ABS4	RHSOUL4
+ABS5	RHSOUL5
+
+$random Spirit/EsscenseAbsorb {ABS1 ABS2 ABS3 ABS4 ABS5}
+
+Armor/Pickup	RHARMOR
+
+rico1	dsrico1
+rico2	dsrico2
+rico3	dsrico3
+rico4	dsrico4
+rico5	dsrico5
+rico6	dsrico6
+rico7	dsrico7
+rico8	dsrico8
+rico9	dsrico9
+rico10	dsrico10
+
+$Volume Ricochet 0.45
+$random Ricochet { rico1 rico2 rico3 rico4 rico5 rico6 rico7 rico8 rico9 rico10 }
+$limit Ricochet 0
+
+$Volume SFX/NailRic 0.45
+$random SFX/NailRic { NailHT1 NailHT2 NailHT3 NailHT4 NailHT5 NailHT6 NailHT7}
+NailHT1	NailHT7
+NailHT2	NailHT6
+NailHT3	NailHT5
+NailHT4	NailHT4
+NailHT5	NailHT3
+NailHT6	NailHT2
+NailHT7	NailHT1
+
+$volume Move/Step 0.3
+
+items/shell			shelget 
+items/shellbox			shelxget
+
+menu/activate		menuac	// Activate a new menu
+menu/backup			menubk	// Backup to previous menu
+menu/prompt			menuno	// Activate a prompt "menu"
+menu/cursor			menumv	// Move cursor up/down
+menu/change			menumv	// Select new value for option
+menu/invalid		menuno	// Menu not available
+menu/dismiss		menuac	// Dismiss a prompt message
+menu/choose			menuch	// Choose a menu item
+menu/clear			menuno	// Close top menu
+menu/quitA			dsquit1 // Quit game
+menu/quitB			dsquit2 // Quit game
+menu/quitC  		dsquit3 // Quit game
+$random menu/quit1 { menu/quitA menu/quitB menu/quitC }
+$random menu/quit2 { menu/quitA menu/quitB menu/quitC }
+misc/startupdone startup
+
+//Terrain
+
+slime				dsmuck
+slimesmall			dsmucksm
+water				dsgloop
+watersmall			dsfloush
+burn				dsburn
+burnsmall			dsburnsm
+blood1				dssplat1
+blood2				dssplat2
+$RANDOM blood { blood1 blood2 }
+bloodsmall1			dssplat3
+bloodsmall2			dssplat4
+$RANDOM bloodsmall { bloodsmall1 bloodsmall2 }
+
+//World Sounds/Terrain sounds
+
+world/drip			dsempty
+$random world/watersplash		{dssplash dssplas2 water}
+dssplash	dssplash
+dssplas2	dssplas2
+world/watersplashsmall		dssplsml
+world/sludgegloop		dsploosh
+world/sludgegloopsmall		dsplosml
+world/lavasizzle		dslvsiz
+world/lavsiz2			dslvsiz2
+world/lavasizzlesmall		dslavsml
+world/thunder			dsthun
+
+
+$volume world/watersplash 0.6 
+$volume dssplash 0.6 
+$volume dssplas2 0.6 
+
+$limit dssplash 4
+$limit world/drip 4
+$limit world/watersplash 4
+$limit world/watersplashsmall 4
+$limit world/sludgegloop 4
+$limit world/sludgegloopsmall 4
+$limit world/lavasizzle 4
+$limit world/lavsiz2 4
+$limit world/lavasizzlesmall 4
+
+
+IntroVox "Sounds/Misc/IntroVox"
+Intro "Sounds/Misc/Intro"
+Music "Sounds/Misc/Music"
+YouDied Death
+
+Backpack/Pickup DSBACK
+
+$Volume DefaultKill 2.0
+
+$PitchShift DefaultKill 3
+
+$Random DefaultKill {IR2_KillFeedback1 IR2_KillFeedback2 IR2_KillFeedback3 IR2_KillFeedback4}
+
+IR2_KillFeedback1	HMDEFK_1
+IR2_KillFeedback2	HMDEFK_2
+IR2_KillFeedback3	HMDEFK_3
+IR2_KillFeedback4	HMDEFK_4
+
+$Volume DefaultHit 2.0
+
+$PitchShift DefaultHit 3
+
+$random DefaultHit	{ IR2_HitFeedback1 IR2_HitFeedback2 IR2_HitFeedback3 IR2_HitFeedback4 }
+IR2_HitFeedback1	HMDEFH_1
+IR2_HitFeedback2	HMDEFH_2
+IR2_HitFeedback3	HMDEFH_3
+IR2_HitFeedback4	HMDEFH_4
+
+NYC DSNYC
+
+$rolloff casings/sg_shell 100 200
+$random casings/sg_shell {casings/sgc1 casings/sgc2 casings/sgc3} 
+casings/sgc1 		SG_SHEL1
+casings/sgc2 		SG_SHEL2
+casings/sgc3 		SG_SHEL3
+
+//NetherRealm Studios - Mortal Kombat X
+Inferno/DBImpact		"Sounds/DragonsBreathImpact.ogg"
+
+//Croteam - Serious Sam TSE
+Flame/Loop				"Sounds/DropFlame.ogg"
+
+TrapScript/EvilLaugh	EVILLAFF
+TrapScript/LastTenSecs	WARN10S
+TrapScript/Smite		SMITE
+
+DCYTorch "Sounds/Misc/dcy_torch_fire.ogg"
+DCYBurningBarrel "Sounds/Misc/dcy_burning_barrel.ogg"
+$limit DCYTorch 0
+$limit DCYBurningBarrel 0
+
+Apocalypse/cast			apocast
+
+$musicalias D_VICTOR M_IRONM2
+$musicalias D_READ_M M_IRONM2
+
+Player/ArmorBreak	SHLDBRKN
+
+sfx/BigItemAlert	ITEMLOOP
+SFX/Headshot	HEADSHOT

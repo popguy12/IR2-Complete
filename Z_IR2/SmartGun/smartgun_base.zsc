@@ -1,0 +1,195 @@
+
+class TrackedTarget 
+{
+	Actor Thing;
+	SmartBeam beam;
+}
+
+class ProjectileTracker : Inventory
+{
+	SmartBeam beamSource;
+	Default
+	{
+		Inventory.MaxAmount 1;
+	}
+	
+	static Actor FireBeamProjectile(class<Actor> proj, SmartBeam beamTarget, vector3 firepos, vector2 angles, vector3 offsets, double speed = 0)
+	{
+		vector3 worldOffs = SmartBeamMath.V3Offset(
+			angles.x, angles.y, 0,
+			offsets.x, offsets.y, offsets.z, 1.0 
+		);
+		
+		let proj = Actor.Spawn(proj, level.vec3offset(firepos, worldOffs));
+		if(proj)
+		{
+			proj.angle = angles.x;
+			proj.pitch = angles.y;
+			proj.Vel3DFromAngle(speed == 0 ? proj.Speed : speed, proj.angle, proj.pitch);
+			
+			if(speed != 0) proj.A_SetSpeed(speed);
+			
+			proj.GiveInventory("ProjectileTracker", 1);
+			let tracker = ProjectileTracker(proj.FindInventory("ProjectileTracker"));
+			if(tracker) tracker.beamSource = beamTarget;
+		}
+		
+		return proj;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		if(!Owner) return;
+		
+		if(!Owner.bMISSILE)
+		{
+			Owner.RemoveInventory(self);
+			GoAwayAndDie();
+			return;
+		}
+		
+		if(!beamSource) return;
+		
+		double dist = (Owner.pos - beamSource.followPos).Length();
+		double segSize = 5;
+		double curSeg = dist / segSize;
+		double lookMod = clamp(curSeg / beamSource.segs.Size(), 0, 1.0);
+		
+		vector3 look = level.SphericalCoords(Owner.pos, beamSource.followPos, (Owner.angle, Owner.pitch));
+		
+		vector2 aimToTarget = (
+			 Owner.angle - (look.x * lookMod),
+			 Owner.pitch - (look.y * lookMod)
+		);
+		
+		Owner.angle = aimToTarget.x;
+		Owner.pitch = aimToTarget.y;
+		Owner.Vel3DFromAngle(Owner.speed, aimToTarget.x, aimToTarget.y); 
+	}
+}
+
+class SmartGun : IR2Weapon 
+{
+	Array<TrackedTarget> targets;
+	int shots;
+	
+	double smartgun_angleRange;
+	double smartgun_pitchRange;
+	double smartgun_distRange;
+	double smartgun_beamoffs_x;
+	double smartgun_beamoffs_y;
+	double smartgun_beamoffs_z;
+	Color smartgun_color;
+	
+	Property SetupSmartgun : smartgun_angleRange, smartgun_pitchRange, smartgun_distRange;
+	Property BeamOffset : smartgun_beamoffs_x, smartgun_beamoffs_y, smartgun_beamoffs_z;
+	Property BeamColor : smartgun_color;
+	
+	action void A_GetTargets(int maxActors)
+	{
+		let it = BlockThingsIterator.Create(self, invoker.smartgun_distRange);
+		Actor act;
+		while (it.Next())
+		{
+			let act = it.thing;
+			if(invoker.targets.Size() > maxActors) return;
+			
+			// Only take unique targets.
+			bool found = false;
+			for(int i = 0; i < invoker.targets.Size(); i++)
+			{
+				if(invoker.targets[i].Thing == act) 
+				{
+					found = true;
+					break;
+				}
+			}
+			if(found) continue;
+			
+			if(act == self) continue;
+			if(!act.bSHOOTABLE || !(act.bISMONSTER || act.player)) continue;
+			if (act.bKILLED) continue;        
+			if(!IsVisible(act, false)) continue; // Actor is behind wall.        
+			
+			vector3 sCoords = level.SphericalCoords((pos.x,pos.y,player.viewz), act.pos, (angle, pitch));
+			if( abs(sCoords.x) > invoker.smartgun_angleRange || 
+				abs(sCoords.y) > invoker.smartgun_pitchRange || 
+				sCoords.z > invoker.smartgun_distRange) continue;        
+			
+			let tracker = new("TrackedTarget");
+			tracker.Thing = act;
+			tracker.beam = SmartBeam.FireBeam(self, (invoker.smartgun_beamoffs_x,invoker.smartgun_beamoffs_y,invoker.smartgun_beamoffs_z), act, 20, invoker.smartgun_color);
+			invoker.targets.Push(tracker);
+		}
+	}
+	
+	action bool A_CheckValidTarget(Actor checkTarget)
+	{
+		if(!checkTarget) return false;
+		vector3 sCoords = level.SphericalCoords((pos.x,pos.y,player.viewz), checkTarget.pos, (angle, pitch));
+		if( abs(sCoords.x) > invoker.smartgun_angleRange || 
+			abs(sCoords.y) > invoker.smartgun_pitchRange || 
+			sCoords.z > invoker.smartgun_distRange) return false;
+			
+		if( checkTarget.health <= 0) return false;
+		return true;
+	}
+	
+	action void A_UpdateTargets()
+	{
+		// Remove invalid targets
+		for(int i = invoker.targets.Size()-1; i >= 0; i--)
+		{
+			let tracker = invoker.targets[i];
+			if(!A_CheckValidTarget(tracker.Thing))
+			{
+				tracker.beam.Destroy();
+				invoker.targets.Delete(i);
+			}
+		}
+		// Reset shots
+		invoker.shots = 0;
+	}
+	
+	action void A_ClearAimTargets()
+	{
+		// Remove all targets
+		for(int i = invoker.targets.Size()-1; i >= 0; i--)
+		{
+			let tracker = invoker.targets[i];
+			tracker.beam.Destroy();
+			invoker.targets.Delete(i);
+		}
+		// Reset shots
+		invoker.shots = 0;
+	}
+	
+	action void A_FireAimedProjectile(class<Actor> proj, bool useammo = false, double angle = 0, double pitch = 0, double forward = 50, double leftright = 0, double updown = -10, double speed = 0)
+	{
+		let proj = ProjectileTracker.FireBeamProjectile(proj, invoker.targets[invoker.shots].beam, (pos.xy, player.viewz), (self.angle+angle, self.pitch+pitch), (forward, leftright, updown), speed);
+		if(proj) proj.target = self;
+		if(useammo && !sv_infiniteammo) A_TakeInventory(invoker.AmmoType1, invoker.AmmoUse1); 
+	}
+	action void A_DamageAimTarget(int dmg = 50, Name mod = "Hitscan", uint flags = DMG_NO_ARMOR)
+	{
+		invoker.targets[invoker.shots].Thing.DamageMobJ(self, self, dmg, mod, flags); 
+	}
+	action TrackedTarget A_GetAimTarget()
+	{
+		return invoker.targets[invoker.shots];
+	}
+	action void A_NextAimTarget()
+	{
+		invoker.shots++;
+		if(invoker.shots >= invoker.targets.Size()) invoker.shots = 0;
+	}
+	action bool A_CheckHasTargets()
+	{
+		return invoker.targets.Size();
+	}
+	action bool A_CheckNextTarget()
+	{
+		return invoker.shots < invoker.targets.Size();
+	}
+}

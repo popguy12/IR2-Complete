@@ -1,0 +1,41 @@
+/*-----------------------\
+   Hitmarkers by Tekish
+\-----------------------*/
+
+class hitmarkerhandler : eventhandler
+{
+	override void worldthingdamaged(worldevent e)
+	{
+		playerinfo player = players[consoleplayer];
+		bool enabled = cvar.getcvar("hm_enabled", player).getint();
+		int type = cvar.getcvar("hm_bridge_hitmarker", player).getint();
+
+		/*
+		if (e.damagesource && e.thing)
+			console.printf("\nSource: %s\nTarget: %s\nMonster: %d\nDamage: %d\nHealth: %d", e.damagesource.getclassname(), e.thing.getclassname(), e.thing.bISMONSTER, e.damage, e.thing.health);
+		*/
+
+		if (enabled && type != 2 && e.damagesource is "PlayerPawn" && e.damagesource.playernumber() == consoleplayer && (e.thing.bISMONSTER || (e.thing is "PlayerPawn" && e.thing.playernumber() != consoleplayer)))
+		{
+			if (e.thing.health > 0)
+				type = 1;
+			else
+				type = 2;
+
+			int hitsound = cvar.getcvar("hm_hitsound", player).getint();
+
+			if (cvar.getcvar("hm_hitdamage", player).getint() && (!hitsound || hitsound == 5))
+				cvar.getcvar("hm_bridge_damage", player).setint(cvar.getcvar("hm_bridge_damage", player).getint() + e.damage);
+
+			cvar.getcvar("hm_bridge_hitmarker", player).setint(type);
+		}
+	}
+}
+
+class hitmarkerstatusbar ui
+{
+	private static int gettop()
+	{
+		return statusbar.gettopofstatusbar();
+	}
+}

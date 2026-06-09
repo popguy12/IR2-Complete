@@ -1,0 +1,576 @@
+Class van_base_tracer_1 : FastProjectile {
+    protected int ripdepth;         
+    protected actor hitvictim;    
+    property ripdepth : ripdepth;
+    Default {
+        van_base_tracer_1.ripdepth 300;        //ripping ability
+        damage 10;
+        RenderStyle "Add";
+        Radius 2;
+        Height 2;
+        Speed 200;
+        +NOEXTREMEDEATH
+        +NOTIMEFREEZE
+        Decal "BlazeChip";
+		damagetype "PistolAP";
+    }
+    override int SpecialMissileHit(actor victim) {
+        if (victim && target && (victim != target) && (victim != hitvictim) && victim.bSHOOTABLE) {
+                ripdepth -= victim.health;
+                hitvictim = victim;
+                victim.DamageMobj(self,target,damage,"PistolBullet"); 
+                if (!victim.bNOBLOOD) {
+                  victim.TraceBleed(damage,self);
+                  victim.SpawnBlood(pos,AngleTo(victim),damage);
+                }
+            }
+        if (ripdepth <= 0)
+            return 0; //die
+        return 1;    //otherwise fly through
+    }
+    states {
+        Spawn:
+		    TNT1 A 1;
+		Looper:
+            PUFF A 1;
+            loop;
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+        XDeath: //this will execute in all possible other cases (i.e. when dying on bleeding actors)
+            TNT1 A 1;
+            stop;
+    }
+}
+
+Class van_base_tracer_2 : FastProjectile {
+    protected int ripdepth;         
+    protected actor hitvictim;    
+    property ripdepth : ripdepth;
+    Default {
+        van_base_tracer_2.ripdepth 300;        //ripping ability
+        damage 10;
+        RenderStyle "Add";
+        Radius 2;
+        Height 2;
+        Speed 200;
+        +NOEXTREMEDEATH
+        +NOTIMEFREEZE
+        Decal "BlazeChip";
+		damagetype "RevExp";
+    }
+    override int SpecialMissileHit(actor victim) {
+        if (victim && target && (victim != target) && (victim != hitvictim) && victim.bSHOOTABLE) {
+                ripdepth -= victim.health;
+                hitvictim = victim;
+                victim.DamageMobj(self,target,damage,"MagnumBullet"); 
+                if (!victim.bNOBLOOD) {
+                  victim.TraceBleed(damage,self);
+                  victim.SpawnBlood(pos,AngleTo(victim),damage);
+                }
+            }
+        if (ripdepth <= 0)
+            return 0; //die
+        return 1;    //otherwise fly through
+    }
+    states {
+        Spawn:
+		    TNT1 A 1;
+		Looper:
+            PUFF A 1;
+            loop;
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("SniperImpact"); //example
+            stop;
+        XDeath: //this will execute in all possible other cases (i.e. when dying on bleeding actors)
+            TNT1 A 1;
+            stop;
+    }
+}
+
+Class van_base_tracer_3 : FastProjectile {
+    protected int ripdepth;         
+    protected actor hitvictim;    
+    property ripdepth : ripdepth;
+    Default {
+        van_base_tracer_3.ripdepth 300;        //ripping ability
+        damage 10;
+        RenderStyle "Add";
+        Radius 2;
+        Height 2;
+        Speed 200;
+        +NOEXTREMEDEATH
+        +NOTIMEFREEZE
+        Decal "BlazeChip";
+		damagetype "ShotGib";
+    }
+    override int SpecialMissileHit(actor victim) {
+        if (victim && target && (victim != target) && (victim != hitvictim) && victim.bSHOOTABLE) {
+                ripdepth -= victim.health;
+                hitvictim = victim;
+                victim.DamageMobj(self,target,damage,"ShotgunPellet"); 
+                if (!victim.bNOBLOOD) {
+                  victim.TraceBleed(damage,self);
+                  victim.SpawnBlood(pos,AngleTo(victim),damage);
+                }
+            }
+        if (ripdepth <= 0)
+            return 0; //die
+        return 1;    //otherwise fly through
+    }
+    states {
+        Spawn:
+		    TNT1 A 1;
+		Looper:
+            PUFF A 1;
+            loop;
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+        XDeath: //this will execute in all possible other cases (i.e. when dying on bleeding actors)
+            TNT1 A 1;
+            stop;
+    }
+}
+
+Class van_base_tracer_4 : FastProjectile {
+    protected int ripdepth;         
+    protected actor hitvictim;    
+    property ripdepth : ripdepth;
+    Default {
+        van_base_tracer_4.ripdepth 300;        //ripping ability
+        damage 10;
+        RenderStyle "Add";
+        Radius 2;
+        Height 2;
+        Speed 200;
+        +NOEXTREMEDEATH
+        +NOTIMEFREEZE
+        Decal "BlazeChip";
+		damagetype "AntiPER";
+    }
+    override int SpecialMissileHit(actor victim) {
+        if (victim && target && (victim != target) && (victim != hitvictim) && victim.bSHOOTABLE) {
+                ripdepth -= victim.health;
+                hitvictim = victim;
+                victim.DamageMobj(self,target,damage,"RifleBullet"); 
+                if (!victim.bNOBLOOD) {
+                  victim.TraceBleed(damage,self);
+                  victim.SpawnBlood(pos,AngleTo(victim),damage);
+                }
+            }
+        if (ripdepth <= 0)
+            return 0; //die
+        return 1;    //otherwise fly through
+    }
+    states {
+        Spawn:
+		    TNT1 A 1;
+		Looper:
+            PUFF A 1;
+            loop;
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+        XDeath: //this will execute in all possible other cases (i.e. when dying on bleeding actors)
+            TNT1 A 1;
+            stop;
+    }
+}
+
+Class van_base_tracer_4x : FastProjectile {
+    protected int ripdepth;         
+    protected actor hitvictim;    
+    property ripdepth : ripdepth;
+    Default {
+        van_base_tracer_4x.ripdepth 300;        //ripping ability
+        damage 10;
+        RenderStyle "Add";
+        Radius 2;
+        Height 2;
+        Speed 200;
+        +NOEXTREMEDEATH
+        +NOTIMEFREEZE
+        Decal "BlazeChip";
+		damagetype "AntiPER";
+    }
+    override int SpecialMissileHit(actor victim) {
+        if (victim && target && (victim != target) && (victim != hitvictim) && victim.bSHOOTABLE) {
+                ripdepth -= victim.health;
+                hitvictim = victim;
+                victim.DamageMobj(self,target,damage,"RifleBulletX"); 
+                if (!victim.bNOBLOOD) {
+                  victim.TraceBleed(damage,self);
+                  victim.SpawnBlood(pos,AngleTo(victim),damage);
+                }
+            }
+        if (ripdepth <= 0)
+            return 0; //die
+        return 1;    //otherwise fly through
+    }
+    states {
+        Spawn:
+		    TNT1 A 1;
+		Looper:
+            PUFF A 1;
+            loop;
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+        XDeath: //this will execute in all possible other cases (i.e. when dying on bleeding actors)
+            TNT1 A 1;
+            stop;
+    }
+}
+
+Class van_base_tracer_5 : FastProjectile {
+    protected int ripdepth;         
+    protected actor hitvictim;    
+    property ripdepth : ripdepth;
+    Default {
+        van_base_tracer_5.ripdepth 300;        //ripping ability
+        damage 10;
+        RenderStyle "Add";
+        Radius 2;
+        Height 2;
+        Speed 200;
+        +NOEXTREMEDEATH
+        +NOTIMEFREEZE
+        Decal "BlazeChip";
+		damagetype "AntiPER";
+    }
+    override int SpecialMissileHit(actor victim) {
+        if (victim && target && (victim != target) && (victim != hitvictim) && victim.bSHOOTABLE) {
+                ripdepth -= victim.health;
+                hitvictim = victim;
+                victim.DamageMobj(self,target,damage,"SniperBullet"); 
+                if (!victim.bNOBLOOD) {
+                  victim.TraceBleed(damage,self);
+                  victim.SpawnBlood(pos,AngleTo(victim),damage);
+                }
+            }
+        if (ripdepth <= 0)
+            return 0; //die
+        return 1;    //otherwise fly through
+    }
+    states {
+        Spawn:
+		    TNT1 A 1;
+		Looper:
+            PUFF A 1;
+            loop;
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+        XDeath: //this will execute in all possible other cases (i.e. when dying on bleeding actors)
+            TNT1 A 1;
+            stop;
+    }
+}
+
+Class van_base_tracer_6 : FastProjectile { //Non-Bleeding Tracers
+    protected int ripdepth;         
+    protected actor hitvictim;    
+    property ripdepth : ripdepth;
+    Default {
+        van_base_tracer_6.ripdepth 300;        //ripping ability
+        damage 10;
+        RenderStyle "Add";
+        Radius 2;
+        Height 2;
+        Speed 200;
+        +NOEXTREMEDEATH
+        +NOTIMEFREEZE
+        Decal "BlazeChip";
+		damagetype "RifleGib";
+    }
+    override int SpecialMissileHit(actor victim) {
+        if (victim && target && (victim != target) && (victim != hitvictim) && victim.bSHOOTABLE) {
+                ripdepth -= victim.health;
+                hitvictim = victim;
+                victim.DamageMobj(self,target,damage,"CannonBullet"); 
+                if (!victim.bNOBLOOD) {
+                  victim.TraceBleed(damage,self);
+                  victim.SpawnBlood(pos,AngleTo(victim),damage);
+                }
+            }
+        if (ripdepth <= 0)
+            return 0; //die
+        return 1;    //otherwise fly through
+    }
+    states {
+        Spawn:
+		    TNT1 A 1;
+		Looper:
+            PUFF A 1;
+            loop;
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("HAC_Impact"); //example
+            stop;
+        XDeath: //this will execute in all possible other cases (i.e. when dying on bleeding actors)
+            TNT1 A 1;
+            stop;
+    }
+}
+
+Class van_pistol_tracer : van_base_tracer_1 {
+    Default {
+        damage 32;
+        van_base_tracer_1.ripdepth 31;
+        speed 200;
+        decal "BlazeChip";
+    }
+	states {
+
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+    }
+}
+
+Class van_hpistol_tracer : van_base_tracer_1 {
+    Default {
+        damage 56;
+        van_base_tracer_1.ripdepth 55;
+        speed 200;
+        Decal "BlazeChip";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("SniperImpact"); //example
+            stop;
+    }
+}
+
+Class van_tormentor_tracer : van_base_tracer_2 {
+    Default {
+        damage 100;
+        van_base_tracer_2.ripdepth 99;
+        speed 200;
+        Decal "HarbingerPrimary";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("HAC_Impact"); //example
+            stop;
+    }
+}
+
+Class van_autopistol_tracer : van_base_tracer_1 {
+    Default {
+        damage 15;
+        van_base_tracer_1.ripdepth 14;
+        speed 200;
+        Decal "BlazeChip";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+    }
+}
+
+Class van_autohpistol_tracer : van_base_tracer_1 {
+    Default {
+        damage 36;
+        van_base_tracer_1.ripdepth 35;
+        speed 200;
+        Decal "BlazeChip";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("SniperImpact"); //example
+            stop;
+    }
+}
+
+Class van_devastator_tracer : van_base_tracer_2 {
+    Default {
+        damage 56;
+        van_base_tracer_2.ripdepth 55;
+        speed 200;
+        Decal "HarbingerPrimary";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("HAC_Impact"); //example
+            stop;
+    }
+}
+
+Class van_tungsten_tracer : van_base_tracer_2 {
+    Default {
+        damage 72;
+        van_base_tracer_2.ripdepth 71;
+        speed 200;
+        Decal "HarbingerPrimary";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("HAC_Impact"); //example
+            stop;
+    }
+}
+
+Class van_pellet_tracer : van_base_tracer_3 {
+    Default {
+        damage 10;
+        van_base_tracer_3.ripdepth 9;
+        speed 200;
+        Decal "BlazeChip";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+    }
+}
+
+Class van_arifle_tracer : van_base_tracer_4 {
+    Default {
+        damage 48;
+        van_base_tracer_4.ripdepth 47;
+        speed 200;
+        Decal "BlazeChip";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+    }
+}
+
+Class van_hrifle_tracer : van_base_tracer_4x {
+    Default {
+        damage 56;
+        van_base_tracer_4x.ripdepth 55;
+        speed 350;
+        Decal "PlasmaChip";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("PlasmaImpact"); //example
+            stop;
+    }
+}
+
+Class van_hellstorm_tracer : van_base_tracer_5 {
+    Default {
+        damage 20;
+        van_base_tracer_5.ripdepth 19;
+        speed 200;
+        Decal "BlazeChip";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact"); //example
+            stop;
+    }
+}
+Class van_hellstorm_tracer_noblood : van_base_tracer_5 {
+    Default {
+        damage 10;
+        van_base_tracer_5.ripdepth 9;
+        speed 200;
+		RenderStyle "None";
+        Decal "None";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("BulletImpact2"); //example
+            stop;
+    }
+}
+
+Class van_longinus_tracer : van_base_tracer_2 {
+    Default {
+        damage 96;
+        van_base_tracer_2.ripdepth 999; //gets lodged in the 3rd target provied enemies arent too beefy
+        speed 4000;
+        Decal "HarbingerPrimary";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("HAC_Impact"); //example
+            stop;
+    }
+}
+
+Class van_mauler_tracer : van_base_tracer_2 {
+    Default {
+        damage 96;
+        van_base_tracer_2.ripdepth 299; //gets lodged in the 3rd target provied enemies arent too beefy
+        speed 200;
+        Decal "HarbingerPrimary";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("HAC_Impact"); //example
+            stop;
+    }
+}
+
+Class van_typhoon_tracer : van_base_tracer_5 {
+    Default {
+        damage 30;
+        van_base_tracer_5.ripdepth 29;
+        speed 350;
+        Decal "PlasmaChip";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("PlasmaImpact"); //example
+            stop;
+    }
+}
+Class van_typhoon_tracer_noblood : van_base_tracer_5 {
+    Default {
+        damage 15;
+        van_base_tracer_5.ripdepth 14;
+        speed 350;
+		RenderStyle "None";
+        Decal "None";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("PlasmaImpact2"); //example
+            stop;
+    }
+}
+
+Class van_hcannon_tracer : van_base_tracer_6 {
+    Default {
+        damage 135;
+        van_base_tracer_6.ripdepth 1199; //gets lodged in the 3rd target provied enemies arent too beefy
+        speed 200;
+        Decal "HarbingerPrimary";
+    }
+	states {
+		Death: //if this works i will shit itself
+        Crash: //this will execute when hitting a wall/floor/nonbleeding actor
+            TNT1 A 1 A_SpawnItemEx("HAC_Impact"); //example
+            stop;
+    }
+}

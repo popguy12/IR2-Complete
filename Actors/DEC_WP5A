@@ -1,0 +1,1389 @@
+Actor Omen : IR2Weapon
+{
+    //$Category IR_Weapons
+  //$Title OMN-106E Omen Mk.V
+  //$Sprite OMNPA0
+	Tag "OMN-106E Omen Mk.V"
+	Weapon.SelectionOrder 400
+	Weapon.SlotNumber 4
+	Inventory.PickupSound "misc/w_pkup"
+	Inventory.PickupMessage "You got the OMN-106E ''Omen'' Mk.V Assault Rifle"
+	//Weapon.UpSound "Weapons/OmenUp"
+	Obituary "%k decided to teach %o a lesson in the art of being a bullet sponge, %g passed with flying colors."
+	Weapon.AmmoType "OmenClip"
+	Weapon.AmmoGive 0
+	Weapon.AmmoUse 1
+	Weapon.PreferredSkin "Rifle"
+	Weapon.AmmoType2 "ARifle_Magazine"
+	Weapon.AmmoGive2 2
+	Weapon.AmmoUse2 0
+	IR2Weapon.BulletGraphics "graphics/MikkOS/BigRifleBullet.png", "graphics/MikkOS/BigRifleShell.png"
+	decal "BlazeChip"
+	Scale 0.75
+	Weapon.Slotnumber 4
+	weapon.bobstyle smooth
+	weapon.bobrangeX 0.4
+	weapon.bobrangeY 0.6
+	weapon.bobspeed 2.5
+	weapon.weaponscalex 1.2
+	+AMMO_OPTIONAL
+	+NOEXTREMEDEATH
+	+NoAutoFire
+	+NOALERT
+	+NOAUTOAIM
+	+UNDROPPABLE
+	+INVENTORY.UNCLEARABLE
+	States
+	{
+	Spawn:
+		OMNP A -1
+		stop
+	Ready:
+        HNGI A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+        loop
+	ReadyEmpty:
+        HNGE A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+        loop
+    Select:
+		TNT1 A 0 A_JumpIfInventory("RifleToken",1,"SelectSemi")
+		TNT1 A 0 A_JumpIfInventory("OmenFirstTime",1,"FirstTime")
+		Goto SelectAuto
+    FirstTime:
+		TNT1 A 0 A_StartSound("RW/SLOT5A",251,0,2.0,2)
+    SelectAuto:
+		TNT1 A 0 A_TakeInventory("OmenFirstTime",1)
+		TNT1 A 0 A_SetCrosshair(7)
+		TNT1 A 1
+		HNGS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,0,2)
+		HNGS BCDEFF 1
+    SelectLoopAuto:
+		HNGG A 1 A_Raise
+		Goto SelectLoopAuto
+    SelectSemi:
+		TNT1 A 0 SetPlayerProperty(0,0,2)
+		TNT1 A 0 A_SetCrosshair(14)
+		TNT1 A 1
+		HNGS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,0,2)
+		HNGS BCDEFF 1
+    SelectLoopSemi:
+		HNGG A 1 A_Raise
+		Goto SelectLoopSemi
+    Deselect:
+		TNT1 A 0 A_SetCrosshair(1)
+		HNGS F 1 A_PlaySound("Weapons/CS_Deselect", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,1,2)
+		HNGS FEDCBA 1
+		TNT1 A 2 
+    DeselectLoop:
+		TNT1 A 1 A_Lower
+		Goto deselectLoop
+	Fire:
+	    TNT1 A 0 A_JumpIfInventory("RifleToken", 1, "FireHyper")
+	FireAuto:
+		TNT1 A 0 A_JumpIfInventory("RifleTokenDMG", 1, "FireAuto_X")
+		TNT1 A 0 A_Jump(255,"A_A","B_A","C_A","D_A")
+	A_A:
+	    TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF G 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_Refire
+		Goto Ready
+	B_A:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF G 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_Refire
+		Goto Ready
+	C_A:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF G 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_Refire
+		Goto Ready
+	D_A:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF G 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_Refire
+		Goto Ready
+	FireAutoLast:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenBolt",100,0,1.0,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF H 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF I 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF J 1 A_WeaponReady(WRF_NOFIRE)
+		Goto ReadyEmpty
+	FireHyper:
+		TNT1 A 0 A_JumpIfInventory("RifleTokenDMG", 1, "FireHyper_X")
+	    TNT1 A 0 A_Jump(255,"A_H","B_H","C_H","D_H")
+	A_H:
+	    TNT1 A 0 A_JumpIfInventory("OmenClip",5,1)
+		Goto FireHyperLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF G 1 A_WeaponReady(WRF_NOFIRE)
+		HNGI A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	B_H:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",5,1)
+		Goto FireHyperLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF G 1 A_WeaponReady(WRF_NOFIRE)
+		HNGI A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	C_H:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",5,1)
+		Goto FireHyperLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF G 1 A_WeaponReady(WRF_NOFIRE)
+		HNGI A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	D_H:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",5,1)
+		Goto FireHyperLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF G 1 A_WeaponReady(WRF_NOFIRE)
+		HNGI A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	FireHyperLast:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchBullet",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFire",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenBolt",100,0,1.0,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_arifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash1")
+		HNGF X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGF H 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF I 1 A_WeaponReady(WRF_NOFIRE)
+		HNGF J 1 A_WeaponReady(WRF_NOFIRE)
+		HNGE A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto ReadyEmpty
+	FireAuto_X:
+		TNT1 A 0 A_Jump(255,"A_XA","B_XA","C_XA","D_XA")
+	A_XA:
+	    TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX G 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_Refire
+		Goto Ready
+	B_XA:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX G 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_Refire
+		Goto Ready
+	C_XA:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX G 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_Refire
+		Goto Ready
+	D_XA:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX G 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_Refire
+		Goto Ready
+	FireAutoLast_X:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenBolt",100,0,1.0,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.85, 0.85), 1, 2.5, 5, 0,frandom(-0.85, 0.85))
+		TNT1 A 0 A_SetPitch(pitch - 0.90)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX H 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX I 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX J 1 A_WeaponReady(WRF_NOFIRE)
+		Goto ReadyEmpty
+	FireHyper_X:
+	    	TNT1 A 0 A_Jump(255,"A_XH","B_XH","C_XH","D_XH")
+	A_XH:
+	    TNT1 A 0 A_JumpIfInventory("OmenClip",5,1)
+		Goto FireHyperLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX G 1 A_WeaponReady(WRF_NOFIRE)
+		HNGI A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	B_XH:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",5,1)
+		Goto FireHyperLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX G 1 A_WeaponReady(WRF_NOFIRE)
+		HNGI A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	C_XH:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",5,1)
+		Goto FireHyperLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX G 1 A_WeaponReady(WRF_NOFIRE)
+		HNGI A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	D_XH:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",5,1)
+		Goto FireHyperLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX F 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX G 1 A_WeaponReady(WRF_NOFIRE)
+		HNGI A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	FireHyperLast_X:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",2,1)
+		Goto FireAutoLast_X
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX C 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX B 1 Bright A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8)		
+	    TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0)
+		TNT1 A 0 A_StartSound("Weapons/OmenPunchPlasma",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireX",77,0,0.77,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenFireAdd",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/OmenBolt",100,0,1.0,2)
+		TNT1 A 0 A_FireProjectile("ARifleCasing_Spawner_X",0,0,0,3,0)
+		TNT1 A 0 A_FireProjectile("p_hrifle_tracer", frandom(-0.66, 0.66), 1, 2.5, 5, 0,frandom(-0.66, 0.66))
+		TNT1 A 0 A_SetPitch(pitch - 5.0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash2")
+		HNGX X 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX A 1 Bright A_WeaponReady(WRF_NOFIRE)
+		HNGX E 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX H 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX I 1 A_WeaponReady(WRF_NOFIRE)
+		HNGX J 1 A_WeaponReady(WRF_NOFIRE)
+		HNGE A 3 A_WeaponReady(WRF_NOFIRE)
+		Goto ReadyEmpty
+	AltFire: //Does checks, if you have no dummy actors, select semi auto
+		TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+		SHTG A 0 A_JumpIfInventory("RifleToken", 1, "AltFire2")
+		SHTG A 0 A_GiveInventory("RifleToken", 1)
+		TNT1 A 0 A_SetCrosshair(14)
+		HNGI A 10 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	AltFire2: //Clears dummy actors, to use full auto
+		TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+		SHTG A 0 A_TakeInventory("RifleToken", 1)
+		TNT1 A 0 A_SetCrosshair(7)
+		HNGI A 10 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	DryFire:
+		TNT1 A 0 A_PlaySound("Rifle/Empty",199,1.0,0,1)
+		HNGE A 5 A_WeaponReady(WRF_NOFIRE)
+		Goto ReadyEmpty
+	NoTokens:
+		TNT1 A 0 A_PlaySound("Rifle/Empty",199,1.0,0,1)
+		HNGI A 5 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	Reload:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",81,"Ready")
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,"ReloadBeginPartial")
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto ReloadBeginEmpty
+	ReloadBeginEmpty:
+		TNT1 A 0 A_JumpIfInventory("Arifle_Magazine",1,1)
+		Goto DryFire
+		HGXO A 0 A_JumpIfInventory("RifleTokenDMG",1,2)
+		HGRO A 0
+		"####" ABCD 1 A_WeaponReady(WRF_NOFIRE)
+		"####" EFGHIJKLMN 1 A_WeaponReady(WRF_NOFIRE)
+		"####" NN 1 A_WeaponReady(WRF_NOFIRE)
+		"####" A 0 A_PlaySound("ArchangelK61/MagHit",CHAN_5,1.0,0,2)
+		"####" A 0 A_PlaySound("ArchangelK61/MagOut",CHAN_6,1.0,0,2)
+		"####" OPQRSS 1 A_WeaponReady(WRF_NOFIRE)
+		"####" A 0 A_SpawnItemEx("OmenClipDrop",0,0,20)
+		"####" S 20 A_WeaponReady(WRF_NOFIRE)
+		HGRI ABCDEFG 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("ArchangelK61/MagIn",CHAN_7,1.0,0,2)
+		HGRI HIJKKLL 1 A_WeaponReady(WRF_NOFIRE)
+		HGRI L 6 A_WeaponReady(WRF_NOFIRE)
+		HGRI MNO 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("SK410/MagHit",CHAN_6,1.0,0,2)
+		HGRI PQR 1 A_WeaponReady(WRF_NOFIRE)
+		HGRI STU 1 A_WeaponReady(WRF_NOFIRE)
+		HGRI VWX 1 A_WeaponReady(WRF_NOFIRE)
+		HGRI YZZ 1 A_WeaponReady(WRF_NOFIRE)
+		HGRF A 8 A_WeaponReady(WRF_NOFIRE)
+		Goto ReloadAmmoLoop
+	ReloadBeginPartial:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",81,"Ready")
+		TNT1 A 0 A_JumpIfInventory("Arifle_Magazine",1,1)
+		Goto DryFire
+		HGRS ABCDE 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("ArchangelK61/BoltPull",CHAN_7,1.0,0,2)
+		HGRS EFGHIJK 1 A_WeaponReady(WRF_NOFIRE)
+		HGXO A 0 A_JumpIfInventory("RifleTokenDMG",1,2)
+		HGRO A 0
+		"####" ABCD 1 A_WeaponReady(WRF_NOFIRE)
+		"####" EFGHIJKLMN 1 A_WeaponReady(WRF_NOFIRE)
+		"####" NN 1 A_WeaponReady(WRF_NOFIRE)
+		"####" A 0 A_PlaySound("ArchangelK61/MagHit",CHAN_5,1.0,0,2)
+		"####" A 0 A_PlaySound("ArchangelK61/MagOut",CHAN_6,1.0,0,2)
+		"####" OPQRSS 1 A_WeaponReady(WRF_NOFIRE)
+		"####" A 0 A_SpawnItemEx("OmenClipDrop",0,0,20)
+		"####" S 20 A_WeaponReady(WRF_NOFIRE)
+		HGRI ABCDEFG 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("ArchangelK61/MagIn",CHAN_7,1.0,0,2)
+		HGRI HIJKKLL 1 A_WeaponReady(WRF_NOFIRE)
+		HGRI L 6 A_WeaponReady(WRF_NOFIRE)
+		HGRI MNO 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("SK410/MagHit",CHAN_6,1.0,0,2)
+		HGRI PQR 1 A_WeaponReady(WRF_NOFIRE)
+		HGRI STU 1 A_WeaponReady(WRF_NOFIRE)
+		HGRI VWX 1 A_WeaponReady(WRF_NOFIRE)
+		HGRI YZZ 1 A_WeaponReady(WRF_NOFIRE)
+		HGRF A 8 A_WeaponReady(WRF_NOFIRE)
+		Goto ReloadAmmoLoop
+	ReloadAmmoLoop:
+		NULL A 0 A_TakeInventory("ARifle_Magazine",1)
+		NULL A 0 A_GiveInventory("OmenClip",80)
+		NULL A 0 A_JumpIfInventory("ARifle_Magazine",1,1) // if not out of ammo, countinue reloading
+		goto ReloadEnd
+	ReloadEnd:
+		HGRF ABCDE 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("ArchangelK61/BoltRelease",CHAN_7,1.0,0,2)
+		HGRF FFGGGHHHHIJKLMNOPQQ 1 A_WeaponReady(WRF_NOFIRE)
+		SHTG A 0 A_TakeInventory("RifleTokenDMG", 1)
+		Goto Ready
+	Zoom:
+		TNT1 A 0 A_JumpIfInventory("OmenClipToken",1,1)
+		Goto NoTokens
+		TNT1 A 0 A_JumpIfInventory("OmenClip",81,"Ready")
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,"ReloadBeginPartial_X")
+		TNT1 A 0 A_JumpIfInventory("OmenClip",1,1)
+		Goto ReloadBeginEmpty_X
+	ReloadBeginEmpty_X:
+		TNT1 A 0 A_JumpIfInventory("Arifle_Magazine",1,1)
+		Goto DryFire
+		HGXO A 0 A_JumpIfInventory("RifleTokenDMG",1,2)
+		HGRO A 0
+		"####" ABCD 1 A_WeaponReady(WRF_NOFIRE)
+		"####" EFGHIJKLMN 1 A_WeaponReady(WRF_NOFIRE)
+		"####" NN 1 A_WeaponReady(WRF_NOFIRE)
+		"####" A 0 A_PlaySound("ArchangelK61/MagHit",CHAN_5,1.0,0,2)
+		"####" A 0 A_PlaySound("ArchangelK61/MagOut",CHAN_6,1.0,0,2)
+		"####" OPQRSS 1 A_WeaponReady(WRF_NOFIRE)
+		"####" A 0 A_SpawnItemEx("OmenClipDrop",0,0,20)
+		"####" S 20 A_WeaponReady(WRF_NOFIRE)
+		HGXI ABCDEFG 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("ArchangelK61/MagIn",CHAN_7,1.0,0,2)
+		HGXI HIJKKLL 1 A_WeaponReady(WRF_NOFIRE)
+		HGXI L 6 A_WeaponReady(WRF_NOFIRE)
+		HGXI MNO 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("SK410/MagHit",CHAN_6,1.0,0,2)
+		HGXI PQR 1 A_WeaponReady(WRF_NOFIRE)
+		HGXI STU 1 A_WeaponReady(WRF_NOFIRE)
+		HGXI VWX 1 A_WeaponReady(WRF_NOFIRE)
+		HGXI YZZ 1 A_WeaponReady(WRF_NOFIRE)
+		HGXF A 8 A_WeaponReady(WRF_NOFIRE)
+		Goto ReloadAmmoLoop_X
+	ReloadBeginPartial_X:
+		TNT1 A 0 A_JumpIfInventory("OmenClip",81,"Ready")
+		TNT1 A 0 A_JumpIfInventory("Arifle_Magazine",1,1)
+		Goto DryFire
+		HGXS ABCDE 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("ArchangelK61/BoltPull",CHAN_7,1.0,0,2)
+		HGXS EFGHIJK 1 A_WeaponReady(WRF_NOFIRE)
+		HGXO A 0 A_JumpIfInventory("RifleTokenDMG",1,2)
+		HGRO A 0
+		"####" ABCD 1 A_WeaponReady(WRF_NOFIRE)
+		"####" EFGHIJKLMN 1 A_WeaponReady(WRF_NOFIRE)
+		"####" NN 1 A_WeaponReady(WRF_NOFIRE)
+		"####" A 0 A_PlaySound("ArchangelK61/MagHit",CHAN_5,1.0,0,2)
+		"####" A 0 A_PlaySound("ArchangelK61/MagOut",CHAN_6,1.0,0,2)
+		"####" OPQRSS 1 A_WeaponReady(WRF_NOFIRE)
+		"####" A 0 A_SpawnItemEx("OmenClipDrop",0,0,20)
+		"####" S 20 A_WeaponReady(WRF_NOFIRE)
+		HGXI ABCDEFG 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("ArchangelK61/MagIn",CHAN_7,1.0,0,2)
+		HGXI HIJKKLL 1 A_WeaponReady(WRF_NOFIRE)
+		HGXI L 6 A_WeaponReady(WRF_NOFIRE)
+		HGXI MNO 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("SK410/MagHit",CHAN_6,1.0,0,2)
+		HGXI PQR 1 A_WeaponReady(WRF_NOFIRE)
+		HGXI STU 1 A_WeaponReady(WRF_NOFIRE)
+		HGXI VWX 1 A_WeaponReady(WRF_NOFIRE)
+		HGXI YZZ 1 A_WeaponReady(WRF_NOFIRE)
+		HGXF A 8 A_WeaponReady(WRF_NOFIRE)
+		Goto ReloadAmmoLoop_X
+	ReloadAmmoLoop_X:
+		NULL A 0 A_TakeInventory("ARifle_Magazine",1)
+		NULL A 0 A_TakeInventory("OmenClipToken",1)
+		NULL A 0 A_GiveInventory("OmenClip",80)
+		NULL A 0 A_JumpIfInventory("ARifle_Magazine",1,1) // if not out of ammo, countinue reloading
+		goto ReloadEnd_X
+	ReloadEnd_X:
+		HGXF ABCDE 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("ArchangelK61/BoltRelease",CHAN_7,1.0,0,2)
+		HGXF FFGGGHHHHIJKLMNOPQQ 1 A_WeaponReady(WRF_NOFIRE)
+		SHTG A 0 A_GiveInventory("RifleTokenDMG", 1)
+		Goto Ready
+	GunFlash1:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true)
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add)
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6)
+		TNT1 A 1 Bright 
+			{
+			A_FireProjectile("OmenFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+			}
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0)
+		TNT1 A 1 Bright
+		Stop
+	GunFlash2:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true)
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add)
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6)
+		TNT1 A 1 Bright 
+			{
+			A_FireProjectile("OmenFX_EX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+			}
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0)
+		TNT1 A 1 Bright
+		Stop
+	}
+}
+
+ACTOR RifleToken : Inventory {Inventory.MaxAmount 1}
+ACTOR RifleTokenDMG : Inventory {Inventory.MaxAmount 1}
+
+ACTOR OmenFirstTime : Inventory {Inventory.MaxAmount 1 Inventory.InterHubAmount 1}
+
+ACTOR OmenClip : Ammo
+{
+Inventory.Amount 0
+Inventory.MaxAmount 81
+Ammo.BackpackAmount 0
+Ammo.BackpackMaxAmount 81
++IGNORESKILL
+}
+
+ACTOR OmenClipToken : Ammo
+{
+Inventory.Amount 1
+Inventory.MaxAmount 4
+Ammo.BackpackAmount 2
+Ammo.BackpackMaxAmount 8
++IGNORESKILL
+}
+
+actor ARifle_Magazine : ammo 27115 {
+  radius 16
+  height 8
+  Scale 0.18
+  inventory.pickupmessage "Drum Magazine of .338 Norma Magnum for the OMN-106E Omen Mk.V"
+  inventory.pickupsound "ArchangelK61/MagIn"
+  Tag "Omen Magazine"
+  inventory.amount 1
+  inventory.maxamount 4
+  ammo.backpackamount 2
+  ammo.backpackmaxamount 8
+  +UNDROPPABLE
+  +INVENTORY.UNCLEARABLE
+  states
+  {
+  Spawn:
+    OMNC A -1
+    stop
+  }
+}
+
+actor ARifle_Magazine_X : CustomInventory 27295 
+{
+  radius 16
+  height 8
+  Scale 0.18
+  inventory.pickupmessage "Drum Magazine of .338 Norma Bluehounds for the OMN-106E Omen Mk.V"
+  inventory.pickupsound "ArchangelK61/MagIn"
+  Tag "Bluehound Magazine"
+  +UNDROPPABLE
+  +INVENTORY.UNCLEARABLE
+  states
+  {
+  Spawn:
+    OMNC B -1
+    stop
+  Pickup:
+    TNT1 A 0 A_GiveInventory ("ARifle_Magazine", 1)
+    TNT1 A 0 A_GiveInventory ("OmenClipToken",1)
+    stop
+  }
+}
+
+ACTOR ARifleCasing_Spawner
+{
+    Radius 1
+    Height 1
+    Speed 18
+    PROJECTILE
+	+NOCLIP
+	+CLIENTSIDEONLY
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_SpawnItemEx("arifle_casing", 0, 10, -4, random(-3,0), random(-7,-5), random(0,1), 0)
+        Stop
+    }
+}
+
+ACTOR ARifle_Casing
+{
+   Radius 2
+   Height 4
+   Speed 8
+   Scale 0.17
+   BounceSound "Weapons/RifleCasing"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +DONTSPLASH
+   +CLIENTSIDEONLY
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 6
+   BounceFactor 0.6
+   DamageType Nope
+   States
+   {
+   Spawn:
+	  ARBC A 0
+      ARBC ABCDEF 1
+      Goto Roflcopter
+   Roflcopter:
+      ARBC A 0 A_Jump(128,1,3,5,7)
+      ARBC ABCDEF 1
+      Loop
+   Death:
+      ARBC A 0 A_SpawnItemEx("ARifle_Casing_Liedown")
+      stop
+   }
+}
+
+actor ARifle_Casing_Liedown
+{
+	-NOGRAVITY
+    Scale 0.17
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2","Spawn3")
+	  stop
+	Spawn1:
+	  ARBC A 1
+	  Goto Ded
+	Spawn2:
+	  ARBC D 1
+	  Goto Ded
+	Spawn3:
+	  ARBC C 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR ARifleCasing_Spawner_X
+{
+    Radius 1
+    Height 1
+    Speed 18
+    PROJECTILE
+	+NOCLIP
+	+CLIENTSIDEONLY
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_SpawnItemEx("arifle_casing_x", 0, 10, -4, random(-3,0), random(-7,-5), random(0,1), 0)
+        Stop
+    }
+}
+
+ACTOR ARifle_Casing_X
+{
+   Radius 2
+   Height 4
+   Speed 8
+   Scale 0.17
+   BounceSound "Weapons/RifleCasing"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +DONTSPLASH
+   +CLIENTSIDEONLY
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 6
+   BounceFactor 0.6
+   DamageType Nope
+   States
+   {
+   Spawn:
+	  ARCX A 0
+      ARCX ABCDEF 1
+      Goto Roflcopter
+   Roflcopter:
+      ARCX A 0 A_Jump(128,1,3,5,7)
+      ARCX ABCDEF 1
+      Loop
+   Death:
+      ARCX A 0 A_SpawnItemEx("ARifle_Casing_Liedown_X")
+      stop
+   }
+}
+
+actor ARifle_Casing_Liedown_X
+{
+	-NOGRAVITY
+    Scale 0.17
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2","Spawn3")
+	  stop
+	Spawn1:
+	  ARCX A 1
+	  Goto Ded
+	Spawn2:
+	  ARCX D 1
+	  Goto Ded
+	Spawn3:
+	  ARCX C 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR OmenClipDrop
+{
+   Radius 4
+   Height 4
+   Speed 8
+   Scale 0.18
+   BounceSound "Clip/ASR"
+   Projectile
+   ReactionTime 175
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 5
+   BounceFactor 0.6
+   -NOGRAVITY
+   +BOUNCEONCEILINGS
+   +BOUNCEONFLOORS
+   +BOUNCEONWALLS
+   +ROLLCENTER
+   +ROLLSPRITE
+   +DONTSPLASH
+   +NOTIMEFREEZE
+   States
+   {
+   Spawn:
+	  TNT1 A 0 NODELAY A_Countdown
+	  TNT1 A 0 ThrustThingZ(0,5,0,0)
+	  TNT1 A 0 ThrustThing(0,(frandom(-16, 16)))
+   Looper:
+      CLP3 A 1 A_SetRoll(roll+15, SPF_INTERPOLATE)
+      Loop
+   Death:
+      "####" "#" 0 A_SetRoll(0)
+      "####" "#" 0 A_SpawnItemEx("OmenClipLiedown")
+      stop
+   }
+}
+
+actor OmenClipLiedown
+{
+	-NOGRAVITY
+	+FLOORCLIP
+	+NOTIMEFREEZE
+    Scale 0.18
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(256,"Spawn1","Spawn2")
+	  stop
+	Spawn1:
+	  CLP3 B 1
+	  Goto Ded
+	Spawn2:
+	  CLP3 C 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR OmenClipDropEX
+{
+   Radius 4
+   Height 4
+   Speed 8
+   Scale 0.18
+   BounceSound "Clip/ASR"
+   Projectile
+   ReactionTime 175
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 5
+   BounceFactor 0.6
+   -NOGRAVITY
+   +BOUNCEONCEILINGS
+   +BOUNCEONFLOORS
+   +BOUNCEONWALLS
+   +ROLLCENTER
+   +ROLLSPRITE
+   +DONTSPLASH
+   +NOTIMEFREEZE
+   States
+   {
+   Spawn:
+	  TNT1 A 0 NODELAY A_Countdown
+	  TNT1 A 0 ThrustThingZ(0,5,0,0)
+	  TNT1 A 0 ThrustThing(0,(frandom(-16, 16)))
+	  Goto Looper
+   Looper:
+      CLX3 A 1 A_SetRoll(roll+15, SPF_INTERPOLATE)
+      Loop
+   Death:
+      CLX3 A 0 A_SetRoll(0)
+      CLX3 A 0 A_SpawnItemEx("OmenClipLiedownEX")
+      stop
+   }
+}
+
+actor OmenClipLiedownEX
+{
+	-NOGRAVITY
+	+FLOORCLIP
+	+NOTIMEFREEZE
+    Scale 0.18
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(256,"Spawn1","Spawn2")
+	  stop
+	Spawn1:
+	  CLX3 B 1
+	  Goto Ded
+	Spawn2:
+	  CLX3 C 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}

@@ -1,0 +1,201 @@
+// keys ------------------------------------------------------------------------
+
+pulselight REDKEY
+{
+    color 1.0 0.0 0.0
+    size 16
+    secondarySize 20
+    interval 2.0
+	//attenuate 1
+    offset 0 10 0
+}
+
+object RedCard
+{
+    frame RKEY { light REDKEY }
+}
+
+pulselight BLUEKEY
+{
+    color 0.0 0.0 1.0
+    size 16
+    secondarySize 20
+    interval 2.0
+	//attenuate 1
+    offset 0 10 0
+}
+object BlueCard
+{
+    frame BKEY { light BLUEKEY }
+}
+
+
+pulselight YELLOWKEY
+{
+    color 1.0 0.75 0.0
+    size 16
+    secondarySize 20
+    interval 2.0
+	//attenuate 1
+    offset 0 10 0
+}
+
+object YellowCard
+{
+    frame YKEY { light YELLOWKEY }
+}
+
+//ORANGE KEY
+pulselight ORANGEKEY
+{
+    color 1.0 0.15 0.0
+    size 16
+    secondarySize 20
+    interval 2.0
+	//attenuate 1
+    offset 0 10 0
+}
+
+object RedSkull
+{
+    frame RSKU { light ORANGEKEY }
+}
+
+//SILVER KEY
+pulselight SILVERKEY
+{
+    color 1.0 1.0 1.0 
+    size 16
+    secondarySize 20
+    interval 2.0
+	//attenuate 1
+    offset 0 10 0
+}
+
+object BlueSkull
+{
+    frame BSKU { light SILVERKEY }
+}
+
+pulselight GREENKEY
+{
+    color 0.0 1.0 0.0
+    size 16
+    secondarySize 20
+    interval 2.0
+	//attenuate 1
+    offset 0 10 0
+}
+
+object YellowSkull
+{
+    frame YSKU { light GREENKEY }
+}
+
+// keys ------------------------------------------------------------------------
+
+brightmap sprite ARCXA0 {map BRCXA0}
+brightmap sprite ARCXB0 {map BRCXB0}
+brightmap sprite ARCXC0 {map BRCXC0}
+brightmap sprite ARCXD0 {map BRCXD0}
+brightmap sprite ARCXE0 {map BRCXE0}
+brightmap sprite ARCXF0 {map BRCXF0}
+
+brightmap sprite SRBCA0 {map BRCXA0}
+brightmap sprite SRBCB0 {map BRCXB0}
+brightmap sprite SRBCC0 {map BRCXC0}
+brightmap sprite SRBCD0 {map BRCXD0}
+brightmap sprite SRBCE0 {map BRCXE0}
+brightmap sprite SRBCF0 {map BRCXF0}
+
+brightmap sprite TYPCA0 {map TYPXA0}
+brightmap sprite TYPCB0 {map TYPXB0}
+brightmap sprite TYPCC0 {map TYPXC0}
+brightmap sprite TYPCD0 {map TYPXD0}
+brightmap sprite TYPCE0 {map TYPXE0}
+brightmap sprite TYPCF0 {map TYPXF0}
+brightmap sprite TYPCG0 {map TYPXG0}
+
+brightmap sprite HSTCA0 {map TYPXA0}
+brightmap sprite HSTCB0 {map TYPXB0}
+brightmap sprite HSTCC0 {map TYPXC0}
+brightmap sprite HSTCD0 {map TYPXD0}
+brightmap sprite HSTCE0 {map TYPXE0}
+brightmap sprite HSTCF0 {map TYPXF0}
+brightmap sprite HSTCG0 {map TYPXG0}
+
+brightmap sprite CMPKA0 {map CMPBA0}
+brightmap sprite CMPKB0 {map CMPBB0}
+brightmap sprite CMPKC0 {map CMPBC0}
+brightmap sprite CMPKD0 {map CMPBD0}
+brightmap sprite CMPKE0 {map CMPBE0}
+brightmap sprite CMPKF0 {map CMPBF0}
+brightmap sprite CMPKG0 {map CMPBG0}
+brightmap sprite CMPKH0 {map CMPBH0}
+brightmap sprite CMPKI0 {map CMPBI0}
+
+brightmap sprite QUOHA0 {map BMOHA0}
+brightmap sprite QUOHB0 {map BMOHB0}
+brightmap sprite QUOHC0 {map BMOHC0}
+brightmap sprite QUOHD0 {map BMOHD0}
+brightmap sprite QUOHE0 {map BMOHE0}
+brightmap sprite QUOHF0 {map BMOHF0}
+brightmap sprite QUOHG0 {map BMOHG0}
+brightmap sprite QUOHH0 {map BMOHI0}
+brightmap sprite QUOHJ0 {map BMOHJ0}
+brightmap sprite QUOHK0 {map BMOHK0}
+brightmap sprite QUOHL0 {map BMOHL0}
+brightmap sprite QUOHM0 {map BMOHM0}
+brightmap sprite QUOHN0 {map BMOHN0}
+brightmap sprite QUOHO0 {map BMOHO0}
+brightmap sprite QUOHP0 {map BMOHP0}
+brightmap sprite QUOHQ0 {map BMOHQ0}
+brightmap sprite QUOHR0 {map BMOHR0}
+brightmap sprite QUOHS0 {map BMOHS0}
+brightmap sprite QUOHT0 {map BMOHT0}
+brightmap sprite QUOHU0 {map BMOHU0}
+brightmap sprite QUOHV0 {map BMOHV0}
+
+object LightProjectile1
+{
+	frame TNT1A { light BallisticMuzzleLight }
+}
+
+flickerlight2 BallisticMuzzleLight
+{
+    color 0.97 0.81 0.34
+    size 115
+	secondarySize 230
+	interval 1
+	offset 0 40 0
+}
+
+object LightProjectile2
+{
+	frame TNT1A { light PlasmaMuzzleLight }
+}
+
+flickerlight2 PlasmaMuzzleLight
+{
+    color 0.34 0.68 1.0
+    size 115
+	secondarySize 230
+	interval 1
+	offset 0 40 0
+
+}
+
+object GaussTrailMain
+{
+	frame PUFFA { light RailgunLightTrail }
+}
+
+flickerlight2 RailgunLightTrail
+{
+    color 0.34 0.68 1.0
+    size 35
+	secondarySize 70
+	interval 1
+	offset 0 0 0
+
+}

@@ -1,0 +1,119 @@
+class DevastatorLaser : TSIR_LaserBeam
+{
+	vector3 lastHitPos;
+	
+	Default
+	{
+		Scale 0.34;
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		+BRIGHT;
+		
+		Alpha 0.7;
+		RenderStyle "AddShaded";
+		
+		TSIR_LaserBeam.LaserColor "4EFF00";
+		TSIR_LaserBeam.TrackAngles true;			 // Update with player's view.
+		TSIR_LaserBeam.TrackWeapon true, PSP_WEAPON; // Offset by PSprite offsets.
+		TSIR_LaserBeam.AimFromWeapon true;			 // Fire from weapon "muzzle", only used if TrackWeapon is enabled.
+	}
+	
+	override void DrawUI(RenderEvent e, double dt)
+	{
+		if(!enabled) return;
+	
+		TSIR_ViewProjection viewproj = TSIR_SBS.GetRenderEventViewProj(e);
+		bool infront;
+		vector2 apos;
+		vector2 xyoffs = TSIR_SBS.VRotate( (-7.5, 0), viewproj.view_ang.x );
+		[infront, apos] = TSIR_SBS.ProjectToHUD(viewproj, lastHitPos, (xyoffs,-0.5));
+		if(infront) 
+		{
+			// double dist = (source.pos - lastHitPos).Length();
+			vector2 distscale = (0.6,0.6);
+
+			TSIR_SBS.DrawImage("Sprites/Effects/LSITA0.png", apos, 0, 0.6, distscale, rstyle:STYLE_Add, absolute:true);
+			TSIR_SBS.DrawImage("Sprites/Effects/SPKGE0K0", apos, 0, 0.9, distscale*0.2, rstyle:STYLE_Add, absolute:true);
+		}
+	}
+	
+	override void PostBeginPlay()
+	{
+		super.PostBeginPlay();
+		
+		// Doesn't quite have the desired effect.
+		/*
+		for(int i = 0; i < 5; i++)
+		{
+			let laser = TSIR_LaserBeam.Create(source, 0,0,0, type:"DevastatorLaser_FXLaser");
+			if(laser) 
+			{
+				laser.master = self;
+				laser.maxDist = (0.05 * maxDist) + (i * (0.1 * maxDist)); 
+				laser.alpha = 1.0 - (0.2 * i);
+				
+				double laserScale = 1.0 - (0.1 * i);
+				laser.A_SetScale(default.Scale.X * laserScale, default.Scale.Y * laserScale);
+				laser.enabled = true;
+			}
+		}
+		maxDist = maxDist * 0.05;
+		*/
+		
+	}
+		
+	override void BeamTick()
+	{
+		aimAtCrosshair();
+	}
+	
+	override bool OnImpact(vector3 hitPos, Actor hitActor)
+	{
+		lastHitPos = hitPos;
+		return false;
+	}
+}  
+
+class DevastatorLaser_FXLaser : TSIR_LaserBeam
+{
+	Default
+	{
+		Scale 1.0;
+		+NOINTERACTION;
+		+INTERPOLATEANGLES;
+		+BRIGHT;
+		
+		Alpha 0.7;
+		RenderStyle "AddShaded";
+		TSIR_LaserBeam.LaserColor "4EFF00";
+	}
+
+	override void BeamTick()
+	{
+		aimAtCrosshair();
+		if(!master) 
+		{
+			Destroy();
+			return;
+		}
+		
+		let laserMaster = DevastatorLaser(master);
+		if(!laserMaster) return;
+		
+		enabled = laserMaster.enabled;
+		offsets = laserMaster.offsets;
+		angleOffsets = laserMaster.angleOffsets;
+		followAngles = laserMaster.followAngles;
+		trackingPos = laserMaster.trackingPos;
+		targetPos = laserMaster.targetPos;
+		aimWithWeapon = laserMaster.aimWithWeapon;
+		trackPSLayer = laserMaster.trackPSLayer;
+		shade = laserMaster.shade;
+	}
+	
+	override bool OnImpact(vector3 hitPos, Actor hitActor)
+	{
+		// Don't hit anything.
+		return true;
+	}
+}

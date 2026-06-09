@@ -1,0 +1,64 @@
+addkeysection "Insanity's Requiem" outlawskeys                    
+addmenukey "Taunt" IR_TauntFunc                  
+alias IR_TauntFunc   "use Action_Taunt"
+defaultbind "Q" +IR_TauntFunc
+
+addmenukey "Use Stimpack" IR_Medkit
+alias IR_Medkit "pukename \"IR_UseStimpack\""
+defaultbind "F" +IR_Medkit
+
+addmenukey "Strafe-Lean" +strafelean
+addmenukey "Lean Left" +lean_left
+addmenukey "Lean Right" +lean_right
+
+alias +strafelean "set cl_strafelean true"
+alias -strafelean "set cl_strafelean false"
+alias +lean_left "netevent lean_left";
+alias +lean_right "netevent lean_right";
+alias -lean_left "netevent unlean_left";
+alias -lean_right "netevent unlean_right";
+
+alias +UCM_ZOOMIN "netevent \"+ucm.zoom.in\""
+alias +UCM_ZOOMOUT "netevent \"+ucm.zoom.out\""
+alias +UCM_PANUP "netevent \"+ucm.pan.up\""
+alias +UCM_PANDOWN "netevent \"+ucm.pan.down\""
+alias +UCM_PANLEFT "netevent \"+ucm.pan.left\""
+alias +UCM_PANRIGHT "netevent \"+ucm.pan.right\""
+alias -UCM_ZOOMIN "netevent \"-ucm.zoom.in\""
+alias -UCM_ZOOMOUT "netevent \"-ucm.zoom.out\""
+alias -UCM_PANUP "netevent \"-ucm.pan.up\""
+alias -UCM_PANDOWN "netevent \"-ucm.pan.down\""
+alias -UCM_PANLEFT "netevent \"-ucm.pan.left\""
+alias -UCM_PANRIGHT "netevent \"-ucm.pan.right\""
+alias UCM_TOGGLEALL  "netevent \"ucm.toggleall\""
+alias UCM_WAYPOINTS "netevent \"ucm.waypointmenu.open\""
+alias UCM_TOGGLEMAP "netevent \"ucm.togglemap\""
+alias UCM_TOGGLEFULLSCREEN "netevent \"ucm.togglefullscreen\""
+alias UCM_TOGGLEFULLSIZE "netevent \"ucm.togglemaxsize\""
+alias UCM_TOGGLEFOLLOW "netevent \"ucm.togglefollow\""
+
+
+addkeysection "Minimap Controls" UCMControls
+addmenukey "Toggle" UCM_TOGGLEALL
+addmenukey "Zoom In" +UCM_ZOOMIN
+addmenukey "Zoom Out" +UCM_ZOOMOUT
+addmenukey "Waypoints" UCM_WAYPOINTS
+addmenukey "Toggle Map" UCM_TOGGLEMAP
+addmenukey "Toggle Fullscreen" UCM_TOGGLEFULLSCREEN
+addmenukey "Toggle Fullsize" UCM_TOGGLEFULLSIZE
+addmenukey "Toggle Following" UCM_TOGGLEFOLLOW
+addmenukey "Pan Up" +UCM_PANUP
+addmenukey "Pan Down" +UCM_PANDOWN
+addmenukey "Pan Left" +UCM_PANLEFT
+addmenukey "Pan Right" +UCM_PANRIGHT
+
+WeaponSection "IR2InEverything"
+
+SetSlot 1 IR2PunchDagger Sword
+SetSlot 2 Punisher Tormentor StormHound DevastatorPistol
+SetSlot 3 Malefactor Archangel
+SetSlot 4 Boneduster //ImpalerNailgun
+SetSlot 5 Omen Hellstorm
+SetSlot 6 MaulerCannon Longinus
+SetSlot 7 Incinerator Typhoon
+SetSlot 8 Evangelizer Harbinger

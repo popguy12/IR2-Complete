@@ -1,0 +1,1673 @@
+// Decompiled by Universal Strife Dialog Compiler.
+
+namespace = "Strife";
+include = "SCRIPT00";
+
+conversation
+{
+	actor = 8;
+	page //1
+	{
+		name = "Ulaine";
+		dialog = "I'll help you if you help me. Five pieces of gold and I'll tell all I know.";
+		drop = "Gold10";
+		link = 0;
+		choice
+		{
+			text = "Here's the gold.";
+			cost
+			{
+				item = "Coin";
+				amount = 5;
+			}
+			displaycost = false;
+			yesmessage = "Stick with your Dagger when you kill a guard. Otherwise, the alarms will go off.";
+			nomessage = "Well, I won't be telling you anything for free!";
+			nextpage = 2;
+			closedialog = true;
+		}
+	}
+	page //2
+	{
+		name = "Ulaine";
+		dialog = "You've wrung the last bit of gossip out of me already!";
+		drop = "Gold10";
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 18;
+	page //1
+	{
+		name = "Irale";
+		dialog = "What can I do for you?";
+		drop = 179;
+		link = 2;
+		ifitem
+		{
+			item = 325;
+		}
+		choice
+		{
+			text = "Small Bore Pistol Ammo";
+			cost
+			{
+				item = "Coin";
+				amount = 35;
+			}
+			displaycost = true;
+			yesmessage = "Thanks.";
+			giveitem = "LightPistolAmmo";
+			nomessage = "Come on. Thirty-five gold, surely you have that?";
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Large Bore Pistol Ammo";
+			cost
+			{
+				item = "Coin";
+				amount = 70;
+			}
+			displaycost = true;
+			yesmessage = "Thanks.";
+			giveitem = "HeavyPistolAmmo";
+			nomessage = "Come on. Fifty gold, surely you have that?";
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "OMN-106e Omen LSW";
+			cost
+			{
+				item = "Coin";
+				amount = 1000;
+			}
+			displaycost = true;
+			yesmessage = "Mind the recoil, .338 Norma is no fucking joke.";
+			nomessage = "Your wallet is a bit thin, my friend.";
+			giveitem = "Omen";
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "338 Norma Drum";
+			cost
+			{
+				item = "Coin";
+				amount = 120;
+			}
+			displaycost = true;
+			yesmessage = "Here's your ammo.";
+			giveitem = "ARifle_Magazine";
+			nomessage = "Unfortunately, you don't have enough.";
+			nextpage = 1;
+			closedialog = false;
+		}
+	}
+	page //2
+	{
+		name = "Irale";
+		dialog = "Good news from the Front, for a change. Macil sent you for a reward and training. He's instructed me to give them to you.";
+		drop = 179;
+		link = 0;
+		choice
+		{
+			text = "Thanks.";
+			yesmessage = "Glad to be of service.";
+			nomessage = "NO.  you don't have what i want for the  THANKS.!";
+			giveitem = 172;
+			nextpage = 3;
+			closedialog = false;
+		}
+	}
+	page //3
+	{
+		name = "Irale";
+		dialog = "All right, here's a few pointers on what to do: Don't get in the way of Crusaders, and firing shorter bursts from your assault weapons will keep them on target.";
+		drop = 179;
+		link = 0;
+		choice
+		{
+			text = "Is that it?";
+			yesmessage = "Look, you'll learn more later.";
+			nomessage = "NO.  you don't have what i want for the  Is that it?";
+			giveitem = 307;
+			nextpage = 4;
+			closedialog = false;
+		}
+	}
+	page //4
+	{
+		name = "Irale";
+		dialog = "I think I can convert an FC-GP6 Incinerator from one of the Order's mechs for use by a human. Oh, anything else I can get you?";
+		drop = 179;
+		link = 0;
+		choice
+		{
+			text = "FC-GP6 Incinerator";
+			cost
+			{
+				item = "Coin";
+				amount = 0;
+			}
+			cost
+			{
+				item = 191;
+				amount = 1;
+			}
+			displaycost = false;
+			yesmessage = "I knew that'd work! Here you go, take her for a spin!";
+			nomessage = "Listen, I can't make anything without the right parts!";
+			giveitem = "Incinerator";
+			nextpage = 5;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Small Bore Pistol Ammo";
+			cost
+			{
+				item = "Coin";
+				amount = 35;
+			}
+			displaycost = true;
+			yesmessage = "Thanks.";
+			giveitem = "LightPistolAmmo";
+			nomessage = "Come on. Thirty-five gold, surely you have that?";
+			nextpage = 5;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Large Bore Pistol Ammo";
+			cost
+			{
+				item = "Coin";
+				amount = 70;
+			}
+			displaycost = true;
+			yesmessage = "Thanks.";
+			giveitem = "HeavyPistolAmmo";
+			nomessage = "Come on. Fifty gold, surely you have that?";
+			nextpage = 5;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "OMN-106e Omen LSW";
+			cost
+			{
+				item = "Coin";
+				amount = 1000;
+			}
+			displaycost = true;
+			yesmessage = "Mind the recoil, .338 Norma is no fucking joke.";
+			nomessage = "Your wallet is a bit thin, my friend.";
+			giveitem = "Omen";
+			nextpage = 5;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "338 Norma Drum";
+			cost
+			{
+				item = "Coin";
+				amount = 120;
+			}
+			displaycost = true;
+			yesmessage = "Here's your ammo.";
+			giveitem = "ARifle_Magazine";
+			nomessage = "Unfortunately, you don't have enough.";
+			nextpage = 5;
+			closedialog = false;
+		}
+	}
+	page //5
+	{
+		name = "Irale";
+		dialog = "Now that you have the FC-GP6 Incinerator, is there anything else I can get you?";
+		drop = 179;
+		link = 6;
+		ifitem
+		{
+			item = 328;
+		}
+		choice
+		{
+			text = "Small Bore Pistol Ammo";
+			cost
+			{
+				item = "Coin";
+				amount = 35;
+			}
+			displaycost = true;
+			yesmessage = "Thanks.";
+			giveitem = "LightPistolAmmo";
+			nomessage = "Come on. Thirty-five gold, surely you have that?";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Large Bore Pistol Ammo";
+			cost
+			{
+				item = "Coin";
+				amount = 70;
+			}
+			displaycost = true;
+			yesmessage = "Thanks.";
+			giveitem = "HeavyPistolAmmo";
+			nomessage = "I'm afraid you don't have enough.";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "OMN-106e Omen LSW";
+			cost
+			{
+				item = "Coin";
+				amount = 1000;
+			}
+			displaycost = true;
+			yesmessage = "Mind the recoil, .338 Norma is no fucking joke.";
+			nomessage = "Your wallet is a bit thin, my friend.";
+			giveitem = "Omen";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "338 Norma Drum";
+			cost
+			{
+				item = "Coin";
+				amount = 120;
+			}
+			displaycost = true;
+			yesmessage = "Here's your ammo.";
+			giveitem = "ARifle_Magazine";
+			nomessage = "Unfortunately, you don't have enough.";
+			nextpage = 6;
+			closedialog = false;
+		}
+	}
+	page //6
+	{
+		name = "Irale";
+		dialog = "Now that you have the FC-GP6 Incinerator, is there anything else I can get you?";
+		drop = 179;
+		link = 0;
+		choice
+		{
+			text = "Small Bore Pistol Ammo";
+			cost
+			{
+				item = "Coin";
+				amount = 35;
+			}
+			displaycost = true;
+			yesmessage = "Thanks.";
+			giveitem = "LightPistolAmmo";
+			nomessage = "Come on. Thirty-five gold, surely you have that?";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Large Bore Pistol Ammo";
+			cost
+			{
+				item = "Coin";
+				amount = 70;
+			}
+			displaycost = true;
+			yesmessage = "Thanks.";
+			giveitem = "HeavyPistolAmmo";
+			nomessage = "Come on. Fifty gold, surely you have that?";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "OMN-106e Omen LSW";
+			cost
+			{
+				item = "Coin";
+				amount = 1000;
+			}
+			displaycost = true;
+			yesmessage = "Mind the recoil, .338 Norma is no fucking joke.";
+			nomessage = "Your wallet is a bit thin, my friend.";
+			giveitem = "Omen";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "338 Norma Drum";
+			cost
+			{
+				item = "Coin";
+				amount = 120;
+			}
+			displaycost = true;
+			yesmessage = "Here's your ammo.";
+			giveitem = "ARifle_Magazine";
+			nomessage = "Unfortunately, you don't have enough.";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "10ga Shell Pack";
+			cost
+			{
+				item = "Coin";
+				amount = 250;
+			}
+			displaycost = true;
+			yesmessage = "Alright! 10 Gauge Shells coming right up.";
+			nomessage = "Come on, 250 gold!";
+			giveitem = "8ShellsX1";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "8ga Shell Box";
+			cost
+			{
+				item = "Coin";
+				amount = 500;
+			}
+			displaycost = true;
+			yesmessage = "16 Firehawk Shells... Here you go.";
+			nomessage = "You don't have enough gold!";
+			giveitem = "8GaShellBox";
+			nextpage = 6;
+			closedialog = false;
+		}
+	}
+}
+
+conversation
+{
+	actor = 21;
+	page
+	{
+		dialog = "I can't believe that I got stuck with this duty. They say that something evil came up out of this sewer gate... Now I get to stand here until it comes up again!";
+		drop = "Coin";
+		link = 0;
+		choice
+		{
+			text = "What gate?";
+			yesmessage = "The sewer overflow gate.";
+			nomessage = "NO.  you don't have what i want for the  WHAT GATE?!";
+		}
+	}
+}
+
+conversation
+{
+	actor = 2;
+	page
+	{
+		name = "Woodbine";
+		dialog = "Hello, friend. What can I get for you?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "12ga Shell Box";
+			cost
+			{
+				item = "Coin";
+				amount = 350;
+			}
+			displaycost = true;
+			yesmessage = "Here you are, sir.";
+			nomessage = "They're 350 gold, friend.";
+			giveitem = 501;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "10ga Shell Box";
+			cost
+			{
+				item = "Coin";
+				amount = 700;
+			}
+			displaycost = true;
+			yesmessage = "A Box of 10ga Shells... Here you go.";
+			nomessage = "You don't have enough gold!";
+			giveitem = 502;
+			nextpage = 6;
+			closedialog = false;
+		}
+	choice
+		{
+			text = "Ammo Satchel";
+			cost
+			{
+				item = "Coin";
+				amount = 300;
+			}
+			displaycost = true;
+			yesmessage = "Thank you. Anything else?";
+			nomessage = "You can't afford that, good day.";
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Woodbine";
+		dialog = "What can I get for you?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "12ga Shell Box";
+			cost
+			{
+				item = "Coin";
+				amount = 350;
+			}
+			displaycost = true;
+			yesmessage = "Here you are, sir.";
+			nomessage = "You don't have enough gold!";
+			giveitem = 501;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "10ga Shell Box";
+			cost
+			{
+				item = "Coin";
+				amount = 700;
+			}
+			displaycost = true;
+			yesmessage = "12 10ga Shells... Here you go.";
+			nomessage = "They're 700 gold, friend.";
+			giveitem = 502;
+			nextpage = 6;
+			closedialog = false;
+		}
+	choice
+		{
+			text = "Ammo Satchel";
+			cost
+			{
+				item = "Coin";
+				amount = 300;
+			}
+			displaycost = true;
+			yesmessage = "Thank you. Anything else?";
+			nomessage = "You can't afford that, good day.";
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+}
+
+conversation
+{
+	actor = 4;
+	page
+	{
+		name = "Eriance";
+		dialog = "Welcome. What may I show you?";
+		drop = 0;
+		link = 2;
+		ifitem
+		{
+			item = 328;
+		}
+		choice
+		{
+			text = "Environmental Suit";
+			cost
+			{
+				item = "Coin";
+				amount = 25;
+			}
+			displaycost = true;
+			yesmessage = "Well, here you are.";
+			nomessage = "I'm sorry; you've not enough money for that.";
+			giveitem = 161;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Battle Armor";
+			cost
+			{
+				item = "Coin";
+				amount = 100;
+			}
+			displaycost = true;
+			yesmessage = "Here you are.";
+			nomessage = "Perhaps some other time?";
+			giveitem = 130;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Imperial Armor";
+			cost
+			{
+				item = "Coin";
+				amount = 250;
+			}
+			displaycost = true;
+			yesmessage = "Wear it in good health.";
+			nomessage = "Come back when you can afford to buy something, you lout!";
+			giveitem = 129;
+			nextpage = 1;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Eriance";
+		dialog = "Welcome. What may I show you?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Environmental Suit";
+			cost
+			{
+				item = "Coin";
+				amount = 25;
+			}
+			displaycost = true;
+			yesmessage = "Well, here you are.";
+			nomessage = "I'm sorry; you've not enough money for that.";
+			giveitem = 161;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Battle Armor";
+			cost
+			{
+				item = "Coin";
+				amount = 100;
+			}
+			displaycost = true;
+			yesmessage = "Here you are.";
+			nomessage = "Perhaps some other time?";
+			giveitem = 130;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Imperial Armor";
+			cost
+			{
+				item = "Coin";
+				amount = 175;
+			}
+			displaycost = true;
+			yesmessage = "Wear it in good health.";
+			nomessage = "Come back when you can afford to buy something, you lout!";
+			giveitem = 129;
+			nextpage = 1;
+			closedialog = false;
+		}
+	}
+}
+
+conversation
+{
+	actor = 5;
+	page
+	{
+		name = "Caleb";
+		dialog = "How may I assist you?";
+		drop = 0;
+		link = 2;
+		ifitem
+		{
+			item = 325;
+		}
+		choice
+		{
+			text = "Liquigel Medpatch";
+			cost
+			{
+				item = "Coin";
+				amount = 15;
+			}
+			displaycost = true;
+			yesmessage = "Here's your patch.";
+			nomessage = "You need 15 gold for that.";
+			giveitem = 125;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Liquigel Medkit";
+			cost
+			{
+				item = "Coin";
+				amount = 30;
+			}
+			displaycost = true;
+			yesmessage = "Thank you.";
+			nomessage = "I wish I could give them away, but they cost 30 gold.";
+			giveitem = 126;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Liquigel Restore Kit";
+			cost
+			{
+				item = "Coin";
+				amount = 90;
+			}
+			displaycost = true;
+			yesmessage = "There you go. Take care now.";
+			nomessage = "Well, maybe you can afford some Medpatches?";
+			giveitem = 127;
+			nextpage = 1;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Caleb";
+		dialog = "I hope Macil knows what he's doing. If the Order finds out I'm helping the Front, I'm as good as dead... Not that this matters to you any. The Front's Medic game me an Upgrade Chip for you. Are you ready?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Yes, I'm ready.";
+			yesmessage = "Well then, this won't take but a second. ...There, done already.";
+			nomessage = "NO.  you don't have what i want for the  YES, I'M READY.!";
+			giveitem = 306;
+			nextpage = 3;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Caleb";
+		dialog = "How may I assist you?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Liquigel Medpatch";
+			cost
+			{
+				item = "Coin";
+				amount = 15;
+			}
+			displaycost = true;
+			yesmessage = "Here's your patch";
+			nomessage = "You need 15 gold for that.";
+			giveitem = 125;
+			nextpage = 3;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Liquigel Medkit";
+			cost
+			{
+				item = "Coin";
+				amount = 30;
+			}
+			displaycost = true;
+			yesmessage = "Thank you.";
+			nomessage = "I wish I could give them away, but they cost 30 gold.";
+			giveitem = 126;
+			nextpage = 3;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Liquigel Restore Kit";
+			cost
+			{
+				item = "Coin";
+				amount = 90;
+			}
+			displaycost = true;
+			yesmessage = "There you go. Take care now.";
+			nomessage = "Well, maybe you can afford some Medpatches?";
+			giveitem = 127;
+			nextpage = 3;
+			closedialog = false;
+		}
+	}
+}
+
+conversation
+{
+	actor = 3;
+	page
+	{
+		name = "Roy";
+		dialog = "Hello stranger, I haven't seen you around here before. Let me give you a piece of free advice; I'd be careful if I was you. The Order does not tolerate free will, and their justice is swift.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "What's the word?";
+			yesmessage = "The word is... The sewers hold more than rats and robots.";
+			nomessage = "HEY A MAN'S GOT TO MAKE A LIVING. YOU THINK THESE JOKERS  HERE TIP WELL? MUSTHA";
+			nextpage = 2;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Roy";
+		dialog = "What can I do for you now?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "More info";
+			cost
+			{
+				item = "Coin";
+				amount = 5;
+			}
+			displaycost = true;
+			yesmessage = "The Governor is a simple reminder to us that we aren't a free people anymore.";
+			nomessage = "Come back when you get some gold.";
+			nextpage = 3;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Roy";
+		dialog = "Well, you're asking a lot of questions for someone who's trying not to die. Make sure you don't go and get yourself killed, or worse.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "More info";
+			cost
+			{
+				item = "Coin";
+				amount = 5;
+			}
+			displaycost = true;
+			yesmessage = "There's more to the Order than meets the eye.";
+			nomessage = "We'll talk when you get gold!";
+			nextpage = 4;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Roy";
+		dialog = "That's it friend, the well of knowledge has run dry. I've told you more than I should have anyway. Good luck... and don't come back.";
+		drop = 0;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 54;
+	page
+	{
+		name = "Door Guard";
+		dialog = "Hey, I'm only here in case of an emergency. If the core breaches, I make sure no one gets in... or out.";
+		drop = 179;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 55;
+	page
+	{
+		name = "Guard";
+		dialog = "Watch your step, peasant!";
+		drop = 179;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 56;
+	page
+	{
+		name = "Guard";
+		dialog = "Welcome to Legacy of Strife v2.3, Prepare to Die to the first enemies of the game!";
+		drop = 179;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 57;
+	page
+	{
+		name = "Sewer Guard";
+		dialog = "Who in the blazes are you? No one's supposed to be loitering about in this area!";
+		drop = 162;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 58;
+	page
+	{
+		name = "Guard";
+		dialog = "You there, nobody's allowed in here. Move along!";
+		drop = 179;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 44;
+	page
+	{
+		name = "Front Guard";
+		dialog = "Irale will set you right up!";
+		drop = 179;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 9;
+	page
+	{
+		name = "Harris";
+		panel = "M_PEAS1";
+		voice = "HA001";
+		dialog = "I'm kinda a talent broker for the rebels. A guy who's as good as you could make a lot of gold... If you hooked up with the right people.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "I'm interested.";
+			nomessage = "NO.  you don't have what i want for the  I'M INTERESTED.!";
+			nextpage = 3;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Screw the rebels!";
+			nomessage = "NO.  you don't have what i want for the  SCREW THE REBELS!!";
+			giveitem = 301;
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Harris";
+		panel = "M_PEAS1";
+		voice = "HA002";
+		dialog = "No, no second chance. Oh guards, kill him.";
+		drop = 301;
+		link = 0;
+	}
+	page
+	{
+		name = "Harris";
+		panel = "M_PEAS1";
+		voice = "HA003";
+		dialog = "Good choice. The Order's Sanctuary by the river is their unofficial torture chamber. Hidden inside there is a golden chalice. You swipe it and reap your reward.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "How am I supposed to do that?";
+			nomessage = "NO.  you don't have what i want for the  HOW AM I SUPPOSED TO DO THAT?!";
+			nextpage = 4;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Harris";
+		panel = "M_PEAS1";
+		voice = "HA004";
+		dialog = "Here's a little helper; just aim straight, and -splat-. Remember, grab the fancy cup and get back to the tavern.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Cool. I'll get it.";
+			giveitem = 194;
+			nomessage = "NO.  you don't have what i want for the  COOL. I'll get it.!";
+			nextpage = 5;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Harris";
+		panel = "M_PEAS1";
+		voice = "HA006";
+		dialog = "What are you waiting for? Bring me that chalice.";
+		drop = 305;
+		link = 6;
+		ifitem
+		{
+			item = 174;
+		}
+	}
+	page
+	{
+		name = "Harris";
+		panel = "M_PEAS1";
+		voice = "HA007";
+		dialog = "Hey, I know, kinda looks like a set-up. I would never do that to such a great killing machine. Got the item? Great! Now get ready, gold and glory just like I promised. Take this key and the Governor will reward you.";
+		drop = 305;
+		link = 0;
+		choice
+		{
+			text = "He'd better. For your sake!";
+			cost
+			{
+				item = 174;
+				amount = 1;
+			}
+			displaycost = false;
+			nomessage = "NO.  you don't have what i want for the  HE'D BETTER. FOR YOUR SAKE!!";
+			nextpage = 7;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "What?! Where's my money?";
+			nomessage = "NO.  you don't have what i want for the  WHAT! WHERE'S MY MONEY?!";
+			nextpage = 8;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Harris";
+		panel = "M_PEAS1";
+		voice = "HATBL";
+		dialog = "Get lost kid, you bother me.";
+		drop = 301;
+		link = 0;
+	}
+	page
+	{
+		name = "Harris";
+		panel = "M_PEAS1";
+		voice = "HA002";
+		dialog = "No second chance. Oh guards, kill him.";
+		drop = 305;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 27;
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV01";
+		dialog = "First they slaughter thousands, now they want all able-bodied peasants for unspecified \"tests\". How does the Order expect me to keep the peace. What the hell do you want?!";
+		drop = 301;
+		link = 11;
+		ifitem
+		{
+			item = 313;
+		}
+		choice
+		{
+			text = "A Prison Pass. Let's deal.";
+			nomessage = "NO.  you don't have what i want for the  A PRISON PASS, LET'S DEAL.!";
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV02";
+		dialog = "I like you already. I have two chores that I don't want to do myself. One is messy, the otehr bloody.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Call me the cleaner.";
+			nomessage = "NO.  you don't have what i want for the  CALL ME THE CLEANER!";
+			giveitem = 315;
+			nextpage = 3;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "I'm not squeamish.";
+			nomessage = "NO.  you don't have what i want for the  I'M NOT SQUEAMISH!";
+			giveitem = 316;
+			nextpage = 5;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV03";
+		dialog = "One of my minions is stealing power with a tap on the mains somewhere. Find it and truncate his supply, and I'll provide you with what you want. Bring me something as a token.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Where do I find this tap?";
+			nomessage = "NO.  you don't have what i want for the  WHERE DO I FIND THIS TAP?!";
+			log = "LOG1007";
+			nextpage = 4;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV04";
+		dialog = "If I knew, it wouldn't be a chore now, would it? Use your charm, but shut off his supply.";
+		drop = 301;
+		link = 7;
+		ifitem
+		{
+			item = 289;
+		}
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV05";
+		dialog = "Tell you what, there's a lying sack named Derwin who has been selling children to the Order. I won't tolerate that kind of depravity. Not without my cut. Kill him and bring me his... ear, and I'll see what I can do.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "How do I get in?";
+			nomessage = "NO.  you don't have what i want for the  HOW DO I GET IN?!";
+			log = "LOG1008";
+			giveitem = 135;
+			nextpage = 6;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV06";
+		dialog = "This key will get you into the power station. ...On second thought, cut off the ear and then kill him. Much better.";
+		drop = 301;
+		link = 9;
+		ifitem
+		{
+			item = 175;
+		}
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV08";
+		dialog = "Oh, I just love souvenirs. Here, this will get you into the prison. Talk to Warden Montag. Whatever you do after that, I don't want to know.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Thanks.";
+			cost
+			{
+				item = "Coin";
+				amount = 0;
+			}
+			cost
+			{
+				item = 289;
+				amount = 1;
+			}
+			displaycost = false;
+			nomessage = "NO.  you don't have what i want for the  THANKS.!";
+			log = "LOG1009";
+			giveitem = 304;
+			nextpage = 8;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOTBL";
+		dialog = "Give you a hint; when I stop talking to you, you leave.";
+		drop = 171;
+		link = 0;
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV07";
+		dialog = "Do you have any good news for me? I'm all... ears.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "The deed is done!";
+			cost
+			{
+				item = "Coin";
+				amount = 0;
+			}
+			cost
+			{
+				item = 175;
+				amount = 1;
+			}
+			displaycost = false;
+			nomessage = "NO.  you don't have what i want for the  THE DEED IS DONE!!";
+			nextpage = 10;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "GOVERNOR MOUREL";
+		panel = "M_PEAS7";
+		voice = "GOV08";
+		dialog = "Oh, I just love souvenirs. Here, this will get you into the prison. Talk to Warden Montag. Whatever you do after that, I don't want to know.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Fine by me.";
+			nomessage = "NO.  you don't have what i want for the  FINE BY ME.!";
+			log = "LOG1009";
+			giveitem = 304;
+			nextpage = 8;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Governor Mourel";
+		panel = "M_PEAS7";
+		voice = "GOV6A1";
+		dialog = "So you're the fool who stole the chalice? I'm going to have you arrested as a rebel thief... thereby enhancing my position with the Order. How does it feel to be an unwitting pawn? I'll give you a hint; it's gonna hurt.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "This is bullshit!";
+			yesmessage = "Perhaps use common sense next time, oh wait...";
+			nomessage = "NO.  you don't have what i want for the  IT SUCKS!!";
+			giveitem = 301;
+			closedialog = true;
+		}
+		choice
+		{
+			text = "You won't take me alive, cocksucker!";
+			yesmessage = "As you wish. Guards, kill this indignant piece of shit!";
+			nomessage = "NO.  you don't have what i want for the  BRING IT!!";
+			giveitem = 301;
+			closedialog = true;
+		}
+	}
+}
+
+conversation
+{
+	actor = 15;
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET01";
+		dialog = "In a small world, word travels fast. I hear you just removed some obstacles from your path. Nice work. Are you interested in some more lucrative projects?";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Sure, why not.";
+			nomessage = "NO.  you don't have what i want for the  SURE, WHY NOT.!";
+			nextpage = 3;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "No thanks.";
+			nomessage = "NO.  you don't have what i want for the  NO THANKS.!";
+			giveitem = 301;
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET05";
+		dialog = "Fool! Guards, rid me of this meddlesome peon.";
+		drop = 301;
+		link = 0;
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET02";
+		dialog = "Good. Some uh, friends of mine need someone silenced. Beldin is being held by the Order in their Sanctuary. There's a rarely used entrance by a small pier off the river which is unguarded. Get in, shut him up, and bring his ring back to me as proof.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Will it be worth the effort?";
+			nomessage = "NO.  you don't have what i want for the  WILL IT BE WORTH THE EFFORT?!";
+			log = "LOG1003";
+			nextpage = 4;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET03";
+		dialog = "I'll guarantee 50 gold and if you return without setting off every alarm in town, there's the chance to earn much, much more, and here's a little helper that should give you an edge.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Worry not, I'll get him.";
+			nomessage = "NO.  you don't have what i want for the  WORRY NOT, I'LL GET HIM.!";
+			giveitem = 187;
+			nextpage = 5;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET04";
+		dialog = "Good. Remember, his silence is golden.";
+		drop = 301;
+		link = 6;
+		ifitem
+		{
+			item = 173;
+		}
+		choice
+		{
+			text = "Pleasure doing business.";
+			nomessage = "NO.  you don't have what i want for the  PLEASURE DOING BUSINESS.!";
+			nextpage = 6;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET07";
+		dialog = "Mission accomplished? You have the ring of the traitor?";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "He's dead, where's my money?";
+			cost
+			{
+				item = "Coin";
+				amount = 0;
+			}
+			cost
+			{
+				item = 173;
+				amount = 1;
+			}
+			displaycost = false;
+			nomessage = "Liar! Go get the ring!";
+			nextpage = 7;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET09";
+		dialog = "Here, you earned it. The traitor you killed was about to reveal the location of the Front. You saved lives. How would you like to earn more gold, and a future free from tyranny?";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Tell me more.";
+			nomessage = "NO.  you don't have what i want for the  TELL ME MORE.!";
+			nextpage = 8;
+			giveitem = 133;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Not my style.";
+			nomessage = "NO.  you don't have what i want for the  NOT MY STYLE.!";
+			giveitem = 301;
+			nextpage = 10;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET12";
+		dialog = "I have a business relationship with the Front's leader, Macil. I know he needs a decisive fellow like yourself, and he pays well. Take this recovered com unit and you'll be led to, shall we say, opportunities.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Thanks.";
+			nomessage = "NO.  you don't have what i want for the  THANKS.!";
+			log = "LOG1004";
+			giveitem = 176;
+			nextpage = 9;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET06";
+		dialog = "Get going. If you hang around here, were both dead.";
+		drop = 301;
+		link = 0;
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET11";
+		dialog = "A pity, but now that you know about my friends, I must kill you. GUards, take out this trash!";
+		drop = 301;
+		link = 0;
+	}
+	page
+	{
+		name = "Rowan";
+		panel = "M_RETRIC";
+		voice = "RET05";
+		dialog = "Fool. Guards! Rid me of this meddlesome peon.";
+		drop = 301;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 16;
+	page
+	{
+		name = "Geoff";
+		panel = "M_GEOFF";
+		voice = "GETBL";
+		dialog = "Walk away, boy. Just walk away.";
+		drop = 179;
+		link = 2;
+		ifitem
+		{
+			item = 133;
+		}
+	}
+	page
+	{
+		name = "Geoff";
+		panel = "M_GEOFF";
+		voice = "GEO01";
+		dialog = "What are you doing here?";
+		drop = 179;
+		link = 4;
+		ifitem
+		{
+			item = 314;
+		}
+		choice
+		{
+			text = "Hey, I need gold!";
+			cost
+			{
+				item = "Coin";
+				amount = 0;
+			}
+			cost
+			{
+				item = 133;
+				amount = 1;
+			}
+			displaycost = false;
+			nomessage = "NO.  you don't have what i want for the  HEY, I NEED GOLD!!";
+			giveitem = 302;
+			nextpage = 3;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Geoff";
+		panel = "M_GEOFF";
+		voice = "GEO02";
+		dialog = "Blackbird told you the code, huh? Hmph. Well, let me shut off the alarm. Macil is one flight down.";
+		drop = 179;
+		link = 0;
+		choice
+		{
+			text = "Thanks.";
+			nomessage = "NO.  you don't have what i want for the  THANKS.!";
+			nextpage = 4;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Geoff";
+		panel = "M_GEOFF";
+		voice = "GETBL";
+		dialog = "Walk away, boy. Just walk away.";
+		drop = 179;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 7;
+	page
+	{
+		name = "Arion";
+		dialog = "Do you have an appointment with the Governor?";
+		drop = 169;
+		link = 0;
+		choice
+		{
+			text = "Of course!";
+			nomessage = "NO.  you don't have what i want for the  OF COURSE!!";
+			nextpage = 2;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "No, and I don't need one!";
+			nomessage = "NO.  you don't have what i want for the  NO, AND I DON'T NEED ONE!!";
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Arion";
+		dialog = "Sorry! I didn't mean... Please, go right up.";
+		drop = 169;
+		link = 0;
+		choice
+		{
+			text = "I knew you'd say that.";
+			nomessage = "NO.  you don't have what i want for the  I KNEW YOU'D SAY THAT.!";
+			nextpage = 3;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Arion";
+		dialog = "If you're in such a hurry, don't waste your time with me.";
+		drop = 169;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 38;
+	page
+	{
+		name = "MacGuffin";
+		panel = "M_MCGUFF";
+		voice = "MCTBL";
+		dialog = "Release me, leave an old man alone.";
+		drop = 0;
+		link = 2;
+		ifitem
+		{
+			item = 315;
+		}
+	}
+	page
+	{
+		name = "MacGuffin";
+		panel = "M_MCGUFF";
+		voice = "MAG01";
+		dialog = "You seek wisdom, my son? The Order has seen to it that we only ask one question: \"Why?\"";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Where's the Power Coupling?";
+			nomessage = "NO.  you don't have what i want for the  WHERE'S THE POWER COUPLING?!";
+			nextpage = 3;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Where's the Order's Main?";
+			nomessage = "NO.  you don't have what i want for the  WHERE'S THE ORDER'S MAIN?!";
+			nextpage = 4;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Where's the illegal tap?";
+			nomessage = "NO.  you don't have what i want for the  WHERE'S THE ILLEGAL TAP?!";
+			nextpage = 5;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "MacGuffin";
+		panel = "M_MCGUFF";
+		voice = "MAG02";
+		dialog = "I'll tell you where it is, but I don't know whose coupling you'll be tampering with. It's right here in the Sewage Plant.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Thanks.";
+			nomessage = "NO.  you don't have what i want for the  THANKS!";
+			nextpage = 6;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "MacGuffin";
+		panel = "M_MCGUFF";
+		voice = "MAG03";
+		dialog = "That's right here in the Sewage Plant. But it's the Front's coupling. Whoever told you that it was the Order's was wrong.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Thanks.";
+			nomessage = "NO.  you don't have what i want for the  THANKS!";
+			nextpage = 6;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "MacGuffin";
+		panel = "M_MCGUFF";
+		voice = "MAG04";
+		dialog = "If you say it's illegal, I want nothing to do with you. I have enough trouble as it is.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Thanks.";
+			nomessage = "NO.  you don't have what i want for the  THANKS!";
+			nextpage = 6;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "MacGuffin";
+		panel = "M_MCGUFF";
+		voice = "MCTBL";
+		dialog = "Release me, leave an old man alone.";
+		drop = 0;
+		link = 0;
+	}
+}

@@ -1,0 +1,332 @@
+class BloodSquirt : Droplets replaces Blood
+{
+	Default
+	{
+		+NOBLOCKMAP
+		+DONTTHRUST
+		+THRUACTORS
+		+NOTELEPORT
+		+ALLOWPARTICLES
+		+PUFFGETSOWNER
+		+NOGRAVITY
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay
+		{
+			if (target)
+			{
+				angle = AngleTo(target) + frandom(-11.25,11.25);
+				SetOrigin((pos.xy + (target.pos.xy - pos.xy).unit(), pos.z), false);
+			}
+			else
+				angle = frandom(0,360);
+			A_SpawnItemEx("BloodHitPuff",flags: SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+			if (blood_chunky)
+			{
+				Vector3 v = (AngleToVector(frandom(0,360),frandom(1,4)),frandom(0,4));
+				A_SpawnItemEx("RandGiblet",xvel: v.x,yvel: v.y,zvel: v.z,flags: SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+			}
+			if (blood_mist) {A_SpawnItemEx("BloodMist",flags: SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);}
+		}
+		stop;
+		TNT1 A 0
+		{
+			if (target)
+			{
+				angle = AngleTo(target) + frandom(-22.5,22.5);
+				SetOrigin((pos.xy + (target.pos.xy - pos.xy).unit(), pos.z), false);
+			}
+			else
+				angle = frandom(0,360);
+			A_SpawnItemEx("BloodHitPuffMid",flags: SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		}
+		stop;
+		TNT1 A 0
+		{
+			if (target)
+			{
+				angle = AngleTo(target) + frandom(-45,45);
+				SetOrigin((pos.xy + (target.pos.xy - pos.xy).unit(), pos.z), false);
+			}
+			else
+				angle = frandom(0,360);
+			A_SpawnItemEx("BloodHitPuffSmall",flags: SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		}
+		stop;
+	}
+}
+
+class BloodHitPuff : Droplets
+{
+	double user_scale, user_force, user_angmom;
+	
+	action void A_SpawnDroplet(double drop_size)
+	{
+		double angle = invoker.angle + frandom(-5.0,5.0);
+		double force = invoker.user_force * frandom(0.833333,1.166667);
+		drop_size *= frandom(0.833333,1.166667);
+		let droplet = BloodDroplet(Actor.Spawn('BloodDroplet',invoker.pos));
+		droplet.final_scale = drop_size;
+		droplet.scale = (drop_size, drop_size) * 0.333333;
+		droplet.Vel3DFromAngle(force, angle, invoker.pitch);
+		droplet.translation = invoker.translation;
+	}
+	
+	Default
+	{
+		+NOBLOCKMAP
+		+DONTTHRUST
+		+THRUACTORS
+		+NOTELEPORT
+		+FORCEXYBILLBOARD
+		+NOGRAVITY
+		+ROLLSPRITE
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		Height 1;
+		Radius 1;
+		Scale 0.45;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay
+		{
+			user_scale = 0.401878;
+			user_force = frandom(12.0,18.0);
+			user_angmom = frandom(3.75, 15.0);
+			pitch = frandom(-67.5,67.5);
+			A_StartSound("Blood/Hit",CHAN_AUTO,0,0.99,ATTN_Idle);
+			A_StartSound("Blood/Sweetener",CHAN_AUTO,CHANF_OVERLAP,0.77,ATTN_Static);
+			//scale.x = frandom(0.192,0.256);
+			//scale.y = frandom(0.192,0.256);
+			//scale.x *= randompick(1,-1);
+			A_SetScale (scaleX * 1.256 ,scaleY * 1.256);
+			A_FloorSplat(0.75);
+		}
+		TNT1 AAA 0 A_SpawnItemEx("BloodSweetener",frandom(4,8),0,0,0,0,0,0,SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		TNT1 AAA 0 A_SpawnItemEx("BloodImpact",frandom(4,8),0,0,0,0,0,0,SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		TNT1 A 0 A_SetRoll(random(0, 359));
+		HITB ABBCD 1;
+		////TNT1 A 0 A_StartSound("Blood/Spray",55,CHANF_OVERLAP,0.55,ATTN_Static);
+		HITB DEFF 1 { A_Fadeout(0.2);
+			switch(GetCVar("blood_amt"))
+			{
+			case 0:
+				A_SpawnDroplet(user_scale);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.5);
+				break;
+			case 1:
+				A_SpawnDroplet(user_scale);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.75);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.5);
+				break;
+			case 2:
+				A_SpawnDroplet(user_scale);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.833333);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.666667);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.5);
+			}
+			angle += frandom(-user_angmom * 0.5, user_angmom);
+			user_force *= 0.833333;
+			user_scale *= 1.2;
+		}
+		TNT1 A 0;
+		Stop;
+	}
+}
+
+class BloodHitPuffMid : BloodHitPuff
+{
+	Default
+	{
+		+NOBLOCKMAP
+		+DONTTHRUST
+		+THRUACTORS
+		+NOTELEPORT
+		+FORCEXYBILLBOARD
+		+NOGRAVITY
+		+ROLLSPRITE
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		Height 1;
+		Radius 1;
+		Scale 0.27;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay
+		{
+			user_scale = 0.401878;
+			user_force = frandom(14.0,21.0);
+			user_angmom = frandom(-10.0,10.0);
+			pitch = frandom(-67.5,67.5);
+			A_StartSound("Blood/Hit",CHAN_AUTO,0,0.99,ATTN_Idle);
+			A_StartSound("Blood/Sweetener",CHAN_AUTO,CHANF_OVERLAP,0.77,ATTN_Static);
+			//scale.x = frandom(0.192,0.256);
+			//scale.y = frandom(0.192,0.256);
+			//scale.x *= randompick(1,-1);
+			A_SetScale (scaleX * 1.256 ,scaleY * 1.256);
+		}
+		TNT1 AAA 0 A_SpawnItemEx("BloodSweetener",frandom(4,8),0,0,0,0,0,0,SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		TNT1 AAA 0 A_SpawnItemEx("BloodImpact",frandom(4,8),0,0,0,0,0,0,SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		TNT1 A 0 A_SetRoll(random(0, 359));
+		HITB ABBCD 1;
+		////TNT1 A 0 A_StartSound("Blood/Spray",55,CHANF_OVERLAP,0.55,ATTN_Static);
+		HITB DEFF 1 { A_Fadeout(0.2);
+			switch(GetCVar("blood_amt"))
+			{
+			case 0:
+				A_SpawnDroplet(user_scale);
+				break;
+			case 1:
+				A_SpawnDroplet(user_scale);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.5);
+				break;
+			case 2:
+				A_SpawnDroplet(user_scale);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.75);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.5);
+			}
+			angle += frandom(-user_angmom * 0.5, user_angmom);
+			user_force *= 0.833333;
+			user_scale *= 1.2;
+		}
+		TNT1 A 0;
+		Stop;
+	}
+}
+
+class BloodHitPuffSmall : BloodHitPuff
+{
+	Default
+	{
+		+NOBLOCKMAP
+		+DONTTHRUST
+		+THRUACTORS
+		+NOTELEPORT
+		+FORCEXYBILLBOARD
+		+NOGRAVITY
+		+ROLLSPRITE
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		Height 1;
+		Radius 1;
+		Scale 0.15;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay
+		{
+			user_scale = 0.401878;
+			user_force = frandom(16.0,24.0);
+			user_angmom = frandom(-5.0,5.0);
+			pitch = frandom(-67.5,67.5);
+			A_StartSound("Blood/Hit",CHAN_AUTO,0,0.99,ATTN_Idle);
+			A_StartSound("Blood/Sweetener",CHAN_AUTO,CHANF_OVERLAP,0.77,ATTN_Static);
+			//scale.x = frandom(0.192,0.256);
+			//scale.y = frandom(0.192,0.256);
+			//scale.x *= randompick(1,-1);
+			A_SetScale (scaleX * 1.256 ,scaleY * 1.256);
+		}
+		TNT1 AAA 0 A_SpawnItemEx("BloodSweetener",frandom(4,8),0,0,0,0,0,0,SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		TNT1 AAA 0 A_SpawnItemEx("BloodImpact",frandom(4,8),0,0,0,0,0,0,SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		TNT1 A 0 A_SetRoll(random(0, 359));
+		HITB ABBCD 1;
+		////TNT1 A 0 A_StartSound("Blood/Spray",55,CHANF_OVERLAP,0.55,ATTN_Static);
+		HITB DEFF 1 { A_Fadeout(0.2);
+			switch(GetCVar("blood_amt"))
+			{
+			case 1:
+				A_SpawnDroplet(user_scale);
+				break;
+			case 2:
+				A_SpawnDroplet(user_scale);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.5);
+			}
+			angle += frandom(-user_angmom * 0.5, user_angmom);
+			user_force *= 0.833333;
+			user_scale *= 1.2;
+		}
+		TNT1 A 0;
+		Stop;
+	}
+}
+
+class BloodHitPuffNoSound : BloodHitPuff
+{
+	Default
+	{
+		+NOBLOCKMAP
+		+DONTTHRUST
+		+THRUACTORS
+		+NOTELEPORT
+		+FORCEXYBILLBOARD
+		+NOGRAVITY
+		+ROLLSPRITE
+		RenderStyle "Translucent";
+		Alpha 0.8;
+		Height 1;
+		Radius 1;
+		Scale 0.45;
+	}
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay
+		{
+			user_scale = 0.401878;
+			user_force = frandom(16.0,24.0);
+			user_angmom = frandom(-5.0,5.0);
+			pitch = frandom(-67.5,67.5);
+			//A_StartSound("Blood/Hit",CHAN_AUTO,0,0.99,ATTN_Idle);
+			//A_StartSound("Blood/Sweetener",CHAN_AUTO,CHANF_OVERLAP,0.77,ATTN_Static);
+			//scale.x = frandom(0.192,0.256);
+			//scale.y = frandom(0.192,0.256);
+			//scale.x *= randompick(1,-1);
+			A_SetScale (scaleX * 1.256 ,scaleY * 1.256);
+		}
+		TNT1 AAA 0 A_SpawnItemEx("BloodSweetener",frandom(4,8),0,0,0,0,0,0,SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		TNT1 AAA 0 A_SpawnItemEx("BloodImpact",frandom(4,8),0,0,0,0,0,0,SXF_USEBLOODCOLOR|SXF_TRANSFERTRANSLATION|SXF_ABSOLUTEPOSITION|SXF_ABSOLUTEANGLE|SXF_ABSOLUTEVELOCITY|SXF_NOCHECKPOSITION);
+		TNT1 A 0 A_SetRoll(random(0, 359));
+		HITB ABBCD 1;
+		////TNT1 A 0 A_StartSound("Blood/Spray",55,CHANF_OVERLAP,0.55,ATTN_Static);
+		HITB DEFF 1 { A_Fadeout(0.2);
+			switch(GetCVar("blood_amt"))
+			{
+			case 1:
+				A_SpawnDroplet(user_scale);
+				break;
+			case 2:
+				A_SpawnDroplet(user_scale);
+				angle += frandom(-user_angmom * 0.5, user_angmom);
+				A_SpawnDroplet(user_scale * 0.5);
+			}
+			angle += frandom(-user_angmom * 0.5, user_angmom);
+			user_force *= 0.833333;
+			user_scale *= 1.2;
+		}
+		TNT1 A 0;
+		Stop;
+	}
+}
+
+class BloodSplatPuff : BloodSquirt replaces BloodSplatter
+{}
+
+class AxeBloodPuff : BloodHitPuffNoSound replaces AxeBlood
+{}

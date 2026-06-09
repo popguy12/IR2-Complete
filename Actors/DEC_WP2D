@@ -1,0 +1,739 @@
+ACTOR DevastatorPistol : IR2Weapon
+{
+    Tag "DVS-500m Devastator"
+    Inventory.PickupMessage "You got the DVS-500m ''Devastator'' Auto Magnum."
+    Inventory.PickupSound "misc/w_pkup"
+    //Weapon.UpSound "Weapons/PunisherUp"
+    Weapon.AmmoGive2 1
+    Weapon.AmmoType "DevastatorClip"
+    Weapon.AmmoType2 "HeavyPistolAmmo"
+    Weapon.AmmoUse 1
+    Weapon.Kickback 100
+    Weapon.Slotnumber 2
+    Weapon.PreferredSkin "Pistol"
+    weapon.bobstyle smooth
+	IR2Weapon.BulletGraphics "graphics/MikkOS/BigPistolBullet.png", "graphics/MikkOS/BigPistolShell.png"
+    weapon.bobrangeX 0.4
+    weapon.bobrangeY 0.6
+    weapon.bobspeed 2.5
+	weapon.weaponscalex 1.2
+    Obituary "%o was blown the fuck away by %k and %p Devastator."
+    decal "None"
+    Scale 0.18
+	+Weapon.NoAutoFire
+    +Weapon.Ammo_Optional
+    +CHEATNOTWEAPON
+    +NOALERT
+	+NOAUTOAIM
+	+UNDROPPABLE
+    States
+    {
+    Spawn:
+        555P A -1
+        loop
+    Ready:
+		TNT1 A 0 A_JumpIfInventory("DEVTokenLS",1,"ReadyLaser")
+        DEVI A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+        loop
+	ReadyLaser:
+		TNT1 A 0 A_EnableLaserSight("DevastatorLaser", 8,-4,0)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVI A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        loop
+    ReadyEmpty:
+		TNT1 A 0 A_JumpIfInventory("DEVTokenLS",1,"ReadyEmptyLaser")
+        DEVE A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+        loop
+	ReadyEmptyLaser:
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVE A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        loop
+    Select:
+		TNT1 A 0 A_JumpIfInventory("DEVTokenLS",1,"SelectLaser")
+		TNT1 A 0 A_SetCrosshair(20)
+		TNT1 A 8
+		DEVS A 1 A_PlaySound("weapons/CS_Select", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,0,2)
+		DEVS ABCDE 1
+	SelectLoop:
+      	DEVI A 1 A_Raise
+      	Goto SelectLoop
+	SelectLaser:
+		TNT1 A 0 A_SetCrosshair(19)
+		TNT1 A 8
+		DEVS A 1 A_PlaySound("weapons/CS_Select", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,0,2)
+		DEVS ABCDE 1
+		TNT1 A 0 A_EnableLaserSight("DevastatorLaser", 8,-4,0)
+	SelectLoopLaser:
+      	// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVI A 1 A_Raise
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+      	Goto SelectLoopLaser
+	Deselect:
+		TNT1 A 0 A_SetCrosshair(1)
+		DEVS E 1 A_PlaySound("weapons/CS_Deselect", CHAN_WEAPON)
+		TNT1 A 0 A_DisableLaserSight()
+		TNT1 A 0 SetPlayerProperty(0,1,2)
+		DEVS EDCBA 1
+		TNT1 A 2 
+	DeselectLoop:
+		TNT1 A 1 A_Lower
+		Goto DeselectLoop
+    Fire: //Semi Auto, Spam the mouse button.
+		TNT1 A 0 A_JumpIfInventory("DEVTokenLS", 1, "FireLaser")
+	FireSemi:
+		TNT1 A 0 A_Jump(255,"FS_A","FS_B")
+    FS_A:
+		TNT1 A 0 A_JumpIfInventory("DEVTokenAP", 1, "FireSemi_X")
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",2,1)
+		Goto FireSemiLast
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_devastator_tracer",frandom(-1, 1),1,2.5,5,0,frandom(-1, 1))
+		DEVF AB 1 A_WeaponReady(WRF_NOFIRE)
+        DEVF CC 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF G 1 A_WeaponReady(WRF_NOFIRE)
+		DEVF H 1 A_WeaponReady
+		DEVF I 1 A_WeaponReady
+        Goto Ready
+	FS_B:
+		TNT1 A 0 A_Jump(255,"FS_A","FS_B")
+		TNT1 A 0 A_JumpIfInventory("DEVTokenAP", 1, "FireSemi_X")
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",2,1)
+		Goto FireSemiLast
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_devastator_tracer",frandom(-1, 1),1,2.5,5,0,frandom(-1, 1))
+        DEVF AB 1 A_WeaponReady(WRF_NOFIRE)
+        DEVF EE 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF F 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF G 1 A_WeaponReady(WRF_NOFIRE)
+		DEVF H 1 A_WeaponReady
+		DEVF I 1 A_WeaponReady
+        Goto Ready
+    FireSemiLast: //Semi Auto, Spam the mouse button.
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_StartSound("Weapons/PunPing",89,0,0.88,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_devastator_tracer",frandom(-1, 1),1,2.5,5,0,frandom(-1, 1))
+        DEVF AB 1 A_WeaponReady(WRF_NOFIRE)
+        DEVF EE 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF J 1 A_WeaponReady(WRF_NOFIRE)
+		DEVF K 1 A_WeaponReady
+		DEVF L 1 A_WeaponReady
+        Goto ReadyEmpty
+    FireSemi_X:
+		TNT1 A 0 A_Jump(255,"FS_XA","FS_XB")
+	FS_XA:
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",2,1)
+		Goto FireSemiLast_X
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireX",88,0,0.88,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_tungsten_tracer",frandom(-1, 1),1,2.5,5,0,frandom(-1, 1))
+        DEVF AB 1 A_WeaponReady(WRF_NOFIRE)
+        DEVF CC 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF G 1 A_WeaponReady(WRF_NOFIRE)
+		DEVF H 1 A_WeaponReady
+		DEVF I 1 A_WeaponReady
+        Goto Ready
+	FS_XB:
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",2,1)
+		Goto FireSemiLast_X
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireX",88,0,0.88,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_tungsten_tracer",frandom(-1, 1),1,2.5,5,0,frandom(-1, 1))
+        DEVF AB 1 A_WeaponReady(WRF_NOFIRE)
+        DEVF EE 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF F 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF G 1 A_WeaponReady(WRF_NOFIRE)
+		DEVF H 1 A_WeaponReady
+		DEVF I 1 A_WeaponReady
+        Goto Ready
+    FireSemiLast_X: //Semi Auto, Spam the mouse button.
+		TNT1 A 0 A_TakeInventory("DEVTokenAP", 1)
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireX",88,0,0.88,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_StartSound("Weapons/PunPing",89,0,0.88,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_tungsten_tracer",frandom(-0, 0),1,2.5,5,0,frandom(-0, 0))
+        DEVF AB 1 A_WeaponReady(WRF_NOFIRE)
+        DEVF CC 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF F 1 Bright A_WeaponReady(WRF_NOFIRE)
+        DEVF J 1 A_WeaponReady(WRF_NOFIRE)
+		DEVF K 1 A_WeaponReady
+		DEVF L 1 A_WeaponReady
+        Goto ReadyEmpty
+	FireLaser:
+		TNT1 A 0 A_Jump(255,"FL_A","FL_B")
+	FL_A:
+		TNT1 A 0 A_JumpIfInventory("DEVTokenAP", 1, "FireLaser_X")
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,1)
+		Goto DryFireLaser
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",2,1)
+		Goto FireLaserLast
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,2)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_devastator_tracer",frandom(-0.5, 0.5),1,2.5,5,0,frandom(-0.5, 0.5))
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF B 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF CC 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF G 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF H 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF I 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        Goto ReadyLaser
+	FL_B:
+		TNT1 A 0 A_JumpIfInventory("DEVTokenAP", 1, "FireLaser_X")
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,1)
+		Goto DryFireLaser
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",2,1)
+		Goto FireLaserLast
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_devastator_tracer",frandom(-0.5, 0.5),1,2.5,5,0,frandom(-0.5, 0.5))
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF B 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF EE 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF F 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF G 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF H 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF I 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        Goto ReadyLaser
+    FireLaserLast: //Semi Auto, Spam the mouse button.
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_StartSound("Weapons/PunPing",89,0,0.88,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_devastator_tracer",frandom(-0.5, 0.5),1,2.5,5,0,frandom(-0.5, 0.5))
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF B 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF EE 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF J 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF K 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF L 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        Goto ReadyEmptyLaser
+    FireLaser_X:
+		TNT1 A 0 A_Jump(255,"FL_XA","FL_XB")
+	FL_XA:
+        TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,1)
+		Goto DryFireLaser
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",2,1)
+		Goto FireLaserLast_X
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireX",88,0,0.88,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_tungsten_tracer",frandom(-0, 0),1,2.5,5,0,frandom(-0, 0))
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF B 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF CC 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF D 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF G 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF H 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF I 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        Goto ReadyLaser
+	FL_XB:
+        TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,1)
+		Goto DryFireLaser
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",2,1)
+		Goto FireLaserLast_X
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireX",88,0,0.88,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_tungsten_tracer",frandom(-0, 0),1,2.5,5,0,frandom(-0, 0))
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF B 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF EE 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF F 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF G 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF H 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF I 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        Goto ReadyLaser
+    FireLaserLast_X: //Full Auto, Spam.
+		TNT1 A 0 A_TakeInventory("DEVTokenAP", 1)
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_SetPitch(pitch - 0.6)
+		TNT1 A 0 A_FireProjectile("LargeSmokeSpawner",0,0,6,8)		
+        TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+		TNT1 A 0 A_Overlay(-3, "GunFlash")
+		TNT1 A 0 A_StartSound("Weapons/DevastatorPunch",99,0,0.99,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireX",88,0,0.88,2)
+        TNT1 A 0 A_StartSound("Weapons/DevastatorFireN",88,0,0.88,2)
+		TNT1 A 0 A_StartSound("Weapons/DevastatorFireAdd",55,0,0.55,2)
+        TNT1 A 0 A_StartSound("Weapons/PunPing",89,0,0.88,2)
+        TNT1 A 0 A_FireProjectile("dcasing_spawner",0,0,6,5,0)
+        TNT1 A 0 A_FireProjectile("p_tungsten_tracer",frandom(-0, 0),1,2.5,5,0,frandom(-0, 0))
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF B 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF CC 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF F 1 Bright A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVF J 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF K 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+		DEVF L 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        Goto ReadyEmptyLaser
+	AltFire: //Does checks, if you have no dummy actors, select slugs
+        TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+        TNT1 A 0 A_JumpIfInventory("DEVTokenLS", 1, "AltFire2")
+        TNT1 A 0 A_GiveInventory("DEVTokenLS", 1)
+		TNT1 A 0 A_EnableLaserSight("DevastatorLaser", 8,-4,0)
+        TNT1 A 0 A_SetCrosshair(1)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        Goto ReadyLaser
+    AltFire2: //Clears dummy actors, to use normal mode
+        TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2)
+        TNT1 A 0 A_TakeInventory("DEVTokenLS", 1)
+        TNT1 A 0 A_SetCrosshair(20)
+		TNT1 A 0 A_DisableLaserSight()
+        DEVI A 5 A_WeaponReady(WRF_NOFIRE) 
+        Goto Ready
+    DryFire:
+        TNT1 A 0 A_PlaySound("Pistol/Empty",199,1.0,0,2) // Play the clicky noise.
+        DEVE A 5 A_WeaponReady(WRF_NOFIRE)
+        Goto ReadyEmpty
+	DryFireLaser:
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        TNT1 A 0 A_PlaySound("Pistol/Empty",199,1.0,0,1) // Play the clicky noise.
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        DEVE A 5 A_WeaponReady(WRF_NOFIRE)
+		// TNT1 A 0 A_FireBullets(0,-0.66,-1,0,"DevatatorLaserSight",FBF_EXPLICITANGLE|FBF_NORANDOMPUFFZ,32767)
+        Goto ReadyEmptyLaser
+    Reload:
+        TNT1 A 0 A_JumpIfInventory("DevastatorClip",16,"Ready")
+		TNT1 A 0 A_DisableLaserSight()
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,"ReloadBeginPartial")
+        TNT1 A 0 A_JumpIfInventory("HeavyPistolAmmo",1,1)
+        Goto ReloadBeginEmpty
+	ReloadBeginEmpty:
+        DEVR ABCD 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagOut",CHAN_5,1.0,0,2)
+		DEVR EFGHIJ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("DevastatorClipDrop",0,0,20)
+		DEVR J 16 A_WeaponReady(WRF_NOFIRE)
+		DEVR KLM 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagIn",CHAN_6,1.0,0,2)
+		DEVR NOPPP 1 A_WeaponReady(WRF_NOFIRE)
+		Goto ReloadWorkEmpty
+    ReloadWorkEmpty:
+        TNT1 A 0 A_TakeInventory("HeavyPistolAmmo",1)
+        TNT1 A 0 A_GiveInventory("DevastatorClip",15)
+        TNT1 A 0 A_JumpIfInventory("DevastatorClip",15,"ReloadFinishEmpty")
+        TNT1 A 0 A_JumpIfInventory("HeavyPistolAmmo",1,"ReloadWorkEmpty")
+		Goto ReloadFinishEmpty
+    ReloadFinishEmpty:
+		DEVR P 5 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagLock",CHAN_7,1.0,0,2)
+		DEVR QRST 1 A_WeaponReady(WRF_NOFIRE)
+		DEVR UVWW 1
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto Ready
+	ReloadBeginPartial:
+        TNT1 A 0 A_JumpIfInventory("DevastatorClip",16,"Ready")
+        TNT1 A 0 A_JumpIfInventory("HeavyPistolAmmo",1,1)
+        Goto DryFire
+        DEPR ABCD 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagOut",CHAN_5,1.0,0,2)
+		DEPR EFGHIJ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("DevastatorClipDrop",0,0,20)
+		DEPR J 16 A_WeaponReady(WRF_NOFIRE)
+		DEPR KLM 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagIn",CHAN_6,1.0,0,2)
+		DEPR NOPPP 1 A_WeaponReady(WRF_NOFIRE)
+    ReloadWorkPartial:
+        TNT1 A 0 A_TakeInventory("HeavyPistolAmmo",1)
+        TNT1 A 0 A_GiveInventory("DevastatorClip",15)
+        TNT1 A 0 A_JumpIfInventory("DevastatorClip",15,"ReloadFinishPartial")
+        TNT1 A 0 A_JumpIfInventory("HeavyPistolAmmo",1,"ReloadWorkPartial")
+    ReloadFinishPartial:
+		DEPR P 5 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagLock",CHAN_7,1.0,0,2)
+		DEPR QRST 1 A_WeaponReady(WRF_NOFIRE)
+		DEPR UVWW 1
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto Ready
+	Zoom:
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",16,"Ready")
+		TNT1 A 0 A_JumpIfInventory("DevastatorClip",1,"ReloadBeginPartialX")
+        TNT1 A 0 A_JumpIfInventory("HeavyPistolAmmo",1,1)
+        Goto ReloadBeginEmptyX
+	ReloadBeginEmptyX:
+        DEVR ABCD 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagOut",CHAN_5,1.0,0,2)
+		DEVR EFGHIJ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("DevastatorClipDrop",0,0,20)
+		DEVR J 16 A_WeaponReady(WRF_NOFIRE)
+		DEVR KLM 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagIn",CHAN_6,1.0,0,2)
+		DEVR NOPPP 1 A_WeaponReady(WRF_NOFIRE)
+		Goto ReloadWorkEmptyX
+    ReloadWorkEmptyX:
+        TNT1 A 0 A_TakeInventory("HeavyPistolAmmo",1)
+        TNT1 A 0 A_GiveInventory("DevastatorClip",15)
+        TNT1 A 0 A_JumpIfInventory("DevastatorClip",15,"ReloadFinishEmptyX")
+        TNT1 A 0 A_JumpIfInventory("HeavyPistolAmmo",1,"ReloadWorkEmptyX")
+		Goto ReloadFinishEmptyX
+    ReloadFinishEmptyX:
+		DEVR P 5 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagLock",CHAN_7,1.0,0,2)
+		DEVR QRST 1 A_WeaponReady(WRF_NOFIRE)
+		DEVR UVWW 1
+		TNT1 A 0 A_GiveInventory("DEVTokenAP",1)
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto Ready
+	ReloadBeginPartialX:
+        TNT1 A 0 A_JumpIfInventory("DevastatorClip",16,"Ready")
+        TNT1 A 0 A_JumpIfInventory("HeavyPistolAmmo",1,1)
+        Goto DryFire
+        DEPR ABCD 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagOut",CHAN_5,1.0,0,2)
+		DEPR EFGHIJ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("DevastatorClipDrop",0,0,20)
+		DEPR J 16 A_WeaponReady(WRF_NOFIRE)
+		DEPR KLM 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/DevMagIn",CHAN_6,1.0,0,2)
+		DEPR NOPPP 1 A_WeaponReady(WRF_NOFIRE)
+    ReloadWorkPartialX:
+        TNT1 A 0 A_TakeInventory("HeavyPistolAmmo",1)
+        TNT1 A 0 A_GiveInventory("DevastatorClip",15)
+        TNT1 A 0 A_JumpIfInventory("DevastatorClip",15,"ReloadFinishPartialX")
+        TNT1 A 0 A_JumpIfInventory("HeavyPistolAmmo",1,"ReloadWorkPartialX")
+    ReloadFinishPartialX:
+		DEPR P 5 A_WeaponReady(WRF_NOFIRE)
+		DEPR QRST 1 A_WeaponReady(WRF_NOFIRE)
+		DEPR UVWW 1
+		TNT1 A 0 A_GiveInventory("DEVTokenAP",1)
+        DEVI A 1 A_WeaponReady(WRF_NOFIRE)
+        Goto Ready
+	GunFlash:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true)
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add)
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6)
+		TNT1 A 1 Bright 
+			{
+			A_FireProjectile("DevastatorFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+			}
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0)
+		TNT1 A 1 Bright
+		Stop
+    }
+}
+
+ACTOR DEVTokenLS : Inventory {Inventory.MaxAmount 1}
+
+ACTOR DEVTokenAP : Inventory {Inventory.MaxAmount 1}
+
+ACTOR DevastatorClip : Ammo
+{
+Inventory.Amount 0
+Inventory.MaxAmount 16
+Ammo.BackpackAmount 0
+Ammo.BackpackMaxAmount 16
++IGNORESKILL
+}
+
+actor dcasing_spawner {
+	speed 15
+	PROJECTILE
+	+NOCLIP
+	+CLIENTSIDEONLY
+	states{
+		spawn:
+			TNT1 A 0
+			TNT1 A 1 A_SpawnItemEx("Devastator_Casing", 0,-5,3,-1, random(-4,-5), random(-1,-2), 0) 
+			stop
+	}
+
+}
+
+ACTOR Devastator_Casing
+{
+   Radius 2
+   Height 4
+   Speed 8
+   Scale 0.09
+   BounceSound "Weapons/RifleCasing"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +DONTSPLASH
+   +CLIENTSIDEONLY
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 6
+   BounceFactor 0.66
+   DamageType Nope
+   States
+   {
+   Spawn:
+	  TNT1 A 0 ThrustThingZ(0, Random(6, 16), 0, 1)
+      DBSC ABCDEFG 1
+      Goto Roflcopter
+   Roflcopter:
+      PBCS A 0 A_Jump(128,1,3,5,7)
+      DBSC ABCDEFG 1
+      Loop
+   Death:
+      PBCS A 0 A_SpawnItemEx("Devastator_Casing_Liedown")
+      stop
+   }
+}
+
+actor Devastator_Casing_Liedown
+{
+	-NOGRAVITY
+    Scale 0.09
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2","Spawn3")
+	  stop
+	Spawn1:
+	  DBSC C 1
+	  Goto Ded
+	Spawn2:
+	  DBSC D 1
+	  Goto Ded
+	Spawn3:
+	  DBSC G 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR DevastatorClipDrop
+{
+   Radius 3
+   Height 5
+   Speed 0
+   Scale 0.26
+   BounceSound "Clip/PST"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +BOUNCEONFLOORS
+   +DONTSPLASH
+   +NOTIMEFREEZE
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 3
+   BounceFactor 0.6
+   States
+   {
+   Spawn:
+      CLP1 A 0
+      CLP1 ABCDEFGH 1
+      Loop
+   Death:
+      CLP1 A 0 A_SpawnItemEx("DevastatorClipLiedown")
+      stop
+   }
+}
+
+actor DevastatorClipLiedown
+{
+	-NOGRAVITY
+	+FLOORCLIP
+	+NOTIMEFREEZE
+    Scale 0.26
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2")
+	  stop
+	Spawn1:
+	  CLP1 J 1
+	  Goto Ded
+	Spawn2:
+	  CLP1 I 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+actor DevatatorLaserSight {
+    Mass 0
+    Scale 0.25
+    Radius 1
+    Height 1
+    +NOBLOCKMAP
+    +NOGRAVITY
+    +BLOODLESSIMPACT
+    +ALWAYSPUFF
+    +PUFFONACTORS
+    +DONTSPLASH
+    +FORCEXYBILLBOARD
+	+PAINLESS
+	+NOTIMEFREEZE
+    Renderstyle Add
+    Alpha 0.99
+    States
+    {
+    Spawn:
+      LSIT A 0
+      LSIT A 1 BRIGHT
+      Stop
+    }
+}

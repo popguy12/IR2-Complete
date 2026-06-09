@@ -1,0 +1,28 @@
+#library "death"
+#include "zcommon.acs"
+// both this and the intro screen should only work in singleplayer
+script "DankScrollsKek" death
+{
+	if (GameSkill() == 0)
+		terminate;
+		
+	else if (GameSkill() == 666)
+		terminate;
+		
+    switch (GameType())
+    {
+        case GAME_NET_COOPERATIVE:
+        case GAME_NET_DEATHMATCH:
+        terminate;
+    }
+	//ClearInventory();
+	AmbientSound("Global/PlayerDead", 165);
+	GiveInventory("I_HideTibHUD",1);
+	SetMusic("DSNONE");
+    Delay(35);
+	LocalAmbientSound("YouDied", 100);
+    SetHudSize(1366, 768, true);
+    SetFont("YouDied");
+    HudMessage(s:"A"; HUDMSG_FADEINOUT, 1, CR_UNTRANSLATED, 0.5, 0.5, 3.0, 0.5, 5.0);
+    FadeTo(0, 0, 0, 1.0, 2.0);
+}

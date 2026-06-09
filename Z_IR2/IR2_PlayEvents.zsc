@@ -1,0 +1,243 @@
+class IR2_GameplayEvents : EventHandler
+{
+
+	static bool IsVoodooDoll(PlayerPawn mo) 
+    {
+        return !mo.player || !mo.player.mo || mo.player.mo != mo;
+    }
+
+    override void PlayerSpawned(PlayerEvent e)
+    {
+        // is in the game?
+        if (!PlayerInGame[e.PlayerNumber])
+        {
+            return;
+        }
+        // PlayerPawn exists?
+        let pmo = players[e.PlayerNumber].mo;
+        if (!pmo)
+        {
+            return;
+        }
+        // is voodoo doll?
+        if (IsVoodooDoll(pmo))
+        {
+            return;
+        }
+
+        // attach controller to it:
+        ArmorController.Create(pmo);
+    }
+	
+	const CHAN_VOICELINES = 254;
+
+	override void WorldThingDied(WorldEvent e)
+	{
+		let victim = e.Thing;
+		if(!victim) return;
+		
+		let dmgobj = e.Inflictor;			
+		if(!dmgobj) dmgobj = victim.target;
+		Name damageType = victim.DamageTypeReceived;
+		
+		let source = dmgobj;
+		if(source && source.bMISSILE) source = source.target;
+
+		if(!dmgobj || !victim) return;
+		
+		if(source is "PlayerPawn")
+			OnPlayerKilledEnemy(victim, PlayerPawn(source), damageType);
+	}
+	
+	virtual void OnPlayerKilledEnemy(Actor victim, PlayerPawn plr, Name damageType = "")
+	{
+		if(!victim || !plr) return;
+		
+		double tauntChance = random[IR2PlayerTaunt](0,180);
+		
+		if(tauntChance <= 35)
+		{
+			Sound tauntSound = "";
+			
+			switch(damageType)
+			{
+				case 'Fire':
+					tauntSound = "RW/FTaunt";
+				break;
+				
+				default:
+					tauntSound = "RW/CTaunt";
+				break;
+			}
+			if(tauntSound && !plr.IsActorPlayingSound(CHAN_VOICELINES))
+				plr.A_StartSound(tauntSound, CHAN_VOICELINES, CHANF_OVERLAP);
+		}
+	}
+	
+	ui double prevMS, deltatime;
+	override void RenderOverlay(RenderEvent e)
+	{
+		let it = ThinkerIterator.Create("TSIR_LaserBeam");
+		TSIR_LaserBeam laser;
+		while(laser = TSIR_LaserBeam(it.Next()))
+		{
+			laser.DrawUI(e, deltaTime);
+		}
+	
+		// Keep track of time, always.
+		if(!prevMS)
+		{
+			prevMS = MSTimeF();
+			return;
+		}
+		double ftime = MSTimeF()-prevMS;
+		prevMS = MSTimeF();
+		double dtime = 1000.0 / 60.;
+		deltatime = (ftime/dtime);
+	}
+}
+
+Class PowerUseless : Powerup
+{
+    double savedrange; //Saved range variable to return it after this powerup ends
+    Default{Powerup.Duration 0x7FFFFFFF;}
+    Override void InitEffect() //InitEffect is called when the powerup starts
+    {
+        Super.InitEffect();
+        If(owner)
+        {
+            let playe = PlayerPawn(owner); //Cast the owner as a player so you can access the specific variables
+            savedrange=playe.UseRange; //Save the player's current UseRange
+            playe.UseRange=0; //And set it to 0
+        }
+    }
+    Override void EndEffect() //EndEffect is called when the powerup ends
+    {
+        Super.EndEffect();
+        If(owner)
+        {
+            let playe = PlayerPawn(owner);
+            playe.UseRange=savedrange; //Restore the player's previous UseRange
+        }
+    }
+} 
+
+class ArmorController : Thinker
+{
+    PlayerPawn owner;
+    BasicArmor ownerArmor;
+    int prevArmorAmount;
+
+    static ArmorController Create(PlayerPawn who)
+    {
+        let a = New('ArmorController');
+        if (a)
+        {
+            a.owner = who;
+        }
+        return a;
+    }
+
+    override void Tick()
+    {
+        if (!owner)
+        {
+            Destroy();
+        }
+        if (!ownerArmor)
+        {
+            ownerArmor = BasicArmor(owner.FindInventory('BasicArmor'));
+            if (ownerArmor)
+            {
+                prevArmorAmount = ownerArmor.amount;
+            }
+        }
+        else
+        {
+            if (ownerArmor.amount <= 0 && prevArmorAmount > 0)
+            {
+                owner.A_StartSound("player/armorbreak",CHAN_AUTO);
+            }
+            prevArmorAmount = ownerArmor.amount;
+        }
+    }
+}
+
+//Massive thank you to Jekyll Grimm Payne!
+
+Class MonsterReplacementHander : EventHandler {
+    override void CheckReplacement (ReplaceEvent e) {
+        if (ir2_replacemonsters) {   
+            switch (e.Replacee.GetClassName()) {
+            case 'Zombieman'            : e.Replacement = 'ZombGuy_Spawner';       break;
+			case 'StealthZombieman'            : e.Replacement = 'SZombGuy_Spawner';       break;
+            case 'ShotgunGuy'           : e.Replacement = 'ZombGuy_Spawner';      break;
+			case 'StealthShotgunGuy'           : e.Replacement = 'SZombGuy_Spawner';      break;
+            case 'ChaingunGuy'      : e.Replacement = 'HeavyGuy_Spawner';         break;
+			case 'StealthChaingunGuy'      : e.Replacement = 'SHeavyGuy_Spawner';         break;
+            case 'WolfensteinSS'        : e.Replacement = 'WolfenGuy_Spawner';   break;
+            case 'DoomImp'          : e.Replacement = 'DoomImp_Spawner';             break;
+			case 'StealthDoomImp'          : e.Replacement = 'SDoomImp_Spawner';             break;
+            case 'Demon'                : e.Replacement = 'Demon_Spawner';               break;
+			case 'StealthDemon'                : e.Replacement = 'SDemon_Spawner';               break;
+            case 'Spectre'          : e.Replacement = 'SDemon_Spawner';             break;
+            case 'Cacodemon'            : e.Replacement = 'Caco_Spawner';       break;
+			case 'StealthCacodemon'            : e.Replacement = 'SCaco_Spawner';       break;
+            case 'PainElemental'        : e.Replacement = 'Pain_Spawner';   break;
+            case 'LostSoul'         : e.Replacement = 'Soul_Spawner';            break;
+            case 'Revenant'             : e.Replacement = 'Revenant_Spawner';            break;
+			case 'StealthRevenant'             : e.Replacement = 'SRevenant_Spawner';            break;
+            case 'Arachnotron'      : e.Replacement = 'FusionSpider';         break;
+			case 'StealthArachnotron'      : e.Replacement = 'FusionSpider';         break;
+            case 'Fatso'                : e.Replacement = 'Fatso_Spawner';               break;
+			case 'StealthFatso'                : e.Replacement = 'SFatso_Spawner';               break;
+            case 'HellKnight'           : e.Replacement = 'Knight_Spawner';      break;
+			case 'StealthHellKnight'           : e.Replacement = 'SKnight_Spawner';      break;
+            case 'BaronOfHell'      : e.Replacement = 'Baron_Spawner';         break;
+			case 'SealthBaron'           : e.Replacement = 'SBaron_Spawner';      break;
+            case 'ArchVile'             : e.Replacement = 'Diabolist';            break;
+			case 'StealthArchVile'             : e.Replacement = 'Diabolist';            break;
+            case 'Cyberdemon'           : e.Replacement = 'New_Cyberdemon';      break;
+            case 'SpiderMastermind'     : e.Replacement = 'New_Mastermind';    break;
+            case 'BossBrain'            : e.Replacement = 'BossBrainReplacer';           break;
+            case 'SpawnShot'            : e.Replacement = 'SpawnShot';           break;
+            //decorative corpses:
+            case 'DeadZombieman'        : e.Replacement = 'DeadTrooperAuto';   break;
+            case 'DeadShotgunGuy'   : e.Replacement = 'DeadTrooperShotty';  break;
+            case 'DeadDoomImp'      : e.Replacement = 'DeadNHellion';         break;
+            case 'DeadDemon'            : e.Replacement = 'DeadMauler';       break;
+            case 'DeadCacodemon'        : e.Replacement = 'DeadAgathodemon';   break;
+            case 'DeadLostSoul'     : e.Replacement = 'DeadLostSoul';        break;
+            }
+        }
+    }
+}
+
+Class TracerReplacementHander : EventHandler {
+    override void CheckReplacement (ReplaceEvent e) {
+        if (ir2_replacetracers) {   
+            switch (e.Replacee.GetClassName()) {
+            case 'p_pistol_tracer'            : e.Replacement = 'van_pistol_tracer';       break;
+			case 'p_hpistol_tracer'            : e.Replacement = 'van_hpistol_tracer';       break;
+            case 'p_autopistol_tracer'           : e.Replacement = 'van_autopistol_tracer';      break;
+			case 'p_autohpistol_tracer'           : e.Replacement = 'van_autohpistol_tracer';      break;
+            case 'p_tormentor_tracer'      : e.Replacement = 'van_tormentor_tracer';         break;
+			case 'p_tormentorbullet'      : e.Replacement = 'van_tormentorbullet';         break;
+			case 'p_devastator_tracer'      : e.Replacement = 'van_devastator_tracer';         break;
+            case 'p_tungsten_tracer'        : e.Replacement = 'van_tungsten_tracer';   break;
+            case 'p_pellet_tracer'          : e.Replacement = 'van_pellet_tracer';             break;
+			case 'p_arifle_tracer'                : e.Replacement = 'van_arifle_tracer';               break;
+            case 'p_hrifle_tracer'          : e.Replacement = 'van_hrifle_tracer';             break;
+            case 'p_hellstorm_tracer'            : e.Replacement = 'van_hellstorm_tracer';       break;
+			case 'p_hellstorm_tracer_noblood'            : e.Replacement = 'van_hellstorm_tracer_noblood';       break;
+            case 'p_longinus_tracer'        : e.Replacement = 'van_longinus_tracer';   break;
+			case 'p_longinus_at_tracer'        : e.Replacement = 'van_longinus_at_tracer';   break;
+            case 'p_mauler_tracer'         : e.Replacement = 'van_mauler_tracer';            break;
+            case 'p_typhoon_tracer'             : e.Replacement = 'van_typhoon_tracer';            break;
+			case 'p_typhoon_tracer_noblood'             : e.Replacement = 'van_typhoon_tracer_noblood';            break;
+            case 'p_hcannon_tracer'      : e.Replacement = 'van_hcannon_tracer';         break;
+			case 'p_hcannon_tracer_exp'      : e.Replacement = 'van_hcannon_tracer_exp';         break;
+            }
+        }
+    }
+}

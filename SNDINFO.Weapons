@@ -1,0 +1,739 @@
+//Weapon Sounds
+Pistol/Empty  PSTLEMTY
+Shotgun/Empty  SHTGEMTY
+Rifle/Empty	    RIFLEMTY
+Sniper/Empty	 SNIPEMTY
+Flamer/Empty	      RIPPEMTY
+Plasma/Empty	   TYPHEMTY
+Weapons/FireSelector	FMODESEL
+Weapons/SmartgunOn		SMRTGUN1
+Weapons/SmartgunOff		SMRTGUN0
+Weapons/SmartPistolOn		SMRTPST1
+Weapons/SmartPistolOff		SMRTPST0
+Weapons/NoTarget2C		NOTRGT01
+Weapons/NoTarget5B		NOTRGT02
+Weapons/MeleeUp   FISTUP
+
+Weapons/QuarterClip		TORMEMTY
+Dagger/Up	DAGGERUP
+
+$random dagger/hit {dagger/hit1 dagger/hit2 dagger/hit3 dagger/hit4}
+dagger/hit1         DAGGHIT1
+dagger/hit2         DAGGHIT2
+dagger/hit3         DAGGHIT3
+dagger/hit4         DAGGHIT4
+$random dagger/miss {dagger/miss1 dagger/miss2 dagger/miss3}
+dagger/miss1           DAGSLAS1
+dagger/miss2           DAGSLAS2
+dagger/miss3           DAGSLAS3
+
+dagger/wall 		DAGGHITW
+
+Sword/Draw		   SwordUp
+
+$random Sword/HitWall      {Sword/Wall1 Sword/Wall2}
+
+Sword/Wall2		SwordWl1
+Sword/Wall1		SwordWl2
+
+$random Sword/HitMeat {Sword/Hit1 Sword/Hit2 Sword/Hit3 Sword/Hit4 Sword/Hit5}
+Sword/Hit1         SwordHt1
+Sword/Hit2         SwordHt2
+Sword/Hit3         SwordHt3
+Sword/Hit4		   SwordHt4
+Sword/Hit5		   SwordHt5
+
+$random Sword/HitMeatAdd {Sword/HitAdd1 Sword/HitAdd2 Sword/HitAdd3}
+Sword/Hit1         SwordHt1
+Sword/Hit2         SwordHt2
+Sword/Hit3         SwordHt3
+
+$random Sword/Swing {Sword/Swing1 Sword/Swing2 Sword/Swing3 Sword/Swing4 Sword/Swing5}
+Sword/Swing1       SwordSw1
+Sword/Swing2       SwordSw2
+Sword/Swing3       SwordSw3
+Sword/Swing4       SwordSw4
+Sword/Swing5       SwordSw5
+
+$random Sword/SWave {Sword/SWave1 Sword/SWave2 Sword/SWave3 Sword/SWave4 Sword/SWave5}
+Sword/SWave1       ShokWav1
+Sword/SWave2       ShokWav2
+Sword/SWave3       ShokWav3
+Sword/SWave4       ShokWav4
+Sword/SWave5       ShokWav5
+
+$Random Weapons/PunisherPunch3	{PUNPNCH31 PUNPNCH32}
+$Random Weapons/PunisherPunch1	{PUNPNCH11 PUNPNCH12}
+
+PUNPNCH31	PUNPBRS1
+PUNPNCH32	PUNPBRS2
+
+PUNPNCH11	PUNPSEM1
+PUNPNCH12	PUNPSEM2
+
+$Random Weapons/PunisherMech3	{PUNMECH31 PUNMECH32}
+$Random Weapons/PunisherMech1	{PUNMECH11 PUNMECH12}
+
+PUNMECH31	PUNMBRS1
+PUNMECH32	PUNMBRS2
+
+PUNMECH11	PUNMSEM1
+PUNMECH12	PUNMSEM2
+
+$Random Weapons/PunisherFire3	{PunBurst1 PunBurst2 PunBurst3 PunBurst4}
+
+PunBurst1	PUNFBRS1
+PunBurst2	PUNFBRS2
+PunBurst3	PUNFBRS3
+PunBurst4	PUNFBRS4
+
+
+$Random Weapons/PunisherFire1	{PunSemi1 PunSemi2 PunSemi3 PunSemi4}
+
+PunSemi1	PUNFSEM1
+PunSemi2	PUNFSEM2
+PunSemi3	PUNFSEM3
+PunSemi4	PUNFSEM4
+
+$Random Weapons/PunisherAddAP	{PunAddAP1 PunAddAP2 PunAddAP3 PunAddAP4}
+
+PunAddAP1	PUNFRAP1
+PunAddAP2	PUNFRAP2
+PunAddAP3	PUNFRAP3
+PunAddAP4	PUNFRAP4
+
+Weapons/PunPing  PunPing
+Weapons/PunMagOut PunOut
+Weapons/PunMagIn PunIn
+Weapons/PunMagLock PunLock
+
+Weapons/LightAmmoUp	LITEAMMO
+Weapons/HeavyAmmoUp	HEVYAMMO
+
+$pitchshift Weapons/DevastatorPunch 7
+Weapons/DevastatorPunch DEVPUNCH
+
+$Random Weapons/DevastatorFireAdd	{DevFireAdd1 DevFireAdd2 DevFireAdd3 DevFireAdd4 DevFireAdd5 DevFireAdd6 DevFireAdd7 DevFireAdd8 DevFireAdd9 DevFireAdd10}
+
+DevFireAdd1		DEVADDF1
+DevFireAdd2		DEVADDF5
+DevFireAdd3		DEVADDF2
+DevFireAdd4		DEVADDF4
+DevFireAdd5		DEVADDF3
+DevFireAdd6		DEVADDF3
+DevFireAdd7		DEVADDF4
+DevFireAdd8		DEVADDF2
+DevFireAdd9		DEVADDF5
+DevFireAdd10	DEVADDF1
+
+$Random Weapons/DevastatorFireN	{DevFireN1 DevFireN2 DevFireN3 DevFireN4}
+
+DevFireN1	DevFirN1
+DevFireN2	DevFirN2
+DevFireN3	DevFirN3
+DevFireN4	DevFirN4
+
+$Random Weapons/DevastatorFireX	{DevFireX1 DevFireX2 DevFireX3 DevFireX4}
+
+DevFireX1	DevFirX1
+DevFireX2	DevFirX2
+DevFireX3	DevFirX3
+DevFireX4	DevFirX4
+
+Weapons/DevMagOut DevOut
+Weapons/DevMagIn DevIn
+Weapons/DevMagLock DevLock
+
+$random Weapons/TormentorFire	{Tormentor/Fire1 Tormentor/Fire2 Tormentor/Fire3 Tormentor/Fire4}
+
+Tormentor/Fire1 TORMFIR1
+Tormentor/Fire2 TORMFIR2
+Tormentor/Fire3 TORMFIR3
+Tormentor/Fire4 TORMFIR4
+
+$random Weapons/TormentorAdd	{Tormentor/Add1 Tormentor/Add2 Tormentor/Add3 Tormentor/Add4}
+
+Tormentor/Add1 TORMADD1
+Tormentor/Add2 TORMADD2
+Tormentor/Add3 TORMADD3
+Tormentor/Add4 TORMADD4
+
+Weapons/TormentorPunch	TORMPNCH
+
+Weapons/TormentorFly	TORMFLY
+Weapons/TormentorExplode TORMEXPL
+$Random Weapons/TormentorHit {Tormentor/Hit1 Tormentor/Hit2}
+
+Tormentor/Hit1	TORMHIT1
+Tormentor/Hit2	TORMHIT2
+
+Weapons/TormentorPull	TORMPULL
+Weapons/TormentorCycle	TORMCYCL
+Weapons/TormentorEmpty  TORMEMTY
+Weapons/TormentorReloadSeq1	TORMRLD1
+Weapons/TormentorReloadSeq2	TORMRLD2
+Weapons/TormentorReloadSeq3	TORMRLD3
+Weapons/TormentorReloadSeq4	TORMRLD4
+
+Weapons/StormUp	APISUP
+
+Weapons/StormPunch	APISPNCH
+
+$random Weapons/StormFireN {StormF1 StormF2 StormF3 StormF4 StormF5 StormF6}
+StormF1 APISFIR1
+StormF2 APISFIR2
+StormF3 APISFIR3
+StormF4 APISFIR4
+StormF5 APISFIR5
+StormF6 APISFIR6
+
+$random Weapons/StormFireX {StormX1 StormX2 StormX3 StormX4 StormX5 StormX6}
+StormX1 APISFRX1
+StormX2 APISFRX2
+StormX3 APISFRX3
+StormX4 APISFRX4
+StormX5 APISFRX5
+StormX6 APISFRX6
+
+$random Weapons/StormFireAdd {StormA1 StormA2 StormA3 StormA4 StormA5 StormA6}
+StormA1 APISADD1
+StormA2 APISADD2
+StormA3 APISADD3
+StormA4 APISADD4
+StormA5 APISADD5
+StormA6 APISADD6
+
+$random Weapons/SmartBulletFly {StormSBF1 StormSBF2 StormSBF3}
+StormSBF1 APISADX1
+StormSBF2 APISADX2
+StormSBF3 APISADX3
+
+Weapons/StormMagOut APISCLPO
+Weapons/StormMagIn APISCLPI
+Weapons/StormMagLock APISCOCK
+
+Weapons/DusterOpen		DUSTOPEN
+Weapons/DusterSteam		DUSTSTEM
+Weapons/DusterEject		DUSTEJCT
+Weapons/DusterClose		DUSTCLOS
+Weapons/DusterHalfShot DUSTHALF
+Weapons/DusterQuadShot DUSTQUAD
+
+$Random Weapons/DusterInsert	{Weapons/DusterInsert1 Weapons/DusterInsert2 Weapons/DusterInsert3 Weapons/DusterInsert4 Weapons/DusterInsert5}
+
+Weapons/DusterInsert1	DUSTINS1
+Weapons/DusterInsert2	DUSTINS2
+Weapons/DusterInsert3	DUSTINS3
+Weapons/DusterInsert4	DUSTINS4
+Weapons/DusterInsert5	DUSTINS5
+
+$random Weapons/DusterPrmFire {Weapons/QSGPF01 Weapons/QSGPF02 Weapons/QSGPF03 Weapons/QSGPF04 Weapons/QSGPF05}
+
+Weapons/QSGPF01	DUSTPRM1
+Weapons/QSGPF02	DUSTPRM2
+Weapons/QSGPF03	DUSTPRM3
+Weapons/QSGPF04	DUSTPRM4
+Weapons/QSGPF05	DUSTPRM5
+
+$random Weapons/DusterAdditive { Weapons/QSGA01 Weapons/QSGA02 Weapons/QSGA03 Weapons/QSGA04}
+
+Weapons/QSGA01	DUSTADD1
+Weapons/QSGA02	DUSTADD2
+Weapons/QSGA03	DUSTADD3
+Weapons/QSGA04	DUSTADD4
+
+$Random CoinShot/Fly {Coins/Fly1 Coins/Fly2 Coins/Fly3}
+
+Coins/Fly1	COINFLY1
+Coins/Fly2	COINFLY2
+Coins/Fly3	COINFLY3
+
+$Random CoinShot/Shatter {Coins/Shatter1 Coins/Shatter2 Coins/Shatter3 Coins/Shatter4 Coins/Shatter5 Coins/Shatter6}
+
+Coins/Shatter1	COINEXP1
+Coins/Shatter2	COINEXP2
+Coins/Shatter3	COINEXP3
+Coins/Shatter4	COINEXP4
+Coins/Shatter5	COINEXP5
+Coins/Shatter6	COINEXP6
+
+$Random CoinShot/Bounce	{Coins/Bounce1 Coins/Bounce2 Coins/Bounce3 Coins/Bounce4 Coins/Bounce5 Coins/Bounce6 Coins/Bounce7 Coins/Bounce8 Coins/Bounce9}
+
+Coins/Bounce1	COINBNC1
+Coins/Bounce2	COINBNC2
+Coins/Bounce3	COINBNC3
+Coins/Bounce4	COINBNC4
+Coins/Bounce5	COINBNC5
+Coins/Bounce6	COINBNC6
+Coins/Bounce7	COINBNC7
+Coins/Bounce8	COINBNC8
+Coins/Bounce9	COINBNC9
+
+Weapons/ImpalerWindUp	W4BFSTRT
+Weapons/ImpalerFireLoop	W4BFLOOP
+Weapons/ImpalerWindDn	W4BFSTOP
+Weapons/ImpalerPunch	W4BPUNCH
+Weapons/ImpalerReloadSt	W4BRELST
+Weapons/ImpalerReloadEd	W4BRELFN
+$Random Weapons/ImpalerAdditive {Weapons/WFRA01 Weapons/WFRA02 Weapons/WFRA03 Weapons/WFRA04 Weapons/WFRA05 Weapons/WFRA06}
+
+Weapons/WFRA01	W4BSHOT1
+Weapons/WFRA02	W4BSHOT2
+Weapons/WFRA03	W4BSHOT3
+Weapons/WFRA04  W4BSHOT4
+Weapons/WFRA05  W4BSHOT5
+Weapons/WFRA06  W4BSHOT6
+
+Weapons/CS_Select		CS_SELCT
+Weapons/CS_Deselect		CS_DSLCT
+$random Weapons/CS_Sweetener	{CS_SWEET1 CS_SWEET2 CS_SWEET3}
+$random Weapons/CS_PumpCycleFast	{CS_PMPF1 CS_PMPF2}
+$random Weapons/CS_PumpCycle	{CS_PUMP1 CS_PUMP2}
+$random Weapons/CS_Fire	{CS_FIRE1 CS_FIRE2 CS_FIRE3 CS_FIRE4 CS_FIRE5}
+$random Weapons/CS_Add	{CS_FIRX1 CS_FIRX2 CS_FIRX3 CS_FIRX4}
+$random Weapons/CS_Insert	{CS_SHIN1 CS_SHIN2 CS_SHIN3 CS_SHIN4 CS_SHIN5 CS_SHIN6 CS_SHIN7 CS_SHIN8}
+$limit Weapons/CS_Fire 0
+$limit Weapons/CS_SlamFire 0
+
+CS_FIRE1	CS_FIRE5
+CS_FIRE2	CS_FIRE4
+CS_FIRE3	CS_FIRE3
+CS_FIRE4	CS_FIRE2
+CS_FIRE5	CS_FIRE1
+
+CS_FIRX1	CS_FIRX4
+CS_FIRX2	CS_FIRX3
+CS_FIRX3	CS_FIRX2
+CS_FIRX4	CS_FIRX1
+
+CS_SWEET1	CS_SWTN3
+CS_SWEET2	CS_SWTN2
+CS_SWEET3	CS_SWTN1
+
+CS_SHIN1	CS_SHIN8
+CS_SHIN2	CS_SHIN7
+CS_SHIN3	CS_SHIN6
+CS_SHIN4	CS_SHIN5
+CS_SHIN5	CS_SHIN4
+CS_SHIN6	CS_SHIN3
+CS_SHIN7	CS_SHIN2
+CS_SHIN8	CS_SHIN1
+
+CS_PUMP1	CS_PUMP2
+CS_PUMP2	CS_PUMP1
+
+CS_PMPF1	CS_PMPF2
+CS_PMPF2	CS_PMPF1
+
+//NetherRealm Studios - Mortal Kombat X
+Inferno/DBImpact		"Sounds/DragonsBreathImpact.ogg"
+
+//Croteam - Serious Sam TSE
+Flame/Loop				"Sounds/DropFlame.ogg"
+
+$random SK410/Magout { SK410/MagO1 SK410/MagO2 }
+
+SK410/MagO1	SK410MO1
+SK410/MagO2	SK410MO2
+
+$random SK410/MagIn { SK410/MagI1 SK410/MagI2 }
+
+SK410/MagI1	SK410MI1
+SK410/MagI2	SK410MI2
+
+SK410/MagHit SK410MH1
+
+SK410/BoltCatch	SK410BLT
+
+$random Weapons/SK410Mech {SK410/Mech1 SK410/Mech2 SK410/Mech3 SK410/Mech4}
+SK410/Mech1	SK410MC1
+SK410/Mech2	SK410MC2
+SK410/Mech3	SK410MC3
+SK410/Mech4	SK410MC4
+
+$random Weapons/SK410Fire {SK410/Fire1 SK410/Fire2 SK410/Fire3 SK410/Fire4 SK410/Fire5}
+SK410/Fire1	SK410FR1
+SK410/Fire2	SK410FR2
+SK410/Fire3	SK410FR3
+SK410/Fire4	SK410FR4
+SK410/Fire5	SK410FR5
+
+$random Weapons/SK410FireAdd {SK410/FireA1 SK410/FireA2 SK410/FireA3 SK410/FireA4}
+SK410/FireA1	SK410AF1
+SK410/FireA2	SK410AF2
+SK410/FireA3	SK410AF3
+SK410/FireA4	SK410Af4
+
+$random Weapons/AS_Sweetener	{AS_SWEET1 AS_SWEET2 AS_SWEET3}
+
+AS_SWEET1	AS_SWTN3
+AS_SWEET2	AS_SWTN2
+AS_SWEET3	AS_SWTN1
+
+ArchangelK61/MagHit		K61CLPHT
+
+$random ArchangelK61/MagOut { ArchangelK61/MagO1 ArchangelK61/MagO2 }
+
+ArchangelK61/MagO1	K61CLPO1
+ArchangelK61/MagO2	K61CLPO2
+
+$random ArchangelK61/MagIn { ArchangelK61/MagI1 ArchangelK61/MagI2 }
+
+ArchangelK61/MagI1	K61CLPI1
+ArchangelK61/MagI2	K61CLPI2
+
+ArchangelK61/BoltPull		K61BOLTP
+ArchangelK61/BoltRelease	K61BOLTR
+
+$random Weapons/OmenPunchBullet	{BASSBUL1 BASSBUL2 BASSBUL3}
+$random Weapons/OmenPunchPlasma {BASSCEL1 BASSCEL2 BASSCEL3}
+
+BASSBUL1	OMENBUL1
+BASSBUL2	OMENBUL2
+BASSBUL3	OMENBUL3
+
+BASSCEL1	OMENCEL1
+BASSCEL2	OMENCEL2
+BASSCEL3	OMENCEL3
+
+$random  Weapons/OmenBolt {Omen/Bolt1 Omen/Bolt2 Omen/Bolt3 Omen/Bolt4}
+
+Omen/Bolt1	OMNBOLT1
+Omen/Bolt2	OMNBOLT2
+Omen/Bolt3	OMNBOLT3
+Omen/Bolt4	OMNBOLT4
+
+$random Weapons/OmenFire { Omen/Fire1 Omen/Fire2 Omen/Fire3 Omen/Fire4 Omen/Fire5}
+
+Omen/Fire1  OMENFIR1
+Omen/Fire2  OMENFIR2
+Omen/Fire3  OMENFIR3
+Omen/Fire4  OMENFIR4
+Omen/Fire5  OMENFIR5
+
+$random Weapons/OmenFireX { Omen/FireX1 Omen/FireX2 Omen/FireX3 Omen/FireX4 Omen/FireX5}
+
+Omen/FireX1  OMENFRX1
+Omen/FireX2  OMENFRX2
+Omen/FireX3  OMENFRX3
+Omen/FireX4  OMENFRX4
+Omen/FireX5  OMENFRX5
+
+$random Weapons/OmenFireAdd {Omen/FireAdd1 Omen/FireAdd2 Omen/FireAdd3 Omen/FireAdd4 Omen/FireAdd5}
+Omen/FireAdd1	OmenFad1
+Omen/FireAdd2	OmenFad2
+Omen/FireAdd3	OmenFad3
+Omen/FireAdd4	OmenFad4
+Omen/FireAdd5	OmenFad5
+
+
+Hellstorm/Raise	BLSGRDY
+
+$random Hellstorm/FireMain {HST/Main1 HST/Main2 HST/Main3 HST/Main4 HST/Main5}
+
+HST/Main1	BLSFFRM1
+HST/Main2	BLSFFRM2
+HST/Main3	BLSFFRM3
+HST/Main4	BLSFFRM4
+HST/Main5	BLSFFRM5
+
+$random Hellstorm/FireAdd {HST/Add1 HST/Add2 HST/Add3 HST/Add4 HST/Add5}
+
+HST/Add1	BLSFFRA1
+HST/Add2	BLSFFRA2
+HST/Add3	BLSFFRA3
+HST/Add4	BLSFFRA4
+HST/Add5	BLSFFRA5
+
+Hellstorm/MagOut	BLSF_COT
+
+Hellstorm/MagIn		BLSF_CIN
+
+$random Hellstorm/MagSlap {HSTMSL1 HSTMSL2}
+
+HSTMSL1	BLSF_CH1
+HSTMSL2	BLSF_CH2
+
+$random Weapons/SniperLFE {Weapons/SL01 Weapons/SL02 Weapons/SL03 Weapons/SL04}
+
+Weapons/SL01	LONGLFE1
+Weapons/SL02	LONGLFE2
+Weapons/SL03	LONGLFE3
+Weapons/SL04	LONGLFE4
+
+$random Weapons/SniperFire {Weapons/SF01 Weapons/SF02 Weapons/SF03 Weapons/SF04}
+
+Weapons/SF01	LONGFIR1
+Weapons/SF02	LONGFIR2
+Weapons/SF03	LONGFIR3
+Weapons/SF04	LONGFIR4
+
+$random Weapons/SniperAdd {Weapons/SA01 Weapons/SA02 Weapons/SA03 Weapons/SA04}
+
+Weapons/SA01	LONGFAD1
+Weapons/SA02	LONGFAD2
+Weapons/SA03	LONGFAD3
+Weapons/SA04	LONGFAD4
+
+$random Weapons/SniperBoltBack {Weapons/SniperBoltB1 Weapons/SniperBoltB2 Weapons/SniperBoltB3}
+Weapons/SniperBoltB1	6ABOLTB1
+Weapons/SniperBoltB2	6ABOLTB2
+Weapons/SniperBoltB3	6ABOLTB3
+
+$random Weapons/SniperBoltForward {Weapons/SniperBoltF1 Weapons/SniperBoltF2 Weapons/SniperBoltF3}
+Weapons/SniperBoltF1	6ABOLTF1
+Weapons/SniperBoltF2	6ABOLTF2
+Weapons/SniperBoltF3	6ABOLTF3
+
+$random Weapons/SniperEjectS1 	{Weapons/SE01 Weapons/SE02 Weapons/SE03 Weapons/SE04}
+
+Weapons/SE01	LONGEJT1
+Weapons/SE02	LONGEJT2
+Weapons/SE03	LONGEJT3
+Weapons/SE04	LONGEJT4
+
+Weapons/SniperSequence1	LONGREL1
+Weapons/SniperSequence2	LONGREL2
+Weapons/SniperSequence3	LONGREL3
+Weapons/SniperSequence4	LONGREL4
+
+Weapons/SRS1A	LONGRL1A
+Weapons/SRS1B	LONGRL1B
+
+Weapons/SniperPull		LONGPULL
+Weapons/SniperMagOut1	LONGOUT1
+Weapons/SniperMagOut2	LONGOUT2
+Weapons/SniperMagIn1	LONGIN1
+Weapons/SniperMagIn2	LONGIN2
+ZoomIn	ZoomIn
+ZoomOut	ZoomOut
+
+$rolloff sfx/sboom1 0 1536
+
+$random sfx/sboom1 {sfx/bm1 sfx/bm2 sfx/bm3}
+sfx/bm1		STBOOM1
+sfx/bm2		STBOOM2
+sfx/bm3		STBOOM3
+
+$Random Weapons/MaulerFire {M_FIRE1 M_FIRE2 M_FIRE3 M_FIRE4}
+
+M_FIRE1		MHC_FIR1
+M_FIRE2		MHC_FIR2
+M_FIRE3		MHC_FIR3
+M_FIRE4		MHC_FIR4
+
+$Random Weapons/MaulerAdd {M_FADD1 M_FADD2 M_FADD3 M_FADD4}
+
+M_FADD1		MHC_ADD1
+M_FADD2		MHC_ADD2
+M_FADD3		MHC_ADD3
+M_FADD4		MHC_ADD4
+
+$Random Weapons/MaulerMech {M_MECH1 M_MECH2 M_MECH3 M_MECH4}
+
+M_MECH1		MHC_MCH1
+M_MECH2		MHC_MCH2
+M_MECH3		MHC_MCH3
+M_MECH4		MHC_MCH4
+
+$Random Weapons/MaulerShell {M_SHEL1 M_SHEL2 M_SHEL3 M_SHEL4}
+
+M_SHEL1		MHC_EJT1
+M_SHEL2		MHC_EJT2
+M_SHEL3		MHC_EJT3
+M_SHEL4		MHC_EJT4
+
+$Random Weapons/MaulerMagOut	{MHC_MAGO1 MHC_MAGO2}
+
+MHC_MAGO1	MHC_MGO1
+MHC_MAGO2	MHC_MGO2
+
+$Random Weapons/MaulerMagin		{MHC_MAGI1 MHC_MAGI2}
+
+MHC_MAGI1	MHC_MGI1
+MHC_MAGI2	MHC_MGI2
+
+Weapons/MaulerPull		MHC_PULL
+Weapons/MaulerBolt		MHC_BOLT
+Weapons/MaulerLock		MHC_LOCK
+
+// Thanks Pillow..... :'D
+$random Explosion/Init { Explosion/Init1 Explosion/Init2 Explosion/Init3 Explosion/Init4 }
+Explosion/Init1	EXPINIT1
+Explosion/Init2	EXPINIT2
+Explosion/Init3	EXPINIT3
+Explosion/Init4	EXPINIT4
+
+$random Explosion/Main { Explosion/Main1 Explosion/Main2 Explosion/Main3 Explosion/Main4 }
+Explosion/Main1	EXPMAIN1
+Explosion/Main2	EXPMAIN2
+Explosion/Main3	EXPMAIN3
+Explosion/Main4	EXPMAIN4
+
+$random Explosion/Layer { Explosion/Layer1 Explosion/Layer2 Explosion/Layer3 Explosion/Layer4 Explosion/Layer5 Explosion/Layer6 Explosion/Layer7 Explosion/Layer8 }
+Explosion/Layer1	EXPLAYR1
+Explosion/Layer2	EXPLAYR2
+Explosion/Layer3	EXPLAYR3
+Explosion/Layer4	EXPLAYR4
+Explosion/Layer5	EXPLAYR5
+Explosion/Layer6	EXPLAYR6
+Explosion/Layer7	EXPLAYR7
+Explosion/Layer8	EXPLAYR8
+
+Explosion/Flavor	EXPFLAVR
+
+$rolloff Explosion/Init 400 2000
+$rolloff Explosion/Main 400 2000
+$rolloff Explosion/Layer 400 2000
+$rolloff Explosion/Flavor 400 2000
+
+FlamerUp	WPN6UP
+
+$Random Flamer/Start {Start1 Start2 Start3}
+
+Start1	FLAMSTR1
+Start2	FLAMSTR2
+Start3	FLAMSTR3
+
+$Random Flamer/NailBlast {NailShotty1 NailShotty2}
+
+NailShotty1	FLAMNGF1
+NailShotty2	FLAMNGF2
+
+Flamer/MainLoop FLAMLPRM
+Flamer/AddLoop FLAMLADD
+$Random Flamer/Stop {Stop1 Stop2}
+
+Stop1	FLAMSTP1
+Stop2	FLAMSTP2
+
+Flamer/RelRack1 RELRACK1
+Flamer/RelRack2 RELRACK2
+Flamer/Reload1	YEGRREL1
+Flamer/Reload2	YEGRREL2
+Flamer/Reload3	YEGRREL3
+Flamer/Reload4	YEGRREL4
+
+$Random Leadspitter/Overheated {Leadspitter/Overheat1 Leadspitter/Overheat2 Leadspitter/Overheat3}
+
+Leadspitter/Overheat1 TYPHOVH1
+Leadspitter/Overheat2 TYPHOVH2
+Leadspitter/Overheat3 TYPHOVH3
+
+
+Leadspitter/ShutterOpen	TYPHSTR1
+Leadspitter/ShutterClose TYPHSTR2
+Leadspitter/CoolDown	 TYPHCOOL
+Leadspitter/Burst	TYPHBURS
+Leadspitter/Reload	TYPHLOAD
+Leadspitter/WarnHeat	TYPHHEAT
+Leadspitter/WarnAmmo	TYPHAMMO
+Leadspitter/FireLoop	TYPHLOOP
+Leadspitter/FireTail	TYPHTAIL
+
+$Limit Leadspitter/WarnHeat 1
+$Limit Leadspitter/WarnAmmo 1
+
+$rolloff LeadClip/HitThing 800 1800
+$rolloff LeadClip/HitWall 800 1800
+$Random LeadClip/HitWall {HitWall1 HitWall2 HitWall3}
+
+HitWall1	TYPHWAL1
+HitWall2	TYPHWAL2
+HitWall3	TYPHWAL3
+
+$Random LeadClip/HitThing {HitThing1 HitThing2 HitThing3}
+
+HitThing1	TYPHHIT1
+HitThing2	TYPHHIT2
+HitThing3	TYPHHIT3
+
+
+$Random LeadClip/Bounce {Bounce1 Bounce2 Bounce3 Bounce4 Bounce5 Bounce6}
+
+Bounce1		TYPHBNC1
+Bounce2		TYPHBNC2
+Bounce3		TYPHBNC3
+Bounce4		TYPHBNC4
+Bounce5		TYPHBNC5
+Bounce6		TYPHBNC6
+
+Railgun/Select 	RailUp
+Railgun/ChargeStart	RailChgS
+Railgun/ChargeLoop	RailLoop
+Railgun/Compressor RailComp
+Railgun/Hum		RAILHUM
+Railgun/Punch	RG_PUNCH
+$Random Railgun/Add	 {RailAfr1 RailAfr2 RailAfr3 RailAfr4}
+$Random Railgun/Fire {RailPri1 RailPri2 RailPri3 RailPri4}
+$Random Railgun/Impact {RailImp1 RailImp2 RailImp3}
+RailPri1	RAILPFR1
+RailPri2	RAILPFR2
+RailPri3	RAILPFR3
+RailPri4	RAILPFR4
+RailAfr1	RAILADD1
+RailAfr2	RAILADD2
+RailAfr3	RAILADD3
+RailAfr4	RAILADD4
+RailImp1	RAILPUF1
+RailImp2	RAILPUF2
+RailImp3	RAILPUF3
+
+Weapons/RailSequence1	RAILREL1
+Weapons/RailSequence2	RAILREL2
+Weapons/RailSequence3	RAILREL3
+Weapons/RailSequence4	RAILREL4
+
+Weapons/HarbingerSelect		HBGRSLCT
+Weapons/HarbingerAmmo	HBGRAMMO
+
+$Random Weapons/HarbingerFirePrimary	{8BFIRE1 8BFIRE2 8BFIRE3 8BFIRE4 8BFIRE5}
+
+8BFIRE1		HBGRFIR1
+8BFIRE2		HBGRFIR2
+8BFIRE3		HBGRFIR3
+8BFIRE4		HBGRFIR4
+8BFIRE5		HBGRFIR5
+
+$Random Weapons/HarbingerFireAdditive	{8BADD1 8BADD2 8BADD3 8BADD4 8BADD5}
+
+8BADD1		HBGRADD1
+8BADD2		HBGRADD2
+8BADD3		HBGRADD3
+8BADD4		HBGRADD4
+8BADD5		HBGRADD5
+
+$Random Weapons/HarbingerPunchLayer		{8BPUNCH1 8BPUNCH2 8BPUNCH3 8BPUNCH4 8BPUNCH5}
+8BPUNCH1	HBGRPCH1
+8BPUNCH2	HBGRPCH2
+8BPUNCH3	HBGRPCH3
+8BPUNCH4	HBGRPCH4
+8BPUNCH5	HBGRPCH5
+
+Weapons/HarbingerFireLoop1	HBGRFRLP
+Weapons/HarbingerFireLoop2	HBGRFRAD
+Weapons/HarbingerDakkaLoop1	HBGRDKFR
+Weapons/HarbingerFireStop	HBGRFRST
+Weapons/HarbingerSpinStart	HBGRSPUP
+Weapons/HarbingerSpinLoop	HBGRSPLP
+Weapons/HarbingerSpinStop	HBGRSPDN
+Weapons/HarbingerOverheated		HBGROVHT
+Weapons/HarbingerSteamLoop		HBGRSTLP
+Weapons/HarbingerSteamVentOpen	HBGRVNOP
+Weapons/HarbingerSteamVentClose	HBGRVNCL
+
+Weapons/HarbingerHeat1	HBGRHBU1
+Weapons/HarbingerHeat2	HBGRHBU2
+Weapons/HarbingerHeat3	HBGRHBU3
+Weapons/HarbingerHeat4	HBGRHBU4
+
+Weapons/HBGRUpgradePickedUp	HBGRUPGP
+Weapons/HarbingerUpgrade1	HBGRUPG1
+Weapons/HarbingerUpgrade2	HBGRUPG2
+
+Weapons/HarbingerSequence1	HBGRSEQ1
+Weapons/HarbingerSequence2	HBGRSEQ2
+Weapons/HarbingerSequence3	HBGRSEQ3
+Weapons/HarbingerSequence4	HBGRSEQ4
+Weapons/HarbingerSequence5 	HBGRSEQ5
+Weapons/HarbingerSequence6 	HBGRSEQ6

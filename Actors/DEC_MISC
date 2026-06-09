@@ -1,0 +1,120 @@
+//Ammo
+
+actor ClipReplacer : RandomSpawner Replaces Clip
+{
+	DropItem "LightPistolAmmo", 256, 12
+	DropItem "HeavyPistolAmmo", 128, 6
+}
+
+actor ClipBoxReplacer: RandomSpawner replaces ClipBox
+{
+	DropItem "ARifle_Magazine", 256, 12
+	DropItem "PDW_Magazine", 256, 6
+	DropItem "ARifle_Magazine_X", 256, 3
+	//DropItem "NailgunBox", 256,3
+}
+
+actor ShellReplacer : RandomSpawner replaces Shell {
+	DropItem "1ShellsX1", 256, 12
+	DropItem "1ShellsX2", 256, 12
+    DropItem "2ShellsX1", 192, 10
+	DropItem "2ShellsX2", 192, 10
+	DropItem "3ShellsX1", 160, 8
+	DropItem "3ShellsX2", 160, 8
+	DropItem "4ShellsX1", 128, 6
+	DropItem "4ShellsX2", 128, 6
+	DropItem "AShot_Magazine", 64 4
+	DropItem "AShot_Magazine_X", 64, 4
+	DropItem "8Ga4Shells", 32, 2
+	//DropItem "NailgunBox", 32, 2
+}
+
+actor ShellBoxReplacer : RandomSpawner replaces ShellBox { //only the shellbox can spawn a shellbox :P
+	DropItem "8ShellsX1", 256, 16
+	DropItem "8ShellsX2", 256, 16
+	DropItem "12ShellsX1", 256, 8
+	DropItem "12ShellsX2", 256, 8
+	DropItem "AShot_Magazine", 256, 8
+	DropItem "AShot_Magazine_X", 256, 8
+	DropItem "8Ga4Shells", 256, 4
+	DropItem "8GaShellBox", 256, 4
+	//DropItem "NailgunBox", 256,4
+	
+}
+
+actor RocketReplacer: RandomSpawner replaces RocketAmmo
+{
+	
+	DropItem "Sniper_Reserve", 256, 12
+	DropItem "Mauler_Magazine", 128, 6
+	DropItem "Sniper_Box", 64, 3
+
+}
+
+actor RocketBoxReplacer: RandomSpawner replaces RocketBox
+{
+	DropItem "Sniper_Reserve", 256, 12
+	DropItem "Mauler_Magazine", 256, 3
+	DropItem "Sniper_Box", 256, 1
+}
+
+actor CellReplacer : RandomSpawner replaces Cell
+{
+	DropItem "Flame_Cannister", 256, 12
+	DropItem "PRifle_Magazine", 128, 6
+	DropItem "Railgun_Magazine", 64, 3
+	DropItem "HarbingerReserve", 64, 3
+	
+}
+
+actor CellPackReplacer : RandomSpawner replaces CellPack
+{
+	DropItem "Flame_Cannister", 256, 12
+	DropItem "PRifle_Magazine", 256, 3
+	DropItem "Railgun_Magazine", 256, 1
+	DropItem "HarbingerReserve", 256, 1
+}
+
+actor Slot3Spawner : RandomSpawner Replaces Shotgun
+{
+	DropItem "Malefactor", 256, 12
+	DropItem "Archangel", 256, 3
+}
+
+actor Slot4Spawner : RandomSpawner Replaces SuperShotgun
+{
+	DropItem "Boneduster", 256, 12
+	DropItem "ImpalerNailgun", 256, 3
+}
+
+actor Slot5Spawner : RandomSpawner Replaces Chaingun
+{
+	DropItem "Omen", 256, 12
+	DropItem "Hellstorm", 256, 3
+}
+
+actor Slot6Spawner : RandomSpawner Replaces RocketLauncher
+{
+	DropItem "MaulerCannon", 256, 12
+	DropItem "Longinus", 256, 3
+}
+
+actor Slot7Spawner : RandomSpawner Replaces PlasmaRifle
+{
+	DropItem "Incinerator", 256, 12
+	DropItem "Typhoon", 256, 3
+}
+
+actor Slot8Spawner : RandomSpawner Replaces BFG9000
+{
+	DropItem "Evangelizer", 256, 12
+	DropItem "Harbinger", 256, 3
+	DropItem "HRCGatlingKit", 256, 1
+}
+
+actor BarrelSpawner : RandomSpawner replaces ExplosiveBarrel
+{
+    DropItem "SplodieBarrel" 256 32
+	DropItem "ToxinTank" 256 16
+    DropItem "NitrogenTank" 256 8
+}

@@ -1,0 +1,580 @@
+Namespace = "GZDoom";
+include = "SCRIPT00";
+
+Conversation
+{
+	Actor = "AcolyteRed";
+	ID = 54;
+	Page
+	{
+		Name = "DOOR GUARD";
+		PageName = "1";
+		Dialog = "SORRY, NO. YOU DO NOT HAVE CLEARANCE.";
+		Link = "2";
+		Panel = "M_GUARD2";
+		Voice = "DGG03";
+		Drop = "Power1Key";
+		IfItem
+		{
+			Item = "Power1Key";
+		}
+	}
+	Page
+	{
+		Name = "DOOR GUARD";
+		PageName = "2";
+		Dialog = "STOP! SHOW ME YOUR ID BADGE.";
+		Panel = "M_GUARD2";
+		Voice = "DGG01";
+		Choice
+		{
+			Text = "HERE'S MY I.D.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  HERE'S MY I.D.!";
+			GiveItem = "OpenDoor222";
+			NextPage = "3";
+			Cost
+			{
+				Item = "Power1Key";
+				Amount = 1;
+			}
+		}
+	}
+	Page
+	{
+		Name = "DOOR GUARD";
+		PageName = "3";
+		Dialog = "OH, OK. SURE GO AHEAD. HAVE A NICE DAY.";
+		Panel = "M_GUARD2";
+		Voice = "DGG02";
+	}
+}
+
+Conversation
+{
+	Actor = "AcolyteRust";
+	ID = 55;
+	Page
+	{
+		Name = "FOREMAN";
+		PageName = "1";
+		Dialog = "DERWIN? YEAH, HE'S DOWN IN THE WAREHOUSE, BUT YOU'RE NOT GETTING IN UNLESS YOU'RE CLEARED.";
+		Link = "4";
+		Panel = "M_GUARD3";
+		Voice = "FOR01A";
+		Drop = "ClipOfBullets";
+		IfItem
+		{
+			Item = "QuestItem10";
+		}
+		Choice
+		{
+			Text = "I'VE GOT CLEARANCE.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  I'VE GOT CLEARANCE.!";
+			NextPage = "2";
+		}
+	}
+	Page
+	{
+		Name = "FOREMAN";
+		PageName = "2";
+		Dialog = "GO ON.";
+		Panel = "M_GUARD3";
+		Voice = "FOR02A";
+		Drop = "ClipOfBullets";
+		Choice
+		{
+			Text = "DO YOU KNOW WHERE HE IS?";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  DO YOU KNOW WHERE HE IS?!";
+			NextPage = "3";
+		}
+	}
+	Page
+	{
+		Name = "FOREMAN";
+		PageName = "3";
+		Dialog = "I DON'T KNOW WHERE ANYBODY IS. I JUST KEEP THE LID ON THE RAT TRAP.";
+		Link = "4";
+		Panel = "M_GUARD3";
+		Voice = "FOR04A";
+		Drop = "ClipOfBullets";
+		IfItem
+		{
+			Item = "PrisonKey";
+		}
+	}
+	Page
+	{
+		Name = "FOREMAN";
+		PageName = "4";
+		Dialog = "YOU ARE AN UNPLEASANT DISTRACTION.";
+		Panel = "M_GUARD3";
+		Voice = "FOTBLA";
+		Drop = "ClipOfBullets";
+	}
+}
+
+Conversation
+{
+	Actor = "AcolyteGray";
+	ID = 56;
+	Page
+	{
+		Name = "REACTOR GUARD";
+		PageName = "1";
+		Dialog = "MOVE ALONG OR TASTE METAL.";
+		Link = "2";
+		Panel = "M_GUARD4";
+		Voice = "RGTBL";
+		Drop = "ClipOfBullets";
+		IfItem
+		{
+			Item = "Power2Key";
+		}
+	}
+	Page
+	{
+		Name = "REACTOR GUARD";
+		PageName = "2";
+		Dialog = "PASS YOUR ID THROUGH HERE FOR ACCESS.";
+		Panel = "M_GUARD4";
+		Voice = "RGG01";
+		Drop = "ClipOfBullets";
+	}
+}
+
+Conversation
+{
+	Actor = "AcolyteDGreen";
+	ID = 57;
+	Page
+	{
+		Name = "OVERSEER";
+		PageName = "1";
+		Dialog = "GET BACK TO WORK, NOW!";
+		Panel = "M_GUARD5";
+		Voice = "AGG01";
+		Drop = "ClipOfBullets";
+	}
+}
+
+Conversation
+{
+	Actor = "AcolyteGold";
+	ID = 58;
+	Page
+	{
+		Name = "CORE GUARD";
+		PageName = "1";
+		Dialog = "GET BACK TO WORK, NOW!";
+		Panel = "M_GUARD6";
+		Voice = "AGG01";
+		Drop = "EnvironmentalSuit";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant4";
+	ID = 9;
+	Page
+	{
+		Name = "DOCK WORKER";
+		PageName = "1";
+		Dialog = "WE'VE BEEN RUNNING AROUND THE CLOCK FOR WEEKS WITH NO DOWN TIME. I'D SAY THAT THE ORDER IS PLANNING A SUPPRESSION RAID ON THE FRONT.";
+		Panel = "M_DKWRKR";
+		Voice = "DOW01";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant5";
+	ID = 10;
+	Page
+	{
+		Name = "DERWIN";
+		PageName = "1";
+		Dialog = "OH, DAMN. THE GOVERNOR SENT YOU. I WAS GOING TO GIVE HIM HIS CUT, REALLY I WAS. OK, LISTEN. I'VE GOT A BUNDLE STASHED. IT'S YOURS IF YOU LOOK THE OTHER WAY.";
+		Panel = "M_DERWIN";
+		Voice = "DER01";
+		Drop = "Ear";
+		Choice
+		{
+			Text = "ALL RIGHT, I'LL LET YOU GO.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  ALL RIGHT, I'LL LET YOU GO.!";
+			GiveItem = "RaiseAlarm";
+			NextPage = "2";
+		}
+		Choice
+		{
+			Text = "SORRY, NOTHING PERSONAL.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  SORRY, NOTHING PERSONAL.!";
+			GiveItem = "RaiseAlarm";
+			NextPage = "3";
+		}
+	}
+	Page
+	{
+		Name = "DERWIN";
+		PageName = "2";
+		Dialog = "NUTS, IF I'M GOING DOWN, THEN SO ARE YOU. GUARDS!!";
+		Panel = "M_DERWIN";
+		Voice = "DER02";
+		Drop = "Ear";
+	}
+	Page
+	{
+		Name = "DERWIN";
+		PageName = "3";
+		Dialog = "BUSINESS MY ASS. HELP, GUARDS, I'VE GOT A LIVE ONE.";
+		Panel = "M_DERWIN";
+		Voice = "DER03";
+		Drop = "Ear";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant6";
+	ID = 11;
+	Page
+	{
+		Name = "WORNER";
+		PageName = "1";
+		Dialog = "AH, I GOT WORD FROM MACIL THAT YOU'D BE COMING. I HAVE A WAY TO GET YOU INSIDE THE POWER STATION, BUT IT'S ON THE RISKY SIDE.";
+		Panel = "M_WORNER";
+		Voice = "WOR01";
+		Drop = "Power1Key";
+		Choice
+		{
+			Text = "I'LL TAKE MY CHANCES.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  I'LL TAKE MY CHANCES.!";
+			GiveItem = "Power1Key";
+			NextPage = "2";
+		}
+	}
+	Page
+	{
+		Name = "WORNER";
+		PageName = "2";
+		Dialog = "ALL RIGHT, I STOLE AN I.D. FROM THE CORPSE OF SOME FOOL WHO FELL INTO THE REACTOR'S COOLANT PIT. --BLAT-- INSTANT DEEP FRY.";
+		Panel = "M_WORNER";
+		Voice = "WOR02";
+		Choice
+		{
+			Text = "WHAT SHOULD I DO ONCE I'M IN?";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  WHAT SHOULD I DO ONCE I'M IN?!";
+			NextPage = "3";
+		}
+	}
+	Page
+	{
+		Name = "WORNER";
+		PageName = "3";
+		Dialog = "TELL WHOEVER ASKS THAT YOU'RE THE REPLACEMENT WORKER FOR MR. CRISPY. IT'S JUST DUMB ENOUGH TO WORK. OH, AND YOU MIGHT WANT TO CHECK OUT THE STOREROOM THAT'S RIGHT ABOVE US.";
+		Panel = "M_WORNER";
+		Voice = "WOR03";
+		Choice
+		{
+			Text = "BOY I HOPE THIS I.D. WORKS.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  BOY I HOPE THIS I.D. WORKS.!";
+			NextPage = "4";
+		}
+	}
+	Page
+	{
+		Name = "WORNER";
+		PageName = "4";
+		Dialog = "GET OUT OF HERE, UNLESS YOU WANT TO END UP MR. DEAD.";
+		Panel = "M_WORNER";
+		Voice = "WRTBL";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant10";
+	ID = 15;
+	Page
+	{
+		Name = "DOCK WORKER";
+		PageName = "1";
+		Dialog = "HEY, LEAVE ME ALONE. IF THEY CATCH US WASTING TIME WE GET DEAD, OR EXTRA WORK.";
+		Panel = "M_DKWRKR";
+		Voice = "DWW01";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant11";
+	ID = 16;
+	Page
+	{
+		Name = "TECHNICIAN";
+		PageName = "1";
+		Dialog = "SUCH PRESSURE, AT THIS RATE WE'LL BE BACK TO NORMAL SHIFTS SOON. WE'RE PUMPING TONS OF POWER TO THE CASTLE AND I'M ALMOST FINISHED LOGGING THOSE NEW WEAPONS.";
+		Panel = "M_TEKBRN";
+		Voice = "TCH01";
+		Drop = "GoldKey";
+		Choice
+		{
+			Text = "WEAPONS?";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  WEAPONS?!";
+			NextPage = "2";
+		}
+	}
+	Page
+	{
+		Name = "TECHNICIAN";
+		PageName = "2";
+		Dialog = "WHAT DO YOU THINK, WE'RE BACKED UP ON SOCKS?";
+		Panel = "M_TEKBRN";
+		Voice = "TCH02";
+		Drop = "GoldKey";
+		Choice
+		{
+			Text = "WHAT KIND OF WEAPONS?";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  WHAT KIND OF WEAPONS?!";
+			NextPage = "3";
+		}
+	}
+	Page
+	{
+		Name = "TECHNICIAN";
+		PageName = "3";
+		Dialog = "ARE YOU DEAF? I JUST TOLD YOU HOW BUSY I AM. GET BACK TO WORK.";
+		Panel = "M_TEKBRN";
+		Voice = "TCH03";
+		Drop = "GoldKey";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant12";
+	ID = 17;
+	Page
+	{
+		Name = "TECHNICIAN";
+		PageName = "1";
+		Dialog = "WHO ARE YOU? ONLY CLEARANCE LEVEL TWO PERSONNEL ARE PERMITTED IN THIS AREA.";
+		Panel = "M_TEKBRN";
+		Voice = "TCB01";
+		Drop = "Power2Key";
+		Choice
+		{
+			Text = "I'M THE REPLACEMENT WORKER.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  I'M THE REPLACEMENT WORKER.!";
+			NextPage = "2";
+		}
+	}
+	Page
+	{
+		Name = "TECHNICIAN";
+		PageName = "2";
+		Dialog = "ABOUT TIME YOU SHOWED UP. GO TALK WITH KETRICK IN THE CORE. OH, AND TAKE THIS KEY CARD. DON'T WANT YOU GETTING SHOT ON YOUR FIRST DAY, HUH?";
+		Link = "3";
+		Panel = "M_TEKBRN";
+		Voice = "TCB02";
+		Drop = "Power2Key";
+		IfItem
+		{
+			Item = "Power2Key";
+		}
+		Choice
+		{
+			Text = "WHERE'S THE POWER CRYSTAL?";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  WHERE'S THE POWER CRYSTAL?!";
+			GiveItem = "Power2Key";
+			NextPage = "3";
+		}
+	}
+	Page
+	{
+		Name = "TECHNICIAN";
+		PageName = "3";
+		Dialog = "IF YOU DON'T GET TO WORK, YOU'LL GET SHOT ANYWAY. MOVE YOUR TUNIC.";
+		Panel = "M_TEKBRN";
+		Voice = "TCB03";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant2";
+	ID = 7;
+	Page
+	{
+		Name = "TECHNICIAN";
+		PageName = "1";
+		Dialog = "I DON'T MEAN TO SOUND ALARMIST, BUT IF THEY KEEP PUSHING THE POWER CRYSTAL THIS HARD IT'S GONNA FLAW, AND THEN SHATTER, AND THEN *BOOM*! ...JUST A THOUGHT.";
+		Panel = "M_TEKTAN";
+		Voice = "TCT01";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant3";
+	ID = 8;
+	Page
+	{
+		Name = "TECHNICIAN";
+		PageName = "1";
+		Dialog = "LET ME BE QUITE CLEAR. IF THIS TERMINAL LOCKS UP AGAIN, THE COOLANT LEVEL WILL DROP AND WE'LL ALL HAVE TO ANSWER TO THE PROGRAMMER. IF WE SURVIVE.";
+		Panel = "M_TEKTAN";
+		Voice = "TCC01";
+		Drop = "RaiseAlarm";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant7";
+	ID = 12;
+	Page
+	{
+		Name = "KETRICK";
+		PageName = "1";
+		Dialog = "YOU! YEAH, YOU. YOU AREN'T CLEARED FOR THIS AREA. LET ME HAVE YOUR KEY CARD, FAST. I'M IN SUCH A BAD MOOD!";
+		Panel = "M_KETRIC";
+		Voice = "KET01";
+		Choice
+		{
+			Text = "HERE, HERE'S MY CARD.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  HERE, HERE'S MY CARD.!";
+			GiveItem = "RaiseAlarm";
+			NextPage = "2";
+		}
+	}
+	Page
+	{
+		Name = "KETRICK";
+		PageName = "2";
+		Dialog = "THIS IS GARBAGE! WAIT HERE. OH SCREW IT. GUARDS KILL THIS INTRUDER!";
+		Panel = "M_KETRIC";
+		Voice = "KET02";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant8";
+	ID = 13;
+	Page
+	{
+		Name = "SAMMIS";
+		PageName = "1";
+		Dialog = "WORK, SLEEP, GET TORTURED, WHAT A LIFE.  SAY, YOU THE REPLACEMENT FOR THE CARELESS PIT DIVER?";
+		Panel = "M_SAMMIS";
+		Voice = "SAM01A";
+		Drop = "Power3Key";
+		Choice
+		{
+			Text = "YEAH, CAN'T WAIT TO START.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  YEAH, CAN'T WAIT TO START.!";
+			NextPage = "2";
+		}
+	}
+	Page
+	{
+		Name = "SAMMIS";
+		PageName = "2";
+		Dialog = "YEAH, RIGHT. OK, GET YOUR ASS TO WORK.";
+		Panel = "M_SAMMIS";
+		Voice = "SAM02A";
+		Drop = "Power3Key";
+		Choice
+		{
+			Text = "WHERE'S THE CRYSTAL?";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  WHERE'S THE CRYSTAL?!";
+			NextPage = "3";
+		}
+	}
+	Page
+	{
+		Name = "SAMMIS";
+		PageName = "3";
+		Dialog = "GO TALK TO KETRICK. BRING THE WALKWAY UP USING THE SWITCHES, THEN USE THIS I.D. FOR THE ELEVATOR.";
+		Panel = "M_SAMMIS";
+		Voice = "SAM03A";
+		Drop = "Power3Key";
+		Choice
+		{
+			Text = "WHERE'S THE CRYSTAL AGAIN?";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  WHERE'S THE CRYSTAL AGAIN?!";
+			GiveItem = "Power3Key";
+			NextPage = "4";
+		}
+	}
+	Page
+	{
+		Name = "SAMMIS";
+		PageName = "4";
+		Dialog = "NONE OF YOUR BUSINESS, GO TALK TO KETRICK.";
+		Panel = "M_SAMMIS";
+		Voice = "SAM04A";
+		Choice
+		{
+			Text = "OK.";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  OK.!";
+			NextPage = "5";
+		}
+	}
+	Page
+	{
+		Name = "SAMMIS";
+		PageName = "5";
+		Dialog = "IF IT'S BUSY WORK YOU WANT, GO STARE AT THAT SCREEN FOR A WHILE, IT'LL BORE YOU TO TEARS.";
+		Panel = "M_SAMMIS";
+		Voice = "SAM05A";
+	}
+}
+
+Conversation
+{
+	Actor = "Peasant9";
+	ID = 14;
+	Page
+	{
+		Name = "COMPUTER TECH";
+		PageName = "1";
+		Dialog = "THE ALMIGHTY PROGRAMMER IS SO PARANOID OF INFILTRATION THAT HE'S LOCKED UP THE COMPUTER CORE. HOW AM I SUPPOSED TO GET MY WORK DONE? THE ONLY WAY IN IS THE SUICIDE RUN.";
+		Panel = "M_TEKGRY";
+		Voice = "CTT01";
+		Choice
+		{
+			Text = "SUICIDE RUN? WHAT'S THAT?";
+			YesMessage = "_";
+			NoMessage = "NO.  you don't have what i want for the  SUICIDE RUN? WHAT'S THAT?!";
+			NextPage = "2";
+		}
+	}
+	Page
+	{
+		Name = "COMPUTER TECH";
+		PageName = "2";
+		Dialog = "IT'S A SURE-FIRE WAY TO GET KILLED, BUT THAT'S NOT IMPORTANT RIGHT NOW. GO DOWN THE LIFT IF YOU'RE SO INCLINED.";
+		Panel = "M_TEKGRY";
+		Voice = "CTT02";
+	}
+}
+

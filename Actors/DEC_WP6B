@@ -1,0 +1,1300 @@
+ACTOR Longinus : IR2Weapon
+{
+  //$Category IR_Weapons
+  //$Title FY-2014M Longinus AMSR
+  //$Sprite LONGX0
+   Inventory.PickupMessage "You got the FY-2014m ''Longinus'' Anti Materiel Sniper Rifle! The Last thing to go through the head of your enemy."
+   Inventory.PickupSound "misc/w_pkup"
+   IR2Weapon.BulletGraphics "graphics/MikkOS/MegaRifleBullet.png", "graphics/MikkOS/MegaRifleShell.png"
+   Tag "FY-2014m Longinus"
+   Weapon.AmmoGive 0
+   Weapon.AmmoGive2 2
+   Weapon.Slotnumber 5
+   weapon.ammotype "SniperShells"
+   Weapon.AmmoType2 "Sniper_Reserve"
+   Weapon.AmmoUse 1
+   Weapon.Kickback 70
+   weapon.bobstyle smooth
+   weapon.bobrangeX 0.4
+   weapon.bobrangeY 0.6
+   weapon.bobspeed 2.5
+   weapon.weaponscalex 1.2
+   obituary "%o got %p head removed by %k's FY-2014m"
+   Scale 0.45
+   decal None
+   +WEAPON.AMMO_OPTIONAL
+   +WEAPON.ALT_AMMO_OPTIONAL
+   +WEAPON.Alt_Uses_Both
+   +NOAUTOFIRE
+   +NOALERT
+   +NOAUTOAIM
+   +UNDROPPABLE
+   +INVENTORY.UNCLEARABLE
+   States
+   {
+   Spawn:
+      LONG X -1
+      stop
+   Ready:
+      LONG A 0 A_JumpIfInventory("Zoomed",1,"ReadyZoomed")
+      SNPI A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_AllowZoom)
+      Goto Ready  
+   ReadyZoomed:
+      RSCP A 1 bright A_WeaponReady(WRF_NOBOB)
+      Loop
+   Select:
+		TNT1 A 0 A_JumpIfInventory("LonginusFirstTime",1,"FirstTime")
+		Goto SelectAuto
+    FirstTime:
+		TNT1 A 0 A_StartSound("RW/SLOT6B",251,0,2.0,2)
+    SelectAuto:
+		TNT1 A 0 A_TakeInventory("LonginusFirstTime",1)
+		TNT1 A 0 A_SetCrosshair(8)
+		TNT1 A 1
+		SNPS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,0,2)
+		SNPS ABCDE 1
+    SelectLoopAuto:
+		SNPI A 1 A_Raise
+		Goto SelectLoopAuto
+    Deselect:
+		TNT1 A 0 A_SetCrosshair(1)
+		SNPS E 1 A_PlaySound("Weapons/CS_Deselect", CHAN_WEAPON)
+		TNT1 A 0 SetPlayerProperty(0,1,2)
+		SNPS EDCBA 1
+		TNT1 A 2 
+    DeselectLoop:
+		TNT1 A 1 A_Lower
+		Goto deselectLoop
+   Fire:
+	  TNT1 A 0 A_JumpIfInventory("SniperToken", 1, "FireExp")
+   FireNorm: //Primary : 20x110mm A.P. Shell
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",2,1)
+	  goto FireNorm_Last
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Dryfire
+      TNT1 A 0 A_AlertMonsters
+      TNT1 A 0 A_JumpIfInventory("Zoomed",1,"FireZoomedNorm")
+	  TNT1 A 0 A_StartSound("Weapons/SniperLFE",66,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperFire",77,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperAdd",99,0,0.99,2)
+	  TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	  TNT1 A 0 A_RailAttack(0, 4, 1, none, none, RGF_FULLBRIGHT|RGF_SILENT|RGF_NOPIERCING, 0, none, 0, 0, 32767, 0, 1.0, 0,"gausssmoke_spawner3")
+      TNT1 AAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0)		
+	  TNT1 A 0 A_FireProjectile("P_Longinus_Tracer", 0, 0, 0, 4)
+	  TNT1 A 0 A_Overlay(-3, "GunFlash")
+	  SNPF ABC 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 6.0)
+      SNPF DEFGH 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 6.0)
+	  SNPF IJKLM 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  SNPG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_PlaySound("Weapons/SniperBoltBack",CHAN_6,1.0,0,2)
+	  SNPG ABCDEFGHI 1 A_WeaponReady(WRF_NOFIRE)
+	  //TNT1 A 0 A_PlaySound("Weapons/SniperEjectS1",CHAN_7,1.0,0,2)
+	  TNT1 A 0 A_FireProjectile("TRifle_CasingSpawner", -5, 0, 0, 0)
+	  SNPG J 3 A_WeaponReady(WRF_NOFIRE)
+	  TNT1 A 0 A_PlaySound("Weapons/SniperBoltForward",CHAN_6,1.0,0,2)
+	  SNPG KLMNOPQRS 1 A_WeaponReady(WRF_NOFIRE)
+	  SNPI A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      Goto Ready
+   FireExp: //Primary : 20x110mm H.E.I. Shell
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",2,1)
+	  goto FireExp_Last
+      TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Dryfire
+      TNT1 A 0 A_AlertMonsters
+      TNT1 A 0 A_JumpIfInventory("Zoomed",1,"FireZoomedExp")
+	  TNT1 A 0 A_StartSound("Weapons/SniperLFE",66,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperFire",77,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperAdd",99,0,0.99,2)
+	  TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	  TNT1 A 0 A_Overlay(-3, "GunFlash")
+	  TNT1 A 0 A_RailAttack(0, 4, 1, none, none, RGF_FULLBRIGHT|RGF_SILENT|RGF_NOPIERCING, 0, none, 0, 0, 32767, 0, 1.0, 0,"gausssmoke_spawner3")
+      TNT1 AAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0)		
+	  LONF A 0 A_FireProjectile("P_Longinus_AT_Tracer", 0, 0, 0, 4)
+	  SNPF ABC 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 6.0)
+      SNPF DEFGH 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 6.0)
+	  SNPF IJKLM 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  SNPG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_PlaySound("Weapons/SniperBoltBack",CHAN_6,1.0,0,2)
+	  SNPG ABCDEFGHI 1 A_WeaponReady(WRF_NOFIRE)
+	  //TNT1 A 0 A_PlaySound("Weapons/SniperEjectS1",CHAN_7,1.0,0,2)
+	  TNT1 A 0 A_FireProjectile("TRifle_EXPCasingSpawner", -5, 0, 0, 0)
+	  SNPG J 3 A_WeaponReady(WRF_NOFIRE)
+	  TNT1 A 0 A_PlaySound("Weapons/SniperBoltForward",CHAN_6,1.0,0,2)
+	  SNPG KLMNOPQRS 1 A_WeaponReady(WRF_NOFIRE)
+	  SNPI A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      Goto Ready
+   FireZoomedNorm: //Secondary : Scoped 20x110mm A.P. Shell
+      TNT1 A 0 A_JumpIfInventory("SniperShells",2,1)
+	  goto FireZoomedNorm_Last
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Dryfire
+      TNT1 A 0 A_AlertMonsters
+	  TNT1 A 0 A_StartSound("Weapons/SniperLFE",66,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperFire",77,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperAdd",99,0,0.99,2)
+	  RSCP A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	  TNT1 A 0 A_Overlay(0, "GunFlash")
+	  RSCP A 0 A_RailAttack(0, 0, 1, none, none, RGF_FULLBRIGHT|RGF_SILENT|RGF_NOPIERCING, 0, none, 0, 0, 32767, 0, 1.0, 0,"gausssmoke_spawner3")
+      TNT1 AAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,0,4,0)
+	  RSCP A 0 A_FireProjectile("P_Longinus_Tracer", 0, 0, 0, 4)
+	  RSCP AAA 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 3.0)
+      RSCP AAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 3.0)
+	  RSCP AAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  RSCP A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  SGZI A 0 A_PlaySound("ZOOMOUT",98,1.0,0,2)
+      SGZI A 0 A_ZoomFactor(1.0)
+	  SGZI A 0 A_TakeInventory("Zoomed",3) // Take all three of our "zoom levels".
+	  TNT1 A 0 A_SetCrosshair(8)
+	  SNPX HGFEDCBA 1 A_WeaponReady(WRF_NOBOB)
+	  SNPG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_PlaySound("Weapons/SniperBoltBack",CHAN_6,1.0,0,2)
+	  SNPG ABCDEFGHI 1 A_WeaponReady(WRF_NOFIRE)
+	  //TNT1 A 0 A_PlaySound("Weapons/SniperEjectS1",CHAN_7,1.0,0,2)
+	  TNT1 A 0 A_FireProjectile("TRifle_CasingSpawner", -5, 0, 0, 0)
+	  SNPG J 3 A_WeaponReady(WRF_NOFIRE)
+	  TNT1 A 0 A_PlaySound("Weapons/SniperBoltForward",CHAN_6,1.0,0,2)
+	  SNPG KLMNOPQRS 1 A_WeaponReady(WRF_NOFIRE)
+	  SNPI A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      Goto Ready
+   FireZoomedExp: //Secondary : Scoped 20x110mm H.E.A.P. Shell
+      TNT1 A 0 A_JumpIfInventory("SniperShells",2,1)
+	  goto FireZoomedExp_Last
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Dryfire
+      TNT1 A 0 A_AlertMonsters
+	  TNT1 A 0 A_StartSound("Weapons/SniperLFE",66,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperFire",77,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperAdd",99,0,0.99,2)
+	  RSCP A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	  TNT1 A 0 A_Overlay(0, "GunFlash")
+	  RSCP A 0 A_RailAttack(0, 0, 1, none, none, RGF_FULLBRIGHT|RGF_SILENT|RGF_NOPIERCING, 0, none, 0, 0, 32767, 0, 1.0, 0,"gausssmoke_spawner3")
+      TNT1 AAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,0,4,0)
+	  RSCP A 0 A_FireProjectile("P_Longinus_AT_Tracer", 0, 0, 0, 4)
+	  RSCP AAA 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 3.0)
+      RSCP AAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 3.0)
+	  RSCP AAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  RSCP A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  SGZI A 0 A_PlaySound("ZOOMOUT",98,1.0,0,2)
+      SGZI A 0 A_ZoomFactor(1.0)
+	  SGZI A 0 A_TakeInventory("Zoomed",3) // Take all three of our "zoom levels".
+	  TNT1 A 0 A_SetCrosshair(8)
+	  SNPX HGFEDCBA 1 A_WeaponReady(WRF_NOBOB)
+	  SNPG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_PlaySound("Weapons/SniperBoltBack",CHAN_6,1.0,0,2)
+	  SNPG ABCDEFGHI 1 A_WeaponReady(WRF_NOFIRE)
+	  //TNT1 A 0 A_PlaySound("Weapons/SniperEjectS1",CHAN_7,1.0,0,2)
+	  TNT1 A 0 A_FireProjectile("TRifle_EXPCasingSpawner", -5, 0, 0, 0)
+	  SNPG J 3 A_WeaponReady(WRF_NOFIRE)
+	  TNT1 A 0 A_PlaySound("Weapons/SniperBoltForward",CHAN_6,1.0,0,2)
+	  SNPG KLMNOPQRS 1 A_WeaponReady(WRF_NOFIRE)
+	  SNPI A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      Goto Ready
+   FireNorm_Last: //Primary : 20x110mm A.P. Shell
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Dryfire
+      TNT1 A 0 A_AlertMonsters
+      TNT1 A 0 A_JumpIfInventory("Zoomed",1,"FireZoomedNorm")
+	  TNT1 A 0 A_StartSound("Weapons/SniperLFE",66,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperFire",77,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperAdd",99,0,0.99,2)
+	  TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	  TNT1 A 0 A_Overlay(-3, "GunFlash")
+	  TNT1 A 0 A_RailAttack(0, 4, 1, none, none, RGF_FULLBRIGHT|RGF_SILENT|RGF_NOPIERCING, 0, none, 0, 0, 32767, 0, 1.0, 0,"gausssmoke_spawner3")
+      TNT1 AAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0)		
+	  LONF A 0 A_FireProjectile("P_Longinus_Tracer", 0, 0, 0, 4)
+	  SNPF ABC 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 6.0)
+      SNPF DEFGH 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 6.0)
+	  SNPF IJKLM 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  SNPI A 7 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      Goto Ready
+   FireExp_Last: //Primary : 20x110mm H.E.I. Shell
+      TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Dryfire
+      TNT1 A 0 A_AlertMonsters
+      TNT1 A 0 A_JumpIfInventory("Zoomed",1,"FireZoomedExp")
+	  TNT1 A 0 A_StartSound("Weapons/SniperLFE",66,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperFire",77,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperAdd",99,0,0.99,2)
+	  TNT1 A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	  TNT1 A 0 A_Overlay(-3, "GunFlash")
+	  TNT1 A 0 A_RailAttack(0, 4, 1, none, none, RGF_FULLBRIGHT|RGF_SILENT|RGF_NOPIERCING, 0, none, 0, 0, 32767, 0, 1.0, 0,"gausssmoke_spawner3")
+      TNT1 AAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0)		
+	  TNT1 A 0 A_FireProjectile("P_Longinus_AT_Tracer", 0, 0, 0, 4)
+	  SNPF ABC 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 6.0)
+      SNPF DEFGH 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 6.0)
+	  SNPF IJKLM 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  SNPI A 7 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      Goto Ready
+   FireZoomedNorm_Last: //Secondary : Scoped 20x110mm A.P. Shell
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Dryfire
+      TNT1 A 0 A_AlertMonsters
+	  TNT1 A 0 A_StartSound("Weapons/SniperLFE",66,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperFire",77,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperAdd",99,0,0.99,2)
+	  RSCP A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	  TNT1 A 0 A_Overlay(0, "GunFlash")
+	  RSCP A 0 A_RailAttack(0, 0, 1, none, none, RGF_FULLBRIGHT|RGF_SILENT|RGF_NOPIERCING, 0, none, 0, 0, 32767, 0, 1.0, 0,"gausssmoke_spawner3")
+      TNT1 AAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,0,4,0)
+	  RSCP A 0 A_FireProjectile("P_Longinus_Tracer", 0, 0, 0, 4)
+	  RSCP AAA 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 3.0)
+      RSCP AAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 3.0)
+	  RSCP AAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  RSCP A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  SGZI A 0 A_StartSound("ZOOMOUT",100,0,1.0,2)
+      SGZI A 0 A_ZoomFactor(1.0)
+	  SGZI A 0 A_TakeInventory("Zoomed",3) // Take all three of our "zoom levels".
+	  TNT1 A 0 A_SetCrosshair(8)
+	  SNPX HGFEDCBA 1 A_WeaponReady(WRF_NOBOB)
+	  SNPI A 9 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      Goto Ready
+   FireZoomedExp_Last: //Secondary : Scoped 20x110mm H.E.A.P. Shell
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Dryfire
+      TNT1 A 0 A_AlertMonsters
+	  TNT1 A 0 A_StartSound("Weapons/SniperLFE",66,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperFire",77,0,0.77,2)
+	  TNT1 A 0 A_StartSound("Weapons/SniperAdd",99,0,0.99,2)
+	  RSCP A 0 A_SpawnItem("LightProjectile1",0,0,0,0)
+	  TNT1 A 0 A_Overlay(0, "GunFlash")
+	  RSCP A 0 A_RailAttack(0, 0, 1, none, none, RGF_FULLBRIGHT|RGF_SILENT|RGF_NOPIERCING, 0, none, 0, 0, 32767, 0, 1.0, 0,"gausssmoke_spawner3")
+      TNT1 AAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,0,4,0)
+	  RSCP A 0 A_FireProjectile("P_Longinus_AT_Tracer", 0, 0, 0, 4)
+	  RSCP AAA 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 3.0)
+      RSCP AAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  TNT1 A 0 A_SetPitch(pitch - 3.0)
+	  RSCP AAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  RSCP A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  SGZI A 0 A_StartSound("ZOOMOUT",100,0,1.0,2)
+      SGZI A 0 A_ZoomFactor(1.0)
+	  SGZI A 0 A_TakeInventory("Zoomed",3) // Take all three of our "zoom levels".
+	  TNT1 A 0 A_SetCrosshair(8)
+	  SNPX HGFEDCBA 1 A_WeaponReady(WRF_NOBOB)
+	  SNPI A 9 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      Goto Ready
+   DryFire:
+	  TNT1 A 0 A_AlertMonsters
+	  TNT1 A 0 A_TakeInventory("SniperToken",1)
+	  TNT1 A 0 A_PlaySound("Sniper/Empty",199,1.0,0,2)
+	  SNPI A 5 A_WeaponReady(WRF_NOFIRE)
+	  Goto Ready
+  AltFire: //Zoom In/Out
+	  TNT1 A 0 A_JumpIfInventory("SniperShells",1,1)
+	  goto Ready
+	  SGZI A 0 A_JumpIfInventory("Zoomed",1,"ZoomOut") // If we're at zoom level 1, go to zoom level 2.
+	  SNPI A 1 A_WeaponReady(WRF_NOBOB)
+	  SNPX ABCDEFGH 1 A_WeaponReady(WRF_NOBOB)
+	  Goto ZoomIn1
+  ZoomIn1: //4x Zoom
+      TNT1 A 0 A_SetCrosshair(1)
+      TNT1 A 0 A_StartSound("ZOOMIN",100,0,1.0,2)
+      TNT1 A 0 A_ZoomFactor(12.0,Zoom_Instant)
+	  TNT1 A 0 A_GiveInventory("Zoomed",1) // Increase the "zoom level".
+	Goto ReadyZoomed
+  ZoomOut:
+      SGZI A 0 A_StartSound("ZOOMOUT",100,0,1.0,2)
+      SGZI A 0 A_ZoomFactor(1.0,Zoom_Instant)
+	  SGZI A 0 A_TakeInventory("Zoomed",3) // Take all three of our "zoom levels".
+	  Goto PreReady
+  PreReady:
+      TNT1 A 0 A_SetCrosshair(8)
+	  SNPX HGFEDCBA 1 A_WeaponReady(WRF_NOBOB)
+	  SNPI A 1 A_WeaponReady(WRF_NOFIRE)
+	  Goto Ready
+  Reload:
+	ReloadBegin:
+		TNT1 A 0 A_JumpIfInventory("SniperShells",6,"Ready")
+		TNT1 A 0 A_JumpIfInventory("Sniper_Reserve",1,1)
+		Goto DryFire
+		TNT1 A 0 A_TakeInventory("SniperToken",1)
+		TNT1 A 0 A_PlaySound("Weapons/SniperBoltBack",CHAN_6,1.0,0,2)
+		SNR1 ABCDEFGHIJKLLLLL 1 A_WeaponReady(WRF_NOFIRE)
+		//TNT1 A 0 A_PlaySound("Weapons/SniperEjectS1",CHAN_7,1.0,0,2)
+		TNT1 A 0 A_FireProjectile("TRifle_CasingSpawner", -5, 0, 0, 0)
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence1",CHAN_6,1.0,0,2)
+		SNR2 ABCDEFHIJKLM 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence2",CHAN_5,1.0,0,2)
+		SNR3 ABCDEFGHI 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("LonginusClipDrop",0,0,20)
+		SNR3 I 10 A_WeaponReady(WRF_NOFIRE)
+	ReloadWork:
+		ATPR G 0 A_TakeInventory("Sniper_Reserve",1)
+		ATPR G 0 A_GiveInventory("SniperShells",5)
+		ATPR G 0 A_JumpIfInventory("SniperShells",5,"ReloadFinish")
+		ATPR G 0 A_JumpIfInventory("Sniper_Reserve",1,"ReloadWork")
+	ReloadFinish:
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence3",CHAN_6,1.0,0,2)
+		SNR4 ABCDEFGHIJKLMN 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence4",CHAN_7,1.0,0,2)
+		SNR4 OPQRSTUVWXYZ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/SniperBoltForward",CHAN_6,1.0,0,2)
+		SNR5 ABCDEFGHIJKMNOP 1 A_WeaponReady(WRF_NOFIRE)
+		SNPI A 5 A_WeaponReady(WRF_NOFIRE)
+		Goto Ready
+	Zoom:
+	ReloadBegin_EXP:
+		TNT1 A 0 A_JumpIfInventory("SniperShells",5,"Ready")
+		TNT1 A 0 A_JumpIfInventory("Sniper_Reserve",1,1)
+		Goto DryFire
+		TNT1 A 0 A_PlaySound("Weapons/SniperBoltBack",CHAN_6,1.0,0,2)
+		SNR1 ABCDEFGHIJKL 1 A_WeaponReady(WRF_NOFIRE)
+		//TNT1 A 0 A_PlaySound("Weapons/SniperEjectS1",CHAN_7,1.0,0,2)
+		SNR1 LLLLL 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_FireProjectile("TRifle_EXPCasingSpawner", -5, 0, 0, 0)
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence1",CHAN_6,1.0,0,2)
+		SNR2 ABCDEFHIJKLM 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence2",CHAN_5,1.0,0,2)
+		SNR3 ABCDEFGHI 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_SpawnItemEx("LonginusClipDrop",0,0,20)
+		SNR3 I 10 A_WeaponReady(WRF_NOFIRE)
+	ReloadWork_EXP:
+		ATPR G 0 A_TakeInventory("Sniper_Reserve",2)
+		ATPR G 0 A_GiveInventory("SniperShells",5)
+		ATPR G 0 A_JumpIfInventory("SniperShells",5,"ReloadFinish_EXP")
+		ATPR G 0 A_JumpIfInventory("Sniper_Reserve",1,"ReloadWork_EXP")
+	ReloadFinish_EXP:
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence3",CHAN_6,1.0,0,2)
+		SNR4 ABCDEFGHIJKLMN 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence4",CHAN_7,1.0,0,2)
+		SNR4 OPQRSTUVWXYZ 1 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_PlaySound("Weapons/SniperBoltForward",CHAN_6,1.0,0,2)
+		SNR5 ABCDEFGHIJKMNOP 1 A_WeaponReady(WRF_NOFIRE)
+		SNPI A 5 A_WeaponReady(WRF_NOFIRE)
+		TNT1 A 0 A_GiveInventory("SniperToken",1)
+		Goto Ready
+	GunFlash:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true)
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add)
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6)
+		TNT1 A 1 Bright 
+			{
+			A_FireProjectile("LonginusFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+			}
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0)
+		TNT1 A 1 Bright
+		Stop
+  }
+}
+
+ACTOR SniperToken : Inventory {Inventory.MaxAmount 1}
+
+ACTOR LonginusFirstTime : Inventory {Inventory.MaxAmount 1 Inventory.InterHubAmount 1}
+
+ACTOR Zoomed : Inventory
+{
+Inventory.MaxAmount 1 // 3, since the gun has 3 zoom levels.
+}
+
+ACTOR SniperShells : Ammo
+{
+  Inventory.PickupMessage "You shouldn't see this!"
+  Inventory.Amount 0
+  Inventory.MaxAmount 6
+  Ammo.BackpackAmount 0
+  Ammo.BackpackMaxAmount 6
+  States
+  {
+  Spawn:
+    TNT1 A -1
+    Stop
+  }
+}
+
+actor Sniper_Reserve : ammo 27117 {
+  radius 16
+  height 8
+  scale 0.066
+  inventory.pickupmessage "Picked up a bundle of 5 20x110mm H.E.I Cartridges for the FY-2014m 'Longinus'"
+  inventory.pickupsound "Weapons/SniperSequence2"
+  Tag "20mm Bullets X5"
+  inventory.amount 1
+  inventory.maxamount 5
+  ammo.backpackamount 2
+  ammo.backpackmaxamount 10
+  +UNDROPPABLE
+  +INVENTORY.UNCLEARABLE
+  states
+  {
+  Spawn:
+    GSLX A -1
+    stop
+  }
+}
+
+actor Sniper_Box : Sniper_Reserve 27118 {
+  radius 16
+  height 8
+  scale 0.093
+  inventory.pickupmessage "Picked up a supply case of two 20x110mm H.E.I. Magazines for the FY-2014m 'Longinus'"
+  inventory.pickupsound "Weapons/SniperSequence4"
+  Tag "20mm Bullets X10"
+  Inventory.Amount 2
+  +UNDROPPABLE
+  +INVENTORY.UNCLEARABLE
+  states
+  {
+  Spawn:
+    GSLB A -1
+    stop
+  }
+}
+
+ACTOR TRifle_CasingSpawner
+{
+    Radius 1
+    Height 1
+    Speed 18
+    PROJECTILE
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_CustomMissile("trifle_casing",-2,10,random(-110,-130),2,random(8,-8)) 
+        Stop
+    }
+}
+
+ACTOR TRifle_EXPCasingSpawner
+{
+    Radius 1
+    Height 1
+    Speed 18
+    PROJECTILE
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_CustomMissile("trifle_expcasing",-2,10,random(-110,-130),2,random(8,-8)) 
+        Stop
+    }
+}
+
+ACTOR TRifle_Casing
+{
+   Radius 2
+   Height 4
+   Speed 8
+   Scale 0.35
+   BounceSound "Weapons/HeavyCasing"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +DONTSPLASH
+   +CLIENTSIDEONLY
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 6
+   BounceFactor 0.6
+   DamageType Nope
+   States
+   {
+   Spawn:
+	  ARBC A 0
+      ARBC ABCDEF 1
+      Goto Roflcopter
+   Roflcopter:
+      ARBC A 0 A_Jump(128,1,3,5,7)
+      ARBC ABCDEF 1
+      Loop
+   Death:
+      ARBC A 0 A_SpawnItemEx("TRifle_Casing_Liedown")
+      stop
+   }
+}
+
+actor TRifle_Casing_Liedown
+{
+	-NOGRAVITY
+    Scale 0.28
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2","Spawn3")
+	  stop
+	Spawn1:
+	  ARBC A 1
+	  Goto Ded
+	Spawn2:
+	  ARBC D 1
+	  Goto Ded
+	Spawn3:
+	  ARBC C 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR TRifle_EXPCasing
+{
+   Radius 2
+   Height 4
+   Speed 8
+   Scale 0.35
+   BounceSound "Weapons/HeavyCasing"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +DONTSPLASH
+   +CLIENTSIDEONLY
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 6
+   BounceFactor 0.6
+   DamageType Nope
+   States
+   {
+   Spawn:
+	  SRBC A 0
+      SRBC ABCDEF 1
+      Goto Roflcopter
+   Roflcopter:
+      SRBC A 0 A_Jump(128,1,3,5,7)
+      SRBC ABCDEF 1
+      Loop
+   Death:
+      SRBC A 0 A_SpawnItemEx("TRifle_EXPCasing_Liedown")
+      stop
+   }
+}
+
+actor TRifle_EXPCasing_Liedown
+{
+	-NOGRAVITY
+    Scale 0.28
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2","Spawn3")
+	  stop
+	Spawn1:
+	  SRBC A 1
+	  Goto Ded
+	Spawn2:
+	  SRBC D 1
+	  Goto Ded
+	Spawn3:
+	  SRBC C 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+ACTOR LonginusClipDrop
+{
+   Radius 4
+   Height 6
+   Speed 0
+   Scale 0.15
+   BounceSound "Clip/ASR"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONACTORS
+   +BOUNCEONCEILINGS
+   +BOUNCEONFLOORS
+   +DONTSPLASH
+   +NOTIMEFREEZE
+   Gravity 0.75
+   BounceType Doom
+   BounceCount 4
+   BounceFactor 0.6
+   States
+   {
+   Spawn:
+      AMRC A 0
+      AMRC ABCDEFGH 1
+      Loop
+   Death:
+      CLP3 A 0 A_SpawnItemEx("LonginusClipLiedown")
+      stop
+   }
+}
+
+actor LonginusClipLiedown
+{
+	-NOGRAVITY
+	+FLOORCLIP
+	+NOTIMEFREEZE
+    Scale 0.15
+	States
+	{
+	Spawn:
+	  TNT1 A 0
+	  TNT1 A 0 A_Jump(255,"Spawn1","Spawn2")
+	  stop
+	Spawn1:
+	  AMRC I 1
+	  Goto Ded
+	Spawn2:
+	  AMRC J 1
+	  Goto Ded
+	Ded:
+	  "####" "#" 210 A_CheckSight("Fadying")
+	  Loop
+	Fadying:
+	  "####" "#" 1 A_FadeOut(0.1)
+	  Wait
+   }
+}
+
+actor P_Longinus_AT_Tracer : fastprojectile{
+	radius 2
+	height 2
+	scale 0.22
+	mass 20
+	PROJECTILE
+	speed 4000 //practically hitscan...
+	Damage (random(700,700))
+	+EXTREMEDEATH
+	+NOTIMEFREEZE
+	renderstyle add
+	MissileHeight 8
+	decal "Scorch"
+	
+	states {
+		Spawn:
+			LEYS O 1
+			loop
+		Death:
+			TNT1 A 0 A_Explode (255,128,0)
+			TNT1 A 0 A_PlaySound("SFX/SBoom1",225,2.0,0,1)
+			TNT1 A 0 A_SpawnItemEx("gshot_flash",0,0,0, 0,0,0)
+			TNT1 A 0 A_SpawnItemEx("gshot_shockwave",0,0,0, 0,0,0)
+			TNT1 AA 0 A_SpawnItemEx("gshot_puff",0,0,0, 0,frandom(-0.6,0.6),frandom(-0.6,0.6))
+			TNT1 AAA 0 A_SpawnItemEx("gpuff_smoke",0,0,0,0,frandom(-1,1),frandom(-1,1),frandom(180,360),SXF_CLIENTSIDE,0)
+			TNT1 AAAAAAAAAA 0 A_SpawnItemEx ("gshot_spark", 0, 0, 0, frandom(1,3), frandom(4,6) , frandom(0,6) , frandom(180,360), 0)
+			TNT1 AAAAAAAAAA 0 A_SpawnItemEx ("gshot_spark2", 0, 0, 0, frandom(1,3), frandom(4,6) , frandom(0,6) , frandom(180,360), 0)
+			TNT1 A 1 
+			{
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			}
+			Stop
+	    XDeath:
+			TNT1 A 0 A_Explode (255,128,0)
+			TNT1 A 0 A_PlaySound("SFX/SBoom1",225,2.0,0,1)
+			TNT1 A 0 A_SpawnItemEx("gshot_flash",0,0,0, 0,0,0)
+			TNT1 A 0 A_SpawnItemEx("gshot_shockwave",0,0,0, 0,0,0)
+			TNT1 AA 0 A_SpawnItemEx("gshot_puff",0,0,0, 0,frandom(-0.6,0.6),frandom(-0.6,0.6))
+			TNT1 AAA 0 A_SpawnItemEx("gpuff_smoke",0,0,0,0,frandom(-1,1),frandom(-1,1),frandom(180,360),SXF_CLIENTSIDE,0)
+			TNT1 AAAAAAAAAA 0 A_SpawnItemEx ("gshot_spark", 0, 0, 0, frandom(1,3), frandom(4,6) , frandom(0,6) , frandom(180,360), 0)
+			TNT1 AAAAAAAAAA 0 A_SpawnItemEx ("gshot_spark2", 0, 0, 0, frandom(1,3), frandom(4,6) , frandom(0,6) , frandom(180,360), 0)
+			TNT1 A 1 
+			{
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			}
+			Stop
+	}
+}
+
+actor VAN_Longinus_AT_Tracer : fastprojectile{
+	radius 2
+	height 2
+	scale 0.22
+	mass 20
+	PROJECTILE
+	speed 4000 //practically hitscan...
+	Damage (random(150,150))
+	+EXTREMEDEATH
+	+NOTIMEFREEZE
+	renderstyle add
+	MissileHeight 8
+	decal "Scorch"
+	
+	states {
+		Spawn:
+			LEYS O 1
+			loop
+		Death:
+			TNT1 A 0 A_Explode (255,128,0)
+			TNT1 A 0 A_PlaySound("SFX/SBoom1",225,2.0,0,1)
+			TNT1 A 0 A_SpawnItemEx("gshot_flash",0,0,0, 0,0,0)
+			TNT1 A 0 A_SpawnItemEx("gshot_shockwave",0,0,0, 0,0,0)
+			TNT1 AA 0 A_SpawnItemEx("gshot_puff",0,0,0, 0,frandom(-0.6,0.6),frandom(-0.6,0.6))
+			TNT1 AAA 0 A_SpawnItemEx("gpuff_smoke",0,0,0,0,frandom(-1,1),frandom(-1,1),frandom(180,360),SXF_CLIENTSIDE,0)
+			TNT1 AAAAAAAAAA 0 A_SpawnItemEx ("gshot_spark", 0, 0, 0, frandom(1,3), frandom(4,6) , frandom(0,6) , frandom(180,360), 0)
+			TNT1 AAAAAAAAAA 0 A_SpawnItemEx ("gshot_spark2", 0, 0, 0, frandom(1,3), frandom(4,6) , frandom(0,6) , frandom(180,360), 0)
+			TNT1 A 1 
+			{
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			}
+			Stop
+	    XDeath:
+			TNT1 A 0 A_Explode (255,128,0)
+			TNT1 A 0 A_PlaySound("SFX/SBoom1",225,2.0,0,1)
+			TNT1 A 0 A_SpawnItemEx("gshot_flash",0,0,0, 0,0,0)
+			TNT1 A 0 A_SpawnItemEx("gshot_shockwave",0,0,0, 0,0,0)
+			TNT1 AA 0 A_SpawnItemEx("gshot_puff",0,0,0, 0,frandom(-0.6,0.6),frandom(-0.6,0.6))
+			TNT1 AAA 0 A_SpawnItemEx("gpuff_smoke",0,0,0,0,frandom(-1,1),frandom(-1,1),frandom(180,360),SXF_CLIENTSIDE,0)
+			TNT1 AAAAAAAAAA 0 A_SpawnItemEx ("gshot_spark", 0, 0, 0, frandom(1,3), frandom(4,6) , frandom(0,6) , frandom(180,360), 0)
+			TNT1 AAAAAAAAAA 0 A_SpawnItemEx ("gshot_spark2", 0, 0, 0, frandom(1,3), frandom(4,6) , frandom(0,6) , frandom(180,360), 0)
+			TNT1 A 1 
+			{
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			A_SpawnItemEx ("gshot_firespark", 0, 0, 0, frandom(6,8), frandom(6,8) , frandom(1,6) , frandom(180,360), 0);
+			}
+			Stop
+	}
+}
+
+actor gshot_puff {
+	radius 1
+	height 1
+	alpha 1
+	renderstyle add
+	scale 0.85
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOINTERACTION
+	states{
+		spawn:
+			TNT1 A 0 A_PlaySound("sfx/sboom")
+			TNT1 A 0 A_Jump(255, "puff1","puff2","puff3","puff4","puff5")
+		puff1:
+			SX02 AAAABBBCDEFGHIJK 1 bright
+			SX02 LMNOPQRSTU 1 bright A_Fadeout(0.1)
+			stop
+		puff2:
+			SX03 AAAABBBCDEFGHIJKLMNOP 1 bright
+			SX03 QRSTUVWXYZ 1 bright A_Fadeout(0.1)
+			stop
+		puff3:
+			SX04 AAAABBBCDEFG 1 bright
+			SX04 HIJKLMNOPQ 1 bright A_Fadeout(0.1)
+			stop
+		puff4:
+			SX06 AAAABBBCDEFGHIJKLMN 1 bright
+			SX06 OPQRSTUVWX 1 bright A_Fadeout(0.1)
+			stop
+		puff5:
+			SX07 AAAABBBCDEF 1 bright
+			SX07 GHIJKLMNOP 1 bright A_Fadeout(0.1)
+			stop
+			
+	}
+}
+
+
+actor gshot_spark {
+	radius 2
+	height 2
+	scale 0.05
+	gravity 0.3
+	renderstyle add
+	+NOTELEPORT
+	+NOTIMEFREEZE
+	+FLOORCLIP
+	+FORCEXYBILLBOARD
+	+DONTSPLASH
+	+CLIENTSIDEONLY
+	bouncetype "doom"
+	bouncefactor 0.2
+	states{
+		spawn:
+			SPKO A 40 bright
+		spawnloop:
+			SPKO A 1 bright A_FadeOut(0.1)
+			loop
+	}
+}
+
+actor gshot_spark2 : gshot_spark {
+	scale 0.07
+	gravity 0.32
+	+CLIENTSIDEONLY
+	+NOTIMEFREEZE
+	states{
+		spawn:
+			SPKO C 50 bright
+		spawnloop:
+			SPKO C 1 bright A_FadeOut(0.1)
+			loop
+	}
+}
+
+actor gshot_flash {
+	renderstyle add
+	alpha 0.64
+	scale 0.54
+	+FORCEXYBILLBOARD
+	+NOINTERACTION
+	+NOTIMEFREEZE
+	+CLIENTSIDEONLY
+	states{
+		spawn:
+			BFSH A 6 bright
+			stop
+	}
+}
+
+actor gshot_firespark { //Burns on the ground for 15 seconds, White Phosphorus < Plasma
+	radius 1
+	height 1
+	speed  4
+	damage 0
+	RenderStyle add
+	Alpha 1
+	Scale 0.3
+	Mass 0
+	+MISSILE
+	+FLOORCLIP
+	+DONTSPLASH
+	+NOTELEPORT
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	BounceType "doom"
+	gravity 0.45
+	BounceFactor 0.2
+	var int user_i;
+	States
+	{
+		spawn:
+			TNT1 A 0
+			TNT1 A 0 A_SetUserVar("user_i", 1)
+		sploop:	
+			TNT1 A 0 A_JumpIf(user_i>=525, "death")
+			TNT1 A 0 A_Explode(8,24,XF_NOSPLASH,0,0,0,0,0,None)
+			TNT1 A 0 A_SpawnItemEx ("gSpark_smoke1", 0, 0, 0, frandom(-0.1,0.1) , frandom(-0.1,0.1) , frandom(0.1,0.3) , 0)
+			SPRK A 1 A_SpawnItemEx ("gSpark_trail", 0, 0, 2, 0 , 0 , 0 , 0)
+			TNT1 A 0 A_SetUserVar("user_i",user_i+1)
+			loop
+		death:
+			TNT1 A 0
+			stop
+	}
+}
+ 
+actor gSpark_trail {
+	radius 1
+	height 1
+	alpha 1.0
+	+FLOORCLIP
+	+NOTELEPORT
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+CLIENTSIDEONLY
+	renderstyle add
+	scale 0.35
+	gravity 0
+	states {
+		spawn:
+			TNT1 A 0
+			TNT1 A 0 A_Jump (255,"trail1","trail2","trail3","trail4","trail5")
+		trail1:
+			EXP6 AABCDEFGH 2 bright
+			stop
+		trail2:
+			EXP7 AABCDEFGH 2 bright
+			stop
+		trail3:
+			EXP8 AABCDEFGH 2 bright
+			stop
+		trail4:
+			EXP9 AABCDEFGH 2 bright
+			stop
+		trail5:
+			EXP0 AABCDEFGH 2 bright
+			stop
+	}
+}
+
+actor gSpark_smoke1 {
+	scale 0.15
+	alpha 1.0
+	renderstyle add
+	+NOINTERACTION
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOTELEPORT
+	+CLIENTSIDEONLY
+	states {
+		spawn:
+			TNT1 A 4
+			TNT1 A 0 A_Jump(255, "Smok1","Smok2","Smok3","Smok4")
+		Smok1:
+			SMO1 A 2 A_FadeOut(0.04)
+			TNT1 A 0 A_ScaleVelocity(0.9)
+			loop
+		Smok2:
+			SMO1 B 2 A_FadeOut(0.04)
+			TNT1 A 0 A_ScaleVelocity(0.9)
+			loop
+		Smok3:
+			SMO1 C 2 A_FadeOut(0.04)
+			TNT1 A 0 A_ScaleVelocity(0.9)
+			loop
+		Smok4:
+			SMO1 D 2 A_FadeOut(0.04)
+			TNT1 A 0 A_ScaleVelocity(0.9)
+			loop
+
+	}
+}
+
+
+actor gshot_shockwave {
+	//scale 0.27
+	var int user_scale;
+	renderstyle add
+	+NOTELEPORT
+	+NOCLIP
+	+FLOORCLIP
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOINTERACTION
+	+CLIENTSIDEONLY
+	alpha 0.75
+	states{
+		spawn:
+			TNT1 A 0
+			TNT1 A 0 A_SetUserVar("user_scale",1) 
+		scaledown:			   
+			TNT1 A 0 A_SetScale((user_scale*0.02)) //Start scale
+			TNT1 A 0 A_JumpIf(user_scale>=30,"LoopEnd") //Maximum Scale
+			BSW0 A 1 bright A_FadeOut(0.05)
+			TNT1 A 0 A_SetUserVar("user_scale",user_scale+3) //Speed
+			loop
+		loopend:
+			BSW0 A 1 Bright A_FadeOut(0.05)
+			wait
+	}
+}
+
+actor general_smoke1 {
+	radius 4
+	height 4
+	scale 1
+	alpha 1
+	renderstyle translucent
+	+NOTELEPORT
+	+FLOORCLIP
+	+NOTIMEFREEZE
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+NOINTERACTION
+	+CLIENTSIDEONLY
+	states{
+		spawn:
+			TNT1 A 0
+			goto selectjump
+		selectjump:
+			TNT1 A 0 A_Jump(255, "s1","s2","s3","s4","s5","s6","s7","s8","s9","s10","s11","s12","s13","s14","s15","s16","s17","s18","s19","s20","s21","s22","s23","s24")
+		s1:
+			SMK5 A 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s2:
+			SMK5 B 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s3:
+			SMK5 C 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s4:
+			SMK5 D 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s5:
+			SMK5 E 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s6:
+			SMK5 F 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s7:
+			SMK5 G 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s8:
+			SMK5 H 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s9:
+			SMK5 I 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s10:
+			SMK5 J 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s11:
+			SMK5 K 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s12:
+			SMK5 L 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s13:
+			SMK5 M 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s14:
+			SMK5 N 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s15:
+			SMK5 O 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s16:
+			SMK5 P 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s17:
+			SMK5 Q 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s18:
+			SMK5 R 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s19:
+			SMK5 S 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s20:
+			SMK5 T 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s21:
+			SMK5 U 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s22:
+			SMK5 V 4 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s23:
+			SMK5 W 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+		s24:
+			SMK5 X 3 A_ScaleVelocity(0.9)
+			TNT1 A 0 A_FadeOut(0.05)
+			loop
+			
+	}
+}
+
+//gauss rifle smokes
+actor gpuff_smoke : general_smoke1 {
+	scale 0.3
+	alpha 1.0
+	renderstyle add
+}
+
+actor gauss_smoke {
+	scale 0.08
+	alpha 0.8
+	renderstyle add
+	+NOINTERACTION
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOTELEPORT
+	+CLIENTSIDEONLY
+	states {
+		spawn:
+			TNT1 A 0
+			TNT1 A 0 A_Jump(255, "Smok1","Smok2","Smok3","Smok4")
+		Smok1:
+			SMO1 A 2 A_FadeOut(0.075)
+			TNT1 A 0 A_ScaleVelocity(0.9)
+			loop
+		Smok2:
+			SMO1 B 2 A_FadeOut(0.075)
+			TNT1 A 0 A_ScaleVelocity(0.9)
+			loop
+		Smok3:
+			SMO1 C 2 A_FadeOut(0.05)
+			TNT1 A 0 A_ScaleVelocity(0.9)
+			loop
+		Smok4:
+			SMO1 D 2 A_FadeOut(0.075)
+			TNT1 A 0 A_ScaleVelocity(0.9)
+			loop
+
+	}
+}
+
+ACTOR gunsmoke_spawner
+{
+    Radius 1
+    Height 1
+    Speed 25
+    PROJECTILE
+    States
+    {
+    Spawn:
+        TNT1 A 1
+        TNT1 A 0 A_Die
+        Goto Death
+    Death:
+        TNT1 A 0 A_CustomMissile("gun_smoke",-2,3,0)
+        Stop
+    }
+}
+
+actor gun_smoke {
+	scale 0.1
+	alpha 0.8
+	renderstyle add
+	+NOINTERACTION
+	+NOGRAVITY
+	+FORCEXYBILLBOARD
+	+NOTIMEFREEZE
+	+NOTELEPORT
+	+CLIENTSIDEONLY
+	states {
+		Spawn:
+		SMOK ABCDEFGHIJKLMNOPQ 1 
+		Stop
+	}
+}
+
+actor gauss_smoke2 : gauss_smoke {
+	scale 0.22
+	+CLIENTSIDEONLY
+	+NOTIMEFREEZE
+	alpha 1.0
+}
+
+actor gauss_smoke3 : gauss_smoke {
+	scale 0.05
+	+NOTIMEFREEZE
+	alpha 1.0
+}
+
+actor gausssmoke_spawner {
+	+NOINTERACTION
+	+NOGRAVITY
+	+NOTELEPORT
+	+NOTIMEFREEZE
+	+NOCLIP
+	states{
+		spawn:
+			NULL A 0
+			NULL A 0 A_SpawnItemEx("gauss_smoke", 20, 0, 0, 0, frandom(-0.5,0.5), frandom(0.1,0.6), 0, SXF_TRANSFERPOINTERS, SXF_CLIENTSIDE)
+			stop
+	}
+
+}
+
+actor gausssmoke_spawner_typhoon {
+	+NOINTERACTION
+	+NOGRAVITY
+	+NOTELEPORT
+	+NOTIMEFREEZE
+	+NOCLIP
+	states{
+		spawn:
+			NULL A 0
+			NULL A 0 A_SpawnItemEx("gauss_smoke", 20, 0, 0, 0, frandom(-0.5,0.5), frandom(0.1,0.6), 0, SXF_TRANSFERPOINTERS, SXF_CLIENTSIDE)
+			stop
+	}
+
+}
+
+actor gausssmoke_spawner2 : gausssmoke_spawner {
+	states{
+		spawn:
+			NULL A 0
+			NULL A 0 A_SpawnItemEx("gauss_smoke2", 20, 0, 0, frandom(0.8,1.6), frandom(-0.9,0.9), frandom(0.2,0.7), 0, SXF_TRANSFERPOINTERS,SXF_CLIENTSIDE)
+			stop
+	}
+}
+
+actor gausssmoke_spawner3 {
+	+NOINTERACTION
+	+NOGRAVITY
+	+NOTELEPORT
+	+NOCLIP
+	+CLIENTSIDEONLY
+	states{
+		spawn:
+			NULL A 0
+			NULL A 0 A_SpawnItemEx("gauss_smoke3", 20, 0, 5, 0, frandom(-0.15,0.15), frandom(-0.35,0.35), 0, SXF_TRANSFERPOINTERS, SXF_CLIENTSIDE)
+			stop
+	}
+
+}
+
+actor sgauss_casing_smoke : general_smoke1{
+	scale 0.06
+	renderstyle add
+	alpha 0.8
+}

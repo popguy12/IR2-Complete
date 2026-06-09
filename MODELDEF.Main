@@ -1,0 +1,570 @@
+// Impact Sparks... Fancy!~ ----------------------------------------------------
+Model NormHitSpark1      // Name of actor in DECORATE
+{
+   Path "Models/Sparks"    // Path to model in PK3
+   Model 0 "spark.md3"    // Model index, model file
+   Skin 0 "redspark.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.5 1.5 6.0 // Scale values
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
+   FrameIndex SPKO S 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+
+Model NormHitSpark2     // Name of actor in DECORATE
+{
+   Path "Models/Sparks"    // Path to model in PK3
+   Model 0 "spark.md3"    // Model index, model file
+   Skin 0 "redspark.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.5 1.5 6.0 // Scale values
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
+   FrameIndex SPKO S 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model NormHitSpark3     // Name of actor in DECORATE
+{
+   Path "Models/Sparks"    // Path to model in PK3
+   Model 0 "spark.md3"    // Model index, model file
+   Skin 0 "redspark.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.5 1.5 6.0 // Scale values
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
+   FrameIndex SPKO S 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model PlasHitSpark1      // Name of actor in DECORATE
+{
+   Path "Models/Sparks"    // Path to model in PK3
+   Model 0 "spark.md3"    // Model index, model file
+   Skin 0 "bluspark.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.5 1.5 6.0 // Scale values
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
+   FrameIndex SPKO S 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+
+Model PlasHitSpark2     // Name of actor in DECORATE
+{
+   Path "Models/Sparks"    // Path to model in PK3
+   Model 0 "spark.md3"    // Model index, model file
+   Skin 0 "bluspark.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.5 1.5 6.0 // Scale values
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
+   FrameIndex SPKO S 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+Model PlasHitSpark3     // Name of actor in DECORATE
+{
+   Path "Models/Sparks"    // Path to model in PK3
+   Model 0 "spark.md3"    // Model index, model file
+   Skin 0 "bluspark.png"     // Model index, texture (can be in any format supported by GZDoom)
+   Scale 1.5 1.5 6.0 // Scale values
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
+   FrameIndex SPKO S 0 0         // The sprite lump, sprite frame, model index, frame number
+}
+
+// Boolet Tracers --------------------------------------------------------------
+Model P_Tormentor_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 15.0 4.0 4.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_TormentorBullet
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 15.0 4.0 4.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_Hellstorm_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_Hellstorm_Tracer_NoBlood
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_Typhoon_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_Typhoon_Tracer_NoBlood
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_BouncyTyphoon_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_ARifle_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_HCannon_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 15.0 4.0 4.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model GaussTrailMain
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "LtBmBlu1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 3.0 3.0 4.5
+   DONTCULLBACKFACES
+   USEACTORPITCH
+   FrameIndex PUFF A 0 0
+}
+
+Model GaussTrailUber
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "LtBmBlu1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 3.0 3.0 4.5
+   DONTCULLBACKFACES
+   USEACTORPITCH
+   FrameIndex PUFF A 0 0
+}
+
+Model P_HCannon_Tracer_EXP
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 15.0 4.0 4.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_HRifle_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_Pellet_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model DusterCoinShot
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer3.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_Pistol_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_HPistol_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_AutoPistol_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_AutoHPistol_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_Devastator_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model P_Tungsten_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer3.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+// Boolet Tracers For Divine Stuff ---------------------------------------------
+Model VAN_Tormentor_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 15.0 4.0 4.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_TormentorBullet
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 15.0 4.0 4.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_Hellstorm_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_Hellstorm_Tracer_NoBlood
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_Typhoon_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_Typhoon_Tracer_NoBlood
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_ARifle_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_HCannon_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 15.0 4.0 4.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+Model VAN_HCannon_Tracer_EXP
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 15.0 4.0 4.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_HRifle_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer2.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_Pellet_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_Pistol_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_HPistol_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_AutoPistol_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_AutoHPistol_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 9.0 2.0 2.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_Devastator_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer1.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+Model VAN_Tungsten_Tracer
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer3.png"
+   MODEL 0 "Tracer.md3"
+   Scale 12.0 3.0 3.0
+   DONTCULLBACKFACES
+   PITCHFROMMOMENTUM
+   FrameIndex PUFF A 0 0
+}
+
+// SmartGun --------------------------------------------------------------------
+
+Model SmartBeam_Segment
+{ 
+   Path "Models/SmartGun"
+   Skin 0 "BEAM.png" 
+   Model 0 "segment.md3" 
+   Scale 10.0 10.0 10.0
+   ZOffset 2;
+   USEACTORPITCH
+   USEACTORROLL
+   
+   FrameIndex MODL A 0 0 
+}
+
+// Keys ------------------------------------------------------------------------
+
+Model BlueCard
+{ 
+   Path "Models/Misc"
+   SKIN 0 "Tib.KeycardIndex.png"
+   MODEL 0 "Tib.BlueKey.md3"
+   AngleOffset 45
+   Scale 1.25 1.25 1.25
+   FrameIndex BKEY A 0 0
+   FrameIndex BKEY B 0 0
+}
+
+Model YellowCard
+{ 
+   Path "Models/Misc"
+   SKIN 0 "Tib.KeycardIndex.png"
+   MODEL 0 "Tib.YellowKey.md3"
+   AngleOffset 128
+   Scale 1.25 1.25 1.25
+   FrameIndex YKEY A 0 0
+   FrameIndex YKEY B 0 0
+}
+
+Model RedCard
+{ 
+   Path "Models/Misc"
+   SKIN 0 "Tib.KeycardIndex.png"
+   MODEL 0 "Tib.RedKey.md3"
+   AngleOffset 90
+   Scale 1.25 1.25 1.25
+   FrameIndex RKEY A 0 0
+   FrameIndex RKEY B 0 0
+}
+
+Model BlueSkull
+{ 
+   Path "Models/Misc"
+   SKIN 0 "Tib.KeycardIndex.png"
+   MODEL 0 "Tib.SilverKey.md3"
+   AngleOffset 45
+   Scale 1.25 1.25 1.25
+   FrameIndex BSKU A 0 0
+   FrameIndex BSKU B 0 0
+}
+
+Model YellowSkull
+{ 
+   Path "Models/Misc"
+   SKIN 0 "Tib.KeycardIndex.png"
+   MODEL 0 "Tib.GreenKey.md3"
+   AngleOffset 128
+   Scale 1.25 1.25 1.25
+   FrameIndex YSKU A 0 0
+   FrameIndex YSKU B 0 0
+}
+
+Model RedSkull
+{ 
+   Path "Models/Misc"
+   SKIN 0 "Tib.KeycardIndex.png"
+   MODEL 0 "Tib.OrangeKey.md3"
+   AngleOffset 90
+   Scale 1.25 1.25 1.25
+   FrameIndex RSKU A 0 0
+   FrameIndex RSKU B 0 0
+}

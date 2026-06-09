@@ -1,0 +1,137 @@
+[enu default]
+
+STSTR_MUS		= "> Loading new music...";
+STSTR_NOMUS		= "> ERROR: No music found";
+STSTR_DQDON		= "> Invulnerability engaged";
+STSTR_DQDOFF	= "> Invulnerability disengaged";
+STSTR_KFAADDED	= "> All inventory granted";
+STSTR_FAADDED	= "> Armor, Health and Ammo granted";
+STSTR_NCON		= "> Ghost mode engaged";
+STSTR_NCOFF		= "> Ghost mode disengaged";
+STSTR_BEHOLD	= "> Select a key to have a powerup";
+STSTR_BEHOLDX	= "> Powerup granted";
+STSTR_CHOPPERS	= "> Want a Chainsaw? Have a Sword instead.";
+
+SECRETMESSAGE = "\c[fire]You found a secret area...";
+
+LOADNET		= "ERROR: unable to load during a net game!\n\nany key to advance.";
+QLOADNET	= "ERROR: unable to quickload during a netgame!\n\nany key to advance.";
+QSAVESPOT	= "ERROR: quicksave slot not yet selected!\n\any key to advance.";
+SAVEDEAD	= "Are you stupid? You cant save if you are not playing\n\nPress any key to leave";
+QSPROMPT	= "Confirm quicksave over slot named\n\n[ %s ]?\n\nconfirm y or n.";
+QLPROMPT	= "Confirm quickload over slot named\n\n[ %s ]?\n\nconfirm y or n.";
+NEWGAME		= "ERROR: unable to start a new game\nwhile in a network game.\n\nany key to advance.";
+NIGHTMARE	= "WARNING: This skill level is only for players\nthat enyoy inhumane amounts of pain.\n\n- Press [Y] to accept -";
+SWSTRING	= "this is absolutely not the shareware version of doom.\n\nyou do not need to order the entire trilogy.\n\nany key to advance.";
+MSGOFF		= "Messages OFF";
+MSGON		= "Messages ON";
+NETEND		= "If you want to end this multiplayer game tell your buddies to leave, otherwise press a key to return.";
+ENDGAME		= "Coward...\n\n- Press [Y] to leave -";
+DOSY		= "> Press [Y] to leave <";
+EMPTYSTRING	= "Free saving slot";
+GGSAVED		= "Game saved";
+
+IRQUIT1 = "Let's not waste anymore of one another's time\nWe both know how this ends...";
+IRQUIT2 = "I'm Dissapointed in you...\nWhy are you stopping now?\nYou're doing so well!";
+IRQUIT3 = "You sure you want to quit this simulation\nOf who you wish you were?\nYour little power trip?";
+IRQUIT4 = "You trying to quit on me soldier?\nYou still got a world to save!";
+IRQUIT5 = "If you desert now...\nYour Life is forfeit, think hard about this soldier.";
+
+NEEDREDKEYD = "\ccYou need a \c[red]red sector \cckeycard to obtain \c[red]gamma \ccclearance.";
+NEEDREDKEYO = "\ccYou need a \c[red]red sector \cckeycard to obtain \c[red]gamma \ccclearance.";
+
+NEEDBLUKEYD = "\ccYou need a \c[sapphire]blue sector \cckeycard to obtain \c[sapphire]delta \ccclearance.";
+NEEDBLUKEYO = "\ccYou need a \c[sapphire]blue sector \cckeycard to obtain \c[sapphire]delta \ccclearance.";
+
+NEEDYELKEYD = "\ccYou need a \c[gold]yellow sector \cckeycard to obtain \c[gold]theta \ccclearance.";
+NEEDYELKEYO = "\ccYou need a \c[gold]yellow sector \cckeycard to obtain \c[gold]theta \ccclearance.";
+
+NEEDORGKEYD = "\ccYou need an \c[fire]orange sector \cckeycard to obtain \c[fire]lambda \ccclearance.";
+NEEDORGKEYO = "\ccYou need an \c[fire]orange sector \cckeycard to obtain \c[fire]lambda \ccclearance.";
+
+NEEDSILKEYD = "\ccYou need a \cusilver sector \cckeycard to obtain \cusigma \ccclearance.";
+NEEDSILKEYO = "\ccYou need a \cusilver sector \cckeycard to obtain \cusigma \ccclearance.";
+
+NEEDGRNKEYD = "\ccYou need a \c[green]green sector \cckeycard to obtain \c[green]omega \ccclearance.";
+NEEDGRNKEYO = "\ccYou need a \c[green]green sector \cckeycard to obtain \c[green]omega \ccclearance.";
+
+NEEDRBYKEYD = "\ccYou need the \c[red]gamma\cc, \c[sapphire]delta\cc, and \c[gold]theta \ccsector keycards to obtain clearance for this area.";
+NEEDRBYKEYO = "\ccYou need the \c[red]gamma\cc, \c[sapphire]delta\cc, and \c[gold]theta \ccsector keycards to activate this object.";
+
+NEEDALLKEYD = "\ccYou need the \c[red]red\cc, \c[sapphire]blue\cc, \c[gold]yellow\cc, \c[fire]orange\cc, \cusilver\cc, \and \c[green]green \ccsector keycards to obtain clearance for this area.";
+NEEDALLKEYO = "\ccYou need the \c[red]red\cc, \c[sapphire]blue\cc, \c[gold]yellow\cc, \c[fire]orange\cc, \cusilver\cc, \and \c[green]green \ccsector keycards to activate this object.";
+
+NEEDANYKEYD = "\ccAny sector keycard will open this door.";
+NEEDANYKEYO = "\ccAny sector keycard will activate this object.";
+
+GOTREDCARD = "\c-You picked up a \c[red]red \c-access card, \c[red]gamma \c-clearance authorized.";
+GOTREDSKUL = "\c-You picked up a \c[fire]orange \c-access card, \c[fire]lambda \c-clearance authorized.";
+
+GOTBLUECARD = "\c-You picked up a \c[sapphire]blue \c-access card, \c[sapphire]delta \c-clearance authorized.";
+GOTBLUESKUL = "\c-You picked up a \cusilver \c-access card, \cusigma \c-clearance authorized.";
+
+GOTYELWCARD = "\c-You picked up a \c[gold]yellow \c-access card, \c[gold]theta \c-clearance authorized.";
+GOTYELWSKUL = "\c-You picked up a \c[green]green \c-access card, \c[green]omega \c-clearance authorized.";
+
+// Ironman Death Subtitles
+IRONMANDEAD1 = "Hahaha!";
+IRONMANDEAD2 = "You shouldn't have done that.";
+IRONMANDEAD3 = "Try an easier level...";
+IRONMANDEAD4 = "Wow! Look at those Demon Feet.";
+IRONMANDEAD5 = "I play Doom and I can't get up!";
+IRONMANDEAD6 = "Ouch! That had to hurt.";
+IRONMANDEAD7 = "Look at me! I'm flat!";
+IRONMANDEAD8 = "Thanks for playing!";
+IRONMANDEAD9 = "You lazy @#$%!";
+IRONMANDEAD10 = "Have you had enough?";
+IRONMANDEAD11 = "The demons gave you the boot!";
+IRONMANDEAD12 = "The lead demon vanquished you!";
+IRONMANDEAD13 = "At least you play better than Kaiser!";
+IRONMANDEAD14 = "Back to HNTR with you...!";
+IRONMANDEAD15 = "You'll never impress Doomworld like that.";
+
+// Ironman Death Obits
+OBIT_INFERNIS_FALLBACK = "You were killed by something really mean.";
+
+OBIT_INFERNIS_DROWNING = "You went down with the ship.";
+OBIT_INFERNIS_SLIME = "You melted into a bubbling puddle of ooze.";
+OBIT_INFERNIS_CRUSH = "You were pulped by the environment.";
+OBIT_INFERNIS_TELEFRAG = "You were torn asunder from the inside-out.";
+OBIT_INFERNIS_FALLING = "You terminally cratered.";
+OBIT_INFERNIS_SUICIDE = "You were never seen again.";
+OBIT_INFERNIS_EXIT = "You pushed the Whopper Button. WHOO!";
+OBIT_INFERNIS_EXTREME = "You were painted all over the walls.";
+OBIT_INFERNIS_INSTANTDEATH = "You suffered an existence failure.";
+OBIT_INFERNIS_QUAKE = "You were swallowed by the... Earth?";
+OBIT_INFERNIS_EXPLOSIVE = "You learned what \"Danger Close\" means.";
+OBIT_INFERNIS_MAPFIRE = "You were engulfed by the flames.";
+
+M8F_LS_TITLE              = "Laser Sight Options";
+
+M8F_LS_SHOW               = "Show Laser Sight";
+
+M8F_LS_COLOR              = "Color";
+M8F_LS_HIDE_SLOT_1        = "Hide on slot 1";
+M8F_LS_HIDE_CLOSE         = "Hide on small distance";
+M8F_LS_ONLY_READY         = "Show only if weapon is ready";
+LS_HIDE_ON_SKY            = "Hide on sky";
+LS_DISTANCE_SIZE          = "Same visible size on all distances";
+LS_DISTANCE_MULT          = "Size by distance coefficient";
+
+M8F_LS_SCALE              = "Scale";
+M8F_LS_OPACITY            = "Opacity";
+
+M8F_LS_BEAM_CAPTION       = "Beam (particles)";
+M8F_LS_BEAM_ENABLED       = "Beam enabled";
+M8F_LS_BEAM_STEP          = "Step";
+
+M8F_LS_COMMANDS_CAPTION   = "Laser Sight Commands";
+M8F_LS_TOGGLE             = "Toggle Laser Sight";
+
+M8F_LS_TARGET_SPY_CAPTION = "Target Spy Cross-mod Options";
+
+M8F_LS_CHANGE_ON_TARGET   = "Change color on target";
+M8F_LS_COLOR_ON_TARGET    = "Color on target";
+
+M8F_LS_CHANGE_ON_FRIEND   = "Change color on friendly target";
+M8F_LS_COLOR_ON_FRIEND    = "Color on friendly target";

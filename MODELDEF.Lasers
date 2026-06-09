@@ -1,0 +1,77 @@
+
+
+// Cylinder model
+/* 
+Model "DevastatorLaser"
+{
+	Path "models/GZBeamz"
+	Model 0 "beam_cyl.md3"
+	Skin 0 "lasertex.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}
+
+Model "DevastatorLaser_FXLaser"
+{
+	Path "models/GZBeamz"
+	Model 0 "beam_cylinder.md3"
+	Skin 0 "lasertex.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}
+*/
+
+
+// Cross model
+/* 
+Model "DevastatorLaser"
+{
+	Path "models/GZBeamz"
+	Model 0 "beam_cross.md3"
+	Skin 0 "lasertex.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}
+
+Model "DevastatorLaser_FXLaser"
+{
+	Path "models/GZBeamz"
+	Model 0 "beam_cross.md3"
+	Skin 0 "lasertex.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}
+*/
+
+// Star model
+/* 
+Model "DevastatorLaser"
+{
+	Path "models/GZBeamz"
+	Model 0 "beam_star.md3"
+	Skin 0 "lasertex.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}
+
+Model "DevastatorLaser_FXLaser"
+{
+	Path "models/GZBeamz"
+	Model 0 "beam_star.md3"
+	Skin 0 "lasertex.png"
+	USEACTORPITCH
+	DONTCULLBACKFACES
+	
+	FrameIndex MODL A 0 0
+}
+*/

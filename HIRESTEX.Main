@@ -1,0 +1,5 @@
+Remap RSCPA0 X_RSCOPE
+
+Remap "Sprites/Effects/LSITA0.png" "Graphics/HiRes/X_LASER1"
+
+Remap YOUDIED X_DEATH

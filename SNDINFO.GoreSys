@@ -1,0 +1,72 @@
+$pitchshiftrange 3
+
+blood/bh1		bfhit01
+blood/bh2		bfhit02
+blood/bh3		bfhit03
+blood/bh4		bfhit04
+blood/bh5		bfhit05
+blood/bh6		bfhit06
+blood/bh7		bfhit07
+blood/bh8		bfhit08
+blood/bh9		bfhit09
+blood/bh10		bfhit10
+blood/bh11		bfhit11
+blood/bh12		bfhit12
+blood/bh13		bfhit13
+blood/bh14		bfhit14
+blood/bh15		bfhit15
+blood/bh16		bfhit16
+blood/bh17		bfhit17
+
+$limit blood/bh1 1 128
+$limit blood/bh2 1 128
+$limit blood/bh3 1 128
+$limit blood/bh4 1 128
+$limit blood/bh5 1 128
+$limit blood/bh6 1 128
+$limit blood/bh7 1 128
+$limit blood/bh8 1 128
+$limit blood/bh9 1 128
+$limit blood/bh10 1 128
+$limit blood/bh11 1 128
+$limit blood/bh12 1 128
+$limit blood/bh13 1 128
+$limit blood/bh14 1 128
+$limit blood/bh15 1 128
+$limit blood/bh16 1 128
+$limit blood/bh17 1 128
+
+$random blood/hit { blood/bh1 blood/bh2 blood/bh3 blood/bh4 blood/bh5 blood/bh6 blood/bh7 blood/bh8 blood/bh9 blood/bh10 blood/bh11 blood/bh12 blood/bh13 blood/bh14 blood/bh15 blood/bh16 blood/bh17 }
+
+
+blood/sw1	BFSWT01
+blood/sw2	BFSWT02
+blood/sw3	BFSWT03
+
+$random blood/sweetener { blood/sw1 blood/sw2 blood/sw3 }
+
+blood/sp1	BFSPR01
+blood/sp2	BFSPR02
+blood/sp3	BFSPR03
+
+$random blood/spray { blood/sp1 blood/sp2 blood/sp3 }
+
+blood/drp1	drip1
+blood/drp2	drip2
+blood/drp3	drip3
+blood/drp4	drip4
+blood/drp5	drip5
+blood/drp6	drip6
+blood/drp7	drip7
+/*
+$limit blood/drp1 1 32
+$limit blood/drp2 1 32
+$limit blood/drp3 1 32
+$limit blood/drp4 1 32
+$limit blood/drp5 1 32
+$limit blood/drp6 1 32
+$limit blood/drp7 1 32
+*/
+$random blood/drip { blood/drp1 blood/drp2 blood/drp3 blood/drp4 blood/drp5 blood/drp6 blood/drp7 }
+
+$attenuation blood/drip 2.0

@@ -1,0 +1,29 @@
+#library "intro"
+#include "zcommon.acs"
+
+script "IR Level Intro" enter
+{
+    if(CheckInventory("AlreadySeenIt")) terminate;
+    switch (GameType())
+    {
+        case GAME_TITLE_MAP:
+        case GAME_NET_COOPERATIVE:
+        case GAME_NET_DEATHMATCH:
+            terminate;
+        default:
+			SetMusic("DSNONE");
+			GiveInventory("AlreadySeenIt",1);
+			SetActorProperty(0,APROP_NoTarget,1);
+			SetPlayerProperty(1, 1, PROP_TOTALLYFROZEN);
+            FadeRange(0, 0, 0, 1.5, 0, 0, 0, 0, 5.0);
+            LocalAmbientSound("Intro", 125);
+			//LocalAmbientSound("Music", 105);
+			Delay(70);
+			SetActorProperty(0,APROP_NoTarget,0);
+			SetPlayerProperty(1, 0, PROP_TOTALLYFROZEN);
+			//Delay(35);
+			//LocalAmbientSound("IntroVox", 155);
+			SetMusic("*");
+            break;
+    }
+}

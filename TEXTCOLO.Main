@@ -1,0 +1,41 @@
+#include "TextColours1.txt"
+#include "TextColours2.txt"
+#include "TextColours3.txt"
+#include "TextColours4.txt"
+#include "TextColours5.txt"
+
+MenuText{ //Nightmare
+	#00000  #101010
+}
+
+SelectionHighlight{
+	#00000  #158CFF
+}
+
+Skill0{ //I Work at Polygon
+	#00000  #CFCFCF
+}
+
+Skill1{ //Can I Play Daddy?
+	#00000  #CFCFCF
+}
+
+Skill2{ //Not Too Rough
+	#00000  #707070
+}
+
+Skill3{ //Hurt Me Plenty
+	#00000  #505050
+}
+
+Skill4{ //UltraViolence
+	#00000  #303030
+}
+
+Skill5{ //Nightmare
+	#00000  #252525
+}
+
+Skill6{ //Hell Mode
+	#00000  #070707
+}

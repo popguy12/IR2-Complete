@@ -1,0 +1,188 @@
+gameinfo
+{
+	TitlePage = "INTERPIC"
+	CreditPage = "INTERPIC"
+	Intermission = "INTERPIC"
+	PageTime = 1
+	ChatSound = "misc/chatsound"
+	FinaleMusic = "M_IRONM2"
+	infopage = "TAB1", "TAB2", "TAB3", "TAB4"
+	QuitSound = "Quitter"
+	TitleMusic = "TITLEMUS"
+	IntermissionMusic = "INTRSCRN"
+	DefaultBloodColor = "7F0000"
+	MenuFontColor_Selection = "SelectionHighlight"
+	MenuFontColor_Highlight = "SelectionHighlight"
+	MenuFontColor_Action = "SelectionHighlight"
+	MenuFontColor_Title = "SelectionHighlight"
+	MenuFontColor_Header = "SelectionHighlight"
+	MenuFontColor_Label = "SelectionHighlight"
+	DrawReadThis = False
+	SwapMenu = true
+	WeaponSlot = 1, "IR2PunchDagger", "Sword"
+    WeaponSlot = 2, "Punisher", "Tormentor", "StormHound", "DevastatorPistol"
+    WeaponSlot = 3, "Malefactor", "Archangel"
+    WeaponSlot = 4, "Boneduster"//, "ImpalerNailgun"
+    WeaponSlot = 5, "Omen", "Hellstorm"
+    WeaponSlot = 6, "MaulerCannon", "Longinus"
+    WeaponSlot = 7, "Incinerator", "Typhoon"
+	WeaponSlot = 8, "Evangelizer", "Harbinger"
+    DimColor = "15 8C FF"
+    DimAmount = 0.11
+	PlayerClasses = "Mercenary1", "Mercenary2"
+	QuitMessages = "$IRQUIT1", "$IRQUIT2", "$IRQUIT3", "$IRQUIT4", "$IRQUIT5"
+	NoRandomPlayerClass = true
+	ForceKillScripts = true
+	AddEventHandlers = "DropletsEventHandler"
+	AddEventHandlers = "HitMarkerHandler"
+	AddEventHandlers = "STEP_Static", "STEP_Handler", "LeaningHandler", "ImmerseHandler"
+	AddEventHandlers = "MonsterReplacementHander"
+	AddEventHandlers = "TracerReplacementHander"
+	//AddEventHandlers = "DoSway_Handler"
+	AddEventHandlers = "IR2_GameplayEvents"
+	AddEventHandlers = "UCMinimap_EventHandler", "UCMinimap_StaticHandler"
+	statusBarClass = "Tib_Hud"
+}
+
+clearskills
+
+skill "Trolling"
+{
+	ArmorFactor = 1.0
+    AmmoFactor = 1.0
+    DamageFactor = 1.0
+    MonsterHealth = 1.0
+    DisableCheats
+    SpawnFilter = Nightmare
+	SpawnMulti
+	PicName = "G_SKILL0"
+	Name = "Peaceful"
+	MustConfirm = "Enjoy your lovely stroll in the park~!"
+	Aggressiveness = 1.0
+	Key = "1"
+}
+
+skill "Easy"
+{
+	AutoUseHealth
+	EasyBossBrain
+	SpawnFilter = Nightmare
+	SpawnMulti
+	PicName = "G_SKILL1"
+	Name = "ARK Recruit"
+	MustConfirm = "If you're choosing this you're either here to see what I have to say, or you really fucking suck at doom."
+	DamageFactor = 0.33
+	MonsterHealth = 0.5
+	AmmoFactor = 1.0
+	ArmorFactor = 1.0
+	Aggressiveness = 1.0
+	Key = "2"
+}
+
+skill "Normal"
+{
+	EasyBossBrain
+	SpawnFilter = Nightmare
+	SpawnMulti
+	PicName = "G_SKILL2"
+	Name = "ARK Operator"
+	MustConfirm = "You serious? You cant handle this on the default skill? meh... okay then."
+	DamageFactor = 0.66
+	MonsterHealth = 0.75
+	AmmoFactor = 1.0
+	ArmorFactor = 1.0
+	Aggressiveness = 1.0
+	Key = "3"
+}
+
+skill "Hard"
+{
+	SpawnFilter = Nightmare
+	SpawnMulti
+	PicName = "G_SKILL3"
+	Name = "ARK Inquisitor"
+	MustConfirm = "Recommended skill too level much to handle? Okay then, try this out."
+	MonsterHealth = 1.0
+	DamageFactor = 1.0
+	AmmoFactor = 1.0
+	ArmorFactor = 1.0
+	Aggressiveness = 0.75
+	Key = "4"
+
+}
+
+skill "Insane"
+{
+	DefaultSkill
+	SpawnFilter = Nightmare
+	SpawnMulti
+	PicName = "G_SKILL4"
+	Name = "Blackwatch Elite"
+	MustConfirm = "Okay. Here we go, default skill level. Offers a decent challenge, but at the same time not too easy."
+	MonsterHealth = 1.333
+	DamageFactor = 1.333
+	AmmoFactor = 1.0
+	ArmorFactor = 1.0
+	Aggressiveness = 0.5
+	Key = "5"
+}
+
+skill "Nightmare"
+{
+	SpawnFilter = Nightmare
+	SpawnMulti
+	PicName = "G_SKILL5"
+	Name = "Hellfighter"
+	MustConfirm = "Punishing skill level for those seeking a worthy challenge, Fast Monsters, Monster HP: 3.333x, Damage Factor: 1.128x, Agression: High, Give Em' Hell!"
+	ArmorFactor = 1.0
+	FastMonsters
+    DamageFactor = 1.128
+    MonsterHealth = 3.333
+	AmmoFactor = 1.0
+	Aggressiveness = 0.3
+	Key = "6"
+}
+
+//HI KINSIE!
+
+Skill "UltraNightmare"
+{
+   ArmorFactor = 1.0
+   AmmoFactor = 1.0
+   DamageFactor = 2.256
+   MonsterHealth = 6.666
+   DisableCheats
+   FastMonsters
+   Aggressiveness = 0.15
+   SpawnFilter = Nightmare
+   SpawnMulti
+   Key = "7"
+   PicName = "G_SKILL6"
+   name = "Inferis"
+   mustconfirm = "Ultrahard, and unforgiving skill level for true masochists, Iron Man Rules, Fast Monsters, Monster HP: 6.666x, Damage Factor: 2.256x, Agression: Very High, Good Luck."
+   ACSReturn = 666
+}
+
+//BYE KINSIE!
+
+DoomEdNums
+{
+    33010 = IR2PunchDagger
+    33020 = Sword
+    33030 = Punisher
+    33040 = Tormentor
+	33050 = StormHound
+	33060 = DevastatorPistol
+	33070 = Malefactor
+	33080 = Archangel
+	33090 = Boneduster
+	//33091 = ImpalerNailgun
+	33100 = Omen
+	33110 = Hellstorm
+	33120 = MaulerCannon
+	33130 = Longinus
+	33140 = Incinerator
+	33150 = Typhoon
+	33160 = Evangelizer
+	33170 = Harbinger
+}

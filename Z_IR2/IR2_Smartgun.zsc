@@ -1,0 +1,1377 @@
+Class StormHound : SmartGun
+{  
+	Default 
+	{
+		Tag "EXL-44 ST Stormhound";
+		Weapon.SelectionOrder 400;
+		Weapon.SlotNumber 2;
+		Inventory.PickupSound "misc/w_pkup";
+		Inventory.PickupMessage "You got the EXL-44 ST ''Stormhound'' Auto Pistol.";
+		Weapon.UpSound "Hellstorm/Raise";
+		Obituary "%o was picked off by %k and %p Stormhound.";
+		Weapon.AmmoType "StormClip";
+		Weapon.AmmoType2 "LightPistolAmmo";
+		Weapon.AmmoGive 0;
+		Weapon.AmmoGive2 2;
+		Weapon.AmmoUse 1;
+		Weapon.AmmoUse2 0;
+		Decal "None";
+		Scale 0.75;
+		Weapon.BobStyle "smooth";
+		Weapon.BobRangeX 0.4;
+		Weapon.BobRangeY 0.6;
+		Weapon.BobSpeed 2.5;
+		weapon.weaponscalex 1.2;
+		+Inventory.UNDROPPABLE
+	    +INVENTORY.UNCLEARABLE
+		+Weapon.AMMO_OPTIONAL
+		+Weapon.NOAUTOFIRE
+		+Weapon.NOALERT
+		+Weapon.NOAUTOAIM
+		+NOEXTREMEDEATH
+		+WEAPON.CHEATNOTWEAPON
+		
+		IR2Weapon.BulletGraphics "graphics/MikkOS/BigPistolBullet.png", "graphics/MikkOS/BigPistolShell.png";
+		
+		SmartGun.SetupSmartgun 30, 30, 360;
+		SmartGun.BeamColor "#68E2F0";
+		SmartGun.BeamOffset 5, 5, -3;
+	}
+	
+	action Actor A_FireOffsetProjectile(class<Actor> proj, double angle, double pitch, double forward, double leftright, double updown, double speed = 0)
+	{
+		vector3 worldOffs = SmartBeamMath.V3Offset(
+			angle, pitch, roll, 
+			forward, leftright, updown, 1.0
+		);
+		vector3 sourcePos = (pos.xy, player.viewz);
+		
+		let spawnProj = Spawn(proj, level.vec3Offset(sourcePos, worldOffs));
+		if(spawnProj)
+		{
+			spawnProj.angle = self.angle+angle;
+			spawnProj.pitch = self.pitch+pitch;
+			spawnProj.Vel3DFromAngle(angle, pitch, (speed != 0) ? speed : spawnProj.Speed);
+		}	
+		return spawnProj;
+	}
+	
+	action state A_FireSmartPistol()
+	{
+		if(!A_CheckHasTargets()) return ResolveState("ReadySmartFire");
+		A_SpawnItem("LightProjectile1",0,0,0,0);
+		A_FireProjectile("apscasing_spawner",0,0,1,3,0);
+		A_FireAimedProjectile("P_Hellstorm_Tracer", useammo:true, frandom(-0.1,0.1), frandom(-0.1,0.1), 20, 2.5, -5.0);
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+		A_UpdateTargets();
+		return ResolveState(null);
+	}
+	
+	action void A_FireNormalPistol()
+	{
+		A_SpawnItem("LightProjectile1",0,0,0,0);
+		A_FireProjectile("apscasing_spawner",0,0,1,3,0);
+		A_FireProjectile("P_Hellstorm_Tracer", frandom(-4,4), 1, 2.5, 5,0,frandom(-4,4));
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+	}
+	
+	States
+	{
+	ReadyChecker:
+		TNT1 A 0 A_JumpIf(countinv("StormClip") <= 0, "DryFire");
+		TNT1 A 0 A_JumpIfInventory("SemiToken", 1, "ReadySmartFire");
+	Goto Ready;
+	
+	Ready:
+		APSG A 1 
+		{
+			A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM);
+			A_ClearAimTargets();
+		}
+	loop;
+	
+	ReadyEmpty:
+		APSG B 1 
+		{
+			A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM);
+			A_ClearAimTargets();
+		}
+	loop;
+	
+	ReadySmartFire:
+		TNT1 A 0 A_GetTargets(3);
+		TNT1 A 0 A_UpdateTargets();
+		APSG A 1 
+		{
+			A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM);
+			player.refire = 0; // Oddly doesn't reset sometimes.
+		}
+	loop;
+	Select:
+		TNT1 A 0 A_SetCrosshair(11);
+		TNT1 A 1;
+		APSS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON);
+		TNT1 A 0 SetPlayerProperty(0, 0, PROP_INSTANTWEAPONSWITCH);
+		APSS ABCDE 1;
+    SelectLoop:
+		APSG A 1 A_Raise;
+		Goto SelectLoop;
+    Deselect:
+		TNT1 A 0 A_SetCrosshair(1);
+		APSS E 1 A_PlaySound("Weapons/CS_Deselect", CHAN_WEAPON);
+		TNT1 A 0 SetPlayerProperty(0, 1, PROP_INSTANTWEAPONSWITCH);
+		APSS EDCBA 1;
+		TNT1 A 2 ;
+    DeselectLoop:
+		TNT1 A 1 A_Lower;
+		Goto DeselectLoop;
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("SemiToken", 1, "FireNormal_SG");
+		TNT1 A 0 A_JumpIf(countinv("StormClip") <= 0, "DryFire");
+	FireNormal:
+		TNT1 A 0 A_JumpIf(countinv("StormClip") <= 1, "Fire_E");
+		TNT1 A 0 A_StartSound("Weapons/StormPunch",55,0,0.55,2);
+        TNT1 A 0 A_StartSound("Weapons/StormFireAdd",99,0,0.99,2);
+		TNT1 A 0 A_StartSound("Weapons/StormFireN",77,0,0.77,2);
+		TNT1 A 0 
+		{
+			if(countinv("StormClip") <= 0) 
+				A_StartSound("Null");
+		}
+        TNT1 A 0 A_Jump(255,"Fire_A","Fire_B","Fire_C","Fire_D");
+	Fire_A:
+		TNT1 A 0 A_FireNormalPistol();
+		APSF AB 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSF C 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSG A 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_ReFire;
+	Goto Ready;
+	Fire_B:
+		TNT1 A 0 A_FireNormalPistol();
+		APSF DE 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSF F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSG A 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_ReFire;
+	Goto Ready;
+	Fire_C:
+		TNT1 A 0 A_FireNormalPistol();
+		APSF GH 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSF I 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSG A 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_ReFire;
+	Goto Ready;
+	Fire_D:
+		TNT1 A 0 A_FireNormalPistol();
+		APSF JK 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSF L 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSG A 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_ReFire;
+	Goto Ready;
+	Fire_E:
+		TNT1 A 0 A_StartSound("Weapons/PunPing",44,0,0.44,2);
+		TNT1 A 0 A_StartSound("Weapons/StormPunch",55,0,0.55,2);
+        TNT1 A 0 A_StartSound("Weapons/StormFireAdd",99,0,0.99,2);
+		TNT1 A 0 A_StartSound("Weapons/StormFireN",77,0,0.77,2);
+		TNT1 A 0 A_FireNormalPistol();
+		APSF JK 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSG C 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		APSG B 1 A_WeaponReady(WRF_NOFIRE);
+	Goto ReadyEmpty;
+
+	FireNormal_SG:
+		TNT1 A 0 A_JumpIf(countinv("StormClip") <= 0, "DryFire");
+		TNT1 A 0 A_JumpIf(!A_CheckHasTargets(), "NoTargetInLOS");
+		TNT1 A 0 A_JumpIf(countinv("StormClip") <= 1, "Fire_E_SG");
+		TNT1 A 0 A_StartSound("Weapons/StormPunch",55,0,0.55,2);
+        TNT1 A 0 A_StartSound("Weapons/StormFireAdd",99,0,0.99,2);
+		TNT1 A 0 A_StartSound("Weapons/StormFireX",77,0,0.77,2);
+		TNT1 A 0 
+		{
+			if(countinv("StormClip") <= 0) 
+				A_StartSound("Null");
+		}
+		//
+		TNT1 A 0 
+		{
+			A_FireSmartPistol();
+			A_NextAimTarget();
+		}
+		TNT1 A 0 A_Jump(255,"Fire_A_SG","Fire_B_SG","Fire_C_SG","Fire_D_SG");
+	Goto ReadySmartFire;
+	Fire_A_SG:
+		APSF AB 1 BRIGHT A_WeaponReady(WRF_NOFIRE);
+		APSF C 1 A_WeaponReady(WRF_NOFIRE);
+		APSG A 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_StartSound("Weapons/SmartBulletFly",100,CHANF_OVERLAP,0.77,2);
+		TNT1 A 0 A_ReFire;
+	Goto ReadySmartFire;
+	Fire_B_SG:
+		APSF DE 1 BRIGHT A_WeaponReady(WRF_NOFIRE);
+		APSF F 1 A_WeaponReady(WRF_NOFIRE);
+		APSG A 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_StartSound("Weapons/SmartBulletFly",177,CHANF_OVERLAP,0.77,2);
+		TNT1 A 0 A_ReFire;
+	Goto ReadySmartFire;
+	Fire_C_SG:
+		APSF GH 1 BRIGHT A_WeaponReady(WRF_NOFIRE);
+		APSF I 1 A_WeaponReady(WRF_NOFIRE);
+		APSG A 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_StartSound("Weapons/SmartBulletFly",100,CHANF_OVERLAP,0.77,2);
+		TNT1 A 0 A_ReFire;
+	Goto ReadySmartFire;
+	Fire_D_SG:
+		APSF JK 1 BRIGHT A_WeaponReady(WRF_NOFIRE);
+		APSF L 1 A_WeaponReady(WRF_NOFIRE);
+		APSG A 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_StartSound("Weapons/SmartBulletFly",100,CHANF_OVERLAP,0.77,2);
+		TNT1 A 0 A_ReFire;
+	Goto ReadySmartFire;
+	Fire_E_SG:
+		TNT1 A 0 A_StartSound("Weapons/PunPing",44,0,0.44,2);
+		TNT1 A 0 A_StartSound("Weapons/StormPunch",55,0,0.55,2);
+        TNT1 A 0 A_StartSound("Weapons/StormFireAdd",99,0,0.99,2);
+		TNT1 A 0 A_StartSound("Weapons/StormFireX",77,0,0.77,2);
+		TNT1 A 0 
+		{
+			A_FireSmartPistol();
+			A_NextAimTarget();
+		}
+		APSF JK 1 BRIGHT A_WeaponReady(WRF_NOFIRE);
+		APSG C 1 A_WeaponReady(WRF_NOFIRE);
+		APSG B 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_StartSound("Weapons/SmartBulletFly",100,CHANF_OVERLAP,0.99,2);
+	Goto ReadyEmpty;
+
+	DryFire:
+		TNT1 A 0 A_StartSound("Rifle/Empty",101,0,1.0,1);
+		APSG C 1 A_WeaponReady(WRF_NOFIRE);
+		APSG B 2 A_WeaponReady(WRF_NOFIRE);
+	Goto ReadyEmpty;
+	
+	DryFireLaser:
+		TNT1 A 0 A_StartSound("Rifle/Empty",101,0,1.0,1);
+		APSG C 1 A_WeaponReady(WRF_NOFIRE);
+		APSG B 2 A_WeaponReady(WRF_NOFIRE);
+		Goto ReadyEmpty;
+	NoTargetInLOS:
+		TNT1 A 0 A_StartSound("Plasma/Empty",77,0,0.77,2);
+		TNT1 A 0 A_StartSound("Weapons/NoTarget2C",101,0,1.0,1);
+		APSG A 5 A_WeaponReady(WRF_NOFIRE);
+	Goto ReadySmartFire;
+	 AltFire: //Does checks, if you have no dummy actors, select slugs
+		TNT1 A 0 A_JumpIfInventory("SemiToken", 1, "AltFire2");
+        TNT1 A 0 A_PlaySound("Weapons/FireSelector",98,0.99,0,2);
+		TNT1 A 0 A_PlaySound("Weapons/SmartPistolOff",99,0.99,0,2);
+        TNT1 A 0 A_GiveInventory("SemiToken", 1);
+        TNT1 A 0 A_SetCrosshair(54);
+        APSG A 10 A_WeaponReady(WRF_NOFIRE);
+	Goto ReadySmartFire;
+    AltFire2: //Clears dummy actors, to use normal mode
+        TNT1 A 0 A_PlaySound("Weapons/FireSelector",98,0.99,0,2);
+		TNT1 A 0 A_PlaySound("Weapons/SmartPistolOn",99,0.99,0,2);
+        TNT1 A 0 A_TakeInventory("SemiToken", 1);
+        TNT1 A 0 A_SetCrosshair(11);
+        APSG A 10 A_WeaponReady(WRF_NOFIRE);
+	Goto Ready;
+	
+	Reload:
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,1);
+		Goto DryFire;
+		TNT1 A 0 A_JumpIfInventory("StormClip",37,"Ready");
+		TNT1 A 0 A_JumpIfInventory("StormClip",1,"ReloadBeginPartial");
+		Goto ReloadBeginEmpty;
+	ReloadBeginEmpty:
+		APR1 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagOut",CHAN_5,1.0,0,2);
+		APR1 GHIJKL 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_SpawnItemEx("StormClipDrop",0,0,20);
+		APR1 L 4 A_WeaponReady(WRF_NOFIRE);
+		APR2 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/DevMagOut",CHAN_6,1.0,0,2);
+		APR2 FGHIJKLL 1 A_WeaponReady(WRF_NOFIRE);
+		Goto ReloadWorkEmpty;
+	ReloadWorkEmpty:
+		TNT1 A 0 A_TakeInventory("LightPistolAmmo",1);
+		TNT1 A 0 A_GiveInventory("StormClip",36);
+		TNT1 A 0 A_JumpIfInventory("StormClip",36,"ReloadFinishEmpty");
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,"ReloadWorkEmpty");
+		Goto ReloadFinishEmpty;
+	ReloadFinishEmpty:
+		APR2 LMN 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagIn",CHAN_6,1.0,0,2);
+		APR2 OPQR 1 A_WeaponReady(WRF_NOFIRE);
+		APR2 S 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagLock",CHAN_7,1.0,0,2);
+		APR2 TUV 1 A_WeaponReady(WRF_NOFIRE);
+		APSG A 5 A_WeaponReady(WRF_NOFIRE);
+		Goto ReadyChecker;
+	ReloadBeginPartial:
+		TNT1 A 0 A_JumpIfInventory("StormClip",37,"Ready");
+		APR3 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagOut",CHAN_5,1.0,0,2);
+		APR3 GHIJKL 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_SpawnItemEx("StormClipDrop",0,0,20);
+		APR3 L 4 A_WeaponReady(WRF_NOFIRE);
+		APR4 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/DevMagOut",CHAN_6,1.0,0,2);
+		APR4 FGHIJKLL 1 A_WeaponReady(WRF_NOFIRE);
+		Goto ReloadWorkPartial;
+	ReloadWorkPartial:
+		TNT1 A 0 A_TakeInventory("LightPistolAmmo",1);
+		TNT1 A 0 A_GiveInventory("StormClip",36);
+		TNT1 A 0 A_JumpIfInventory("StormClip",36,"ReloadFinishPartial");
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,"ReloadWorkPartial");
+		Goto ReloadFinishPartial;
+	ReloadFinishPartial:
+		APR4 LMN 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagIn",CHAN_6,1.0,0,2);
+		APR4 OPQR 1 A_WeaponReady(WRF_NOFIRE);
+		APR4 S 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagLock",CHAN_7,1.0,0,2);
+		APR4 TUV 1 A_WeaponReady(WRF_NOFIRE);
+		APSG A 5 A_WeaponReady(WRF_NOFIRE);
+		Goto ReadyChecker;
+	
+	Zoom:
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,1);
+		Goto DryFire;
+		TNT1 A 0 A_JumpIfInventory("StormClip",37,"Ready");
+		TNT1 A 0 A_JumpIfInventory("StormClip",1,"ReloadBeginPartialX");
+		Goto ReloadBeginEmptyX;
+	ReloadBeginEmptyX:
+		APR1 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagOut",CHAN_5,1.0,0,2);
+		APR1 GHIJKL 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_SpawnItemEx("StormClipDrop",0,0,20);
+		APR1 L 4 A_WeaponReady(WRF_NOFIRE);
+		APR2 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/DevMagOut",CHAN_6,1.0,0,2);
+		APR2 FGHIJKLL 1 A_WeaponReady(WRF_NOFIRE);
+		Goto ReloadWorkEmptyX;
+	ReloadWorkEmptyX:
+		TNT1 A 0 A_TakeInventory("LightPistolAmmo",2);
+		TNT1 A 0 A_GiveInventory("StormClip",36);
+		TNT1 A 0 A_JumpIfInventory("StormClip",36,"ReloadFinishEmptyX");
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,"ReloadWorkEmptyX");
+		Goto ReloadFinishEmptyX;
+	ReloadFinishEmptyX:
+		APR2 LMN 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagIn",CHAN_6,1.0,0,2);
+		APR2 OPQR 1 A_WeaponReady(WRF_NOFIRE);
+		APR2 S 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagLock",CHAN_7,1.0,0,2);
+		APR2 TUV 1 A_WeaponReady(WRF_NOFIRE);
+		APSG A 5 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_GiveInventory("StormTokenMagnum",1);
+		Goto ReadyChecker;
+	ReloadBeginPartialX:
+		APR3 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagOut",CHAN_5,1.0,0,2);
+		APR3 GHIJKL 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_SpawnItemEx("StormClipDrop",0,0,20);
+		APR3 L 4 A_WeaponReady(WRF_NOFIRE);
+		APR4 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/DevMagOut",CHAN_6,1.0,0,2);
+		APR4 FGHIJKLL 1 A_WeaponReady(WRF_NOFIRE);
+		Goto ReloadWorkPartialX;
+	ReloadWorkPartialX:
+		TNT1 A 0 A_TakeInventory("LightPistolAmmo",2);
+		TNT1 A 0 A_GiveInventory("StormClip",36);
+		TNT1 A 0 A_JumpIfInventory("StormClip",36,"ReloadFinishPartialX");
+		TNT1 A 0 A_JumpIfInventory("LightPistolAmmo",1,"ReloadWorkPartialX");
+		Goto ReloadFinishPartialX;
+	ReloadFinishPartialX:
+		APR4 LMN 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagIn",CHAN_6,1.0,0,2);
+		APR4 OPQR 1 A_WeaponReady(WRF_NOFIRE);
+		APR4 S 2 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/StormMagLock",CHAN_7,1.0,0,2);
+		APR4 TUV 1 A_WeaponReady(WRF_NOFIRE);
+		APSG A 5 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_GiveInventory("StormTokenMagnum",1);
+		Goto ReadyChecker;
+	
+	GunFlash:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true);
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add);
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6);
+		TNT1 A 0 Bright A_FireProjectile("HellstormFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0);
+		TNT1 A 1 Bright;
+		Stop;
+	Spawn:
+		APSP X -1;
+		Stop;
+	}
+}
+
+Class Hellstorm : SmartGun
+{  
+	 //$Category IR_Weapons
+	 //$Title HST-180F Hellstorm Mk.II
+	 //$Sprite HSSGX0
+	Default 
+	{
+		Tag "HST-180F Hellstorm Mk.III";
+		Weapon.SelectionOrder 400;
+		Weapon.SlotNumber 4;
+		Inventory.PickupSound "misc/w_pkup";
+		Inventory.PickupMessage "You got the HST-180F ''Hellstorm'' Mk.III Personal Defense Weapon";
+		Weapon.UpSound "Hellstorm/Raise";
+		Obituary "%k found a Hellstorm, %g made sure %o had the best last ten seconds of their life.";
+		Weapon.AmmoType "PDWClip";
+		Weapon.AmmoGive 0;
+		Weapon.AmmoUse 1;
+		Weapon.PreferredSkin "Rifle";
+		Weapon.AmmoType2 "PDW_Magazine";
+		Weapon.AmmoGive2 2;
+		Weapon.AmmoUse2 0;
+		decal "None";
+		Scale 0.75;
+		Weapon.Slotnumber 4;
+		weapon.bobstyle "smooth";
+		weapon.bobrangeX 0.4;
+		weapon.bobrangeY 0.6;
+		weapon.bobspeed 2.5;
+		weapon.weaponscalex 1.2;
+		+Weapon.AMMO_OPTIONAL
+		+NOEXTREMEDEATH
+		+Weapon.NoAutoFire
+		+Weapon.NOALERT
+		+Weapon.NOAUTOAIM
+		+Inventory.UNDROPPABLE
+		+INVENTORY.UNCLEARABLE
+		
+		IR2Weapon.BulletGraphics "graphics/MikkOS/RifleBullet.png", "graphics/MikkOS/RifleShell.png";
+		
+		SmartGun.SetupSmartgun 30, 30, 720;
+		SmartGun.BeamColor "#44EA8F";
+		SmartGun.BeamOffset 10, 10, -10;
+	}
+	
+	action Actor A_FireOffsetProjectile(class<Actor> proj, double angle, double pitch, double forward, double leftright, double updown, double speed = 0)
+	{
+		vector3 worldOffs = SmartBeamMath.V3Offset(
+			angle, pitch, roll, 
+			forward, leftright, updown, 1.0
+		);
+		vector3 sourcePos = (pos.xy, player.viewz);
+		
+		let spawnProj = Spawn(proj, level.vec3Offset(sourcePos, worldOffs));
+		if(spawnProj)
+		{
+			spawnProj.angle = self.angle+angle;
+			spawnProj.pitch = self.pitch+pitch;
+			spawnProj.Vel3DFromAngle(angle, pitch, (speed != 0) ? speed : spawnProj.Speed);
+		}	
+		return spawnProj;
+	}
+	
+	action state A_FireSmartgun1()
+	{
+		if(!A_CheckHasTargets()) return ResolveState("ReadyLaser");
+		A_SpawnItem("LightProjectile1",0,0,0,0);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireAimedProjectile("P_Hellstorm_Tracer", useammo:true, frandom(-0.1,0.1), frandom(-0.1,0.1), 20, 2.5, -5.0);
+		A_FireAimedProjectile("P_Hellstorm_Tracer", useammo:false, frandom(-0.1,0.1), frandom(-0.1,0.1), 20, 2.5, -5.0);
+		A_FireAimedProjectile("P_Hellstorm_Tracer", useammo:false, frandom(-0.1,0.1), frandom(-0.1,0.1), 20, 2.5, -5.0);
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+		A_UpdateTargets();
+		return ResolveState(null);
+	}
+	
+	action state A_FireSmartgun2()
+	{
+		if(!A_CheckHasTargets()) return ResolveState("ReadyLaser");
+		A_SpawnItem("LightProjectile1",0,0,0,0);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireAimedProjectile("P_Hellstorm_Tracer", useammo:true, frandom(-0.1,0.1), frandom(-0.1,0.1), 20, 2.5, -5.0);
+		A_FireAimedProjectile("P_Hellstorm_Tracer", useammo:false, frandom(-0.1,0.1), frandom(-0.1,0.1), 20, 2.5, -5.0);
+		A_FireAimedProjectile("P_Hellstorm_Tracer", useammo:true, frandom(-0.1,0.1), frandom(-0.1,0.1), 20, 2.5, -5.0);
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+		A_UpdateTargets();
+		return ResolveState(null);
+	}
+	
+	action void A_FireNormal1()
+	{
+		A_SpawnItem("LightProjectile1",0,0,0,0);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireProjectile("P_Hellstorm_Tracer", frandom(-4,4), 1, 2.5, 5,0,frandom(-4,4));
+		A_FireProjectile("P_Hellstorm_Tracer", frandom(-4,4), 0, 2.5, 5,0,frandom(-4,4));
+		A_FireProjectile("P_Hellstorm_Tracer", frandom(-4,4), 0, 2.5, 5,0,frandom(-4,4));
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+	}
+	
+	action void A_FireNormal2()
+	{
+		A_SpawnItem("LightProjectile1",0,0,0,0);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("pdw_casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireProjectile("P_Hellstorm_Tracer", frandom(-4,4), 1, 2.5, 5,0,frandom(-4,4));
+		A_FireProjectile("P_Hellstorm_Tracer", frandom(-4,4), 0, 2.5, 5,0,frandom(-4,4));
+		A_FireProjectile("P_Hellstorm_Tracer", frandom(-4,4), 1, 2.5, 5,0,frandom(-4,4));
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+	}
+	
+	States
+	{
+	ReadyChecker:
+		TNT1 A 0 A_JumpIfInventory("PDWToken", 1, "ReadyLaser");
+	Goto Ready;
+	
+	Ready:
+		BLNG A 1 
+		{
+			A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM);
+			A_ClearAimTargets();
+		}
+	loop;
+	
+	ReadyEmpty:
+		BLSE A 1 
+		{
+			A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM);
+			A_ClearAimTargets();
+		}
+	loop;
+	
+	ReadyLaser:
+		TNT1 A 0 A_GetTargets(5);
+		TNT1 A 0 A_UpdateTargets();
+		BLSG A 1 
+		{
+			A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWZOOM);
+			player.refire = 0; // Oddly doesn't reset sometimes.
+		}
+	loop;
+	Select:
+		TNT1 A 0 A_JumpIfInventory("PDWFirstTime",1,"FirstTime");
+		Goto SelectAuto;
+    FirstTime:
+		TNT1 A 0 A_StartSound("RW/SLOT5B",251,0,2.0,2);
+    SelectAuto:
+		TNT1 A 0 A_TakeInventory("PDWFirstTime",1);
+		TNT1 A 0 A_SetCrosshair(11);
+		TNT1 A 1;
+		BLSS A 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON);
+		TNT1 A 0 SetPlayerProperty(0, 0, PROP_INSTANTWEAPONSWITCH);
+		BLSS ABCDE 1;
+    SelectLoopAuto:
+		BLSG A 1 A_Raise;
+		Goto SelectLoopAuto;
+    Deselect:
+		TNT1 A 0 A_SetCrosshair(1);
+		BLSS E 1 A_PlaySound("Weapons/CS_Deselect", CHAN_WEAPON);
+		TNT1 A 0 SetPlayerProperty(0, 1, PROP_INSTANTWEAPONSWITCH);
+		BLSS EDCBA 1;
+		TNT1 A 2 ;
+    DeselectLoop:
+		TNT1 A 1 A_Lower;
+		Goto deselectLoop;
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("PDWToken", 1, "FireNormal_SG");
+		TNT1 A 0 A_JumpIf(countinv("PDWClip") <= 0, "DryFire");
+	FireNormal:
+		TNT1 A 0A_JumpIfInventory("PDWClip", 2, 1);
+		Goto Firelast;
+		TNT1 A 0 A_StartSound("Hellstorm/FireMain",99,0,0.99,2);
+		TNT1 A 0 A_StartSound("Hellstorm/FireAdd",77,CHANF_OVERLAP,0.77,2);
+		TNT1 A 0 
+		{
+			if(countinv("PDWClip") <= 90) 
+				A_StartSound("Leadspitter/EjectWarn",127,0,1.27,2);
+		}
+        TNT1 A 0 A_Jump(255,"Fire_A","Fire_B","Fire_C","Fire_D","Fire_E");
+	Fire_A:
+		TNT1 A 0 A_FireNormal1();
+		BLNF AB 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLNF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLNF C 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto Ready;
+	Fire_B:
+		TNT1 A 0 A_FireNormal2();
+		BLNF EF 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLNF G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLNF H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto Ready;
+	Fire_C:
+		TNT1 A 0 A_FireNormal1();
+		BLNF IJ 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLNF K 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLNF L 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto Ready;
+	Fire_D:
+		TNT1 A 0 A_FireNormal2();
+		BLNF MN 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLNF O 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLNF P 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Fire_E:
+		TNT1 A 0 A_FireNormal1();
+		BLNF QR 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLNF S 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLNF T 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto Ready;
+	FireLast:
+		TNT1 A 0 A_FireNormal1();
+		BLNF AB 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLNF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLNF C 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyEmpty;
+
+	FireNormal_SG:
+		TNT1 A 0 A_JumpIf(!A_CheckHasTargets(), "NoTargetInLOS");     
+		TNT1 A 0 A_JumpIf(countinv("PDWClip") <= 0, "DryFire");
+		TNT1 A 0A_JumpIfInventory("PDWClip", 2, 1);
+		Goto Firelast_SG;
+		TNT1 A 0 A_StartSound("Hellstorm/FireMain",99,0,0.99,2);
+		TNT1 A 0 A_StartSound("Hellstorm/FireAdd",77,CHANF_OVERLAP,0.77,2);
+		TNT1 A 0 
+		{
+			if(countinv("PDWClip") <= 90) 
+				A_StartSound("Leadspitter/EjectWarn",127,0,1.27,2);
+		}
+		//
+		TNT1 A 0 A_Jump(255,"Fire_A_SG","Fire_B_SG","Fire_C_SG","Fire_D_SG","Fire_E_SG");
+	Goto ReadyLaser;
+	Fire_A_SG:
+		TNT1 A 0 A_FireSmartgun1();
+		TNT1 A 0 A_NextAimTarget();
+		BLSF AB 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLSF C 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLSF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyLaser;
+	Fire_B_SG:
+		TNT1 A 0 A_FireSmartgun2();
+		TNT1 A 0 A_NextAimTarget();
+		BLSF EF 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLSF G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLSF H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyLaser;
+	Fire_C_SG:
+		TNT1 A 0 A_FireSmartgun1();
+		TNT1 A 0 A_NextAimTarget();
+		BLSF IJ 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLSF K 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLSF L 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyLaser;
+	Fire_D_SG:
+		TNT1 A 0 A_FireSmartgun2();
+		TNT1 A 0 A_NextAimTarget();
+		BLSF MN 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLSF O 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLSF P 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyLaser;
+	Fire_E_SG:
+		TNT1 A 0 A_FireSmartgun1();
+		TNT1 A 0 A_NextAimTarget();
+		BLSF QR 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLSF S 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLSF T 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyLaser;
+	FireLast_SG:
+		TNT1 A 0 A_FireSmartgun1();
+		TNT1 A 0 A_NextAimTarget();
+		BLSF AB 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		BLSF C 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		TNT1 A 0 A_ReFire;
+		BLSF D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyEmpty;
+
+	DryFire:
+		TNT1 A 0 A_StartSound("Weapons/PunPing",100,0,0.77,2);
+		TNT1 A 0 A_StartSound("Rifle/Empty",101,0,0.77,2);
+		BLSE A 1 A_WeaponReady(WRF_NOFIRE);
+		BLFL CD 1 A_WeaponReady(WRF_NOFIRE);
+		BLSE A 5;
+	Goto ReadyEmpty;
+	
+	DryFireLaser:
+		TNT1 A 0 A_StartSound("Weapons/PunPing",100,0,0.77,2);
+		TNT1 A 0 A_StartSound("Rifle/Empty",101,0,0.77,2);
+		BLSE A 1 A_WeaponReady(WRF_NOFIRE);
+		BLFL CD 1 A_WeaponReady(WRF_NOFIRE);
+		BLSE A 5;
+	Goto ReadyEmpty;
+	NoTargetInLOS:
+		TNT1 A 0 A_StartSound("Plasma/Empty",77,0,0.77,2);
+		TNT1 A 0 A_StartSound("Weapons/NoTarget2C",101,0,1.0,1);
+		TNT1 A 0 
+		{
+			if(!player.refire) 
+				A_StartSound("Weapons/NoTarget5B",128,0,1.0,1);
+		}
+		BLSG A 1 A_WeaponReady(WRF_NOFIRE);
+		BLSF CD 1 A_WeaponReady(WRF_NOFIRE);
+		BLSG A 5;
+	Goto ReadyLaser;
+	 AltFire: //Does checks, if you have no dummy actors, select slugs
+		TNT1 A 0 A_JumpIfInventory("PDWToken", 1, "AltFire2");
+        TNT1 A 0 A_PlaySound("Weapons/FireSelector",98,0.99,0,2);
+		TNT1 A 0 A_PlaySound("Weapons/SmartgunOn",99,0.99,0,2);
+        TNT1 A 0 A_GiveInventory("PDWToken", 1);
+        TNT1 A 0 A_SetCrosshair(54);
+        BLNG A 1 A_WeaponReady(WRF_NOFIRE);
+		BLFL CD 1 A_WeaponReady(WRF_NOFIRE);
+		BLSG A 5;
+	Goto ReadyLaser;
+    AltFire2: //Clears dummy actors, to use normal mode
+        TNT1 A 0 A_PlaySound("Weapons/FireSelector",98,0.99,0,2);
+		TNT1 A 0 A_PlaySound("Weapons/SmartgunOff",99,0.99,0,2);
+        TNT1 A 0 A_TakeInventory("PDWToken", 1);
+        TNT1 A 0 A_SetCrosshair(11);
+        BLSG A 1 A_WeaponReady(WRF_NOFIRE);
+		BLFL CD 1 A_WeaponReady(WRF_NOFIRE);
+		BLNG A 5;
+	Goto Ready;
+	
+	Reload:
+		TNT1 A 0 A_JumpIfInventory("PDWClip",180,"Ready");
+		TNT1 A 0 A_JumpIfInventory("PDWClip",1,"ReloadPartial");
+		TNT1 A 0 A_JumpIfInventory("PDW_Magazine",1,1);
+		Goto DryFire;
+	ReloadEmpty:
+		TNT1 A 0 A_JumpIfInventory("PDWToken", 1, "ReloadEmpty_SG");
+		BLSE A 1 A_WeaponReady(WRF_NOFIRE);
+		BER1 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("SK410/BoltCatch",CHAN_AUTO,0.75,0,2);
+		BER1 FGHIJ 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Hellstorm/MagOut",CHAN_5,0.75,0,2);
+		BER1 KLMNOP 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_SpawnItemEx("PDWClipDrop",0,0,5);
+		BER1 P 25 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence2",CHAN_5,0.75,0,2);
+		BER1 QRSTUVWXYZ 1 A_WeaponReady(WRF_NOFIRE);
+		BER2 A 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Hellstorm/MagIn",CHAN_6,0.75,0,2);
+		BER2 ABCDEF 1 A_WeaponReady(WRF_NOFIRE);
+		BER2 GHIJKL 1 A_WeaponReady(WRF_NOFIRE);
+		Goto ReloadAmmoLoop;
+	ReloadPartial:
+		TNT1 A 0 A_JumpIfInventory("PDWToken", 1, "ReloadPartial_SG");
+		BLNG A 1 A_WeaponReady(WRF_NOFIRE);
+		BLRL ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("SK410/BoltCatch",CHAN_AUTO,0.75,0,2);
+		BLRL FGHIJ 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Hellstorm/MagOut",CHAN_5,0.75,0,2);
+		BLRL KLMNOP 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_SpawnItemEx("PDWClipDrop",0,0,5);
+		BLRL Q 25 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence2",CHAN_5,0.75,0,2);
+		BER1 QRSTUVWXYZ 1 A_WeaponReady(WRF_NOFIRE);
+		BER2 A 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Hellstorm/MagIn",CHAN_6,0.75,0,2);
+		BER2 ABCDEF 1 A_WeaponReady(WRF_NOFIRE);
+		BER2 GHIJKL 1 A_WeaponReady(WRF_NOFIRE);
+		Goto ReloadAmmoLoop;
+	ReloadEmpty_SG:
+		BLSE A 1 A_WeaponReady(WRF_NOFIRE);
+		SGR1 ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("SK410/BoltCatch",CHAN_AUTO,0.75,0,2);
+		SGR1 FGHIJ 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Hellstorm/MagOut",CHAN_5,0.75,0,2);
+		SGR1 KLMNOP 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_SpawnItemEx("PDWClipDrop",0,0,5);
+		SGR1 P 25 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence2",CHAN_5,0.75,0,2);
+		SGR1 QRSTUVWXYZ 1 A_WeaponReady(WRF_NOFIRE);
+		SGR2 A 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Hellstorm/MagIn",CHAN_6,0.75,0,2);
+		SGR2 ABCDEF 1 A_WeaponReady(WRF_NOFIRE);
+		SGR2 GHIJKL 1 A_WeaponReady(WRF_NOFIRE);
+		Goto ReloadAmmoLoop_SG;
+	ReloadPartial_SG:
+		BLSG A 1 A_WeaponReady(WRF_NOFIRE);
+		SGRL ABCDE 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("SK410/BoltCatch",CHAN_AUTO,0.75,0,2);
+		SGRL FGHIJ 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Hellstorm/MagOut",CHAN_5,0.75,0,2);
+		SGRL KLMNOP 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_SpawnItemEx("PDWClipDrop",0,0,5);
+		SGRL Q 25 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Weapons/SniperSequence2",CHAN_5,0.75,0,2);
+		SGR1 QRSTUVWXYZ 1 A_WeaponReady(WRF_NOFIRE);
+		SGR2 A 1 A_WeaponReady(WRF_NOFIRE);
+		TNT1 A 0 A_PlaySound("Hellstorm/MagIn",CHAN_6,0.75,0,2);
+		SGR2 ABCDEF 1 A_WeaponReady(WRF_NOFIRE);
+		SGR2 GHIJKL 1 A_WeaponReady(WRF_NOFIRE);
+		Goto ReloadAmmoLoop_SG;
+	ReloadAmmoLoop:
+		NULL A 0 A_TakeInventory("PDW_Magazine",1);
+		NULL A 0 A_GiveInventory("PDWClip",180);
+		NULL A 0 A_JumpIfInventory("PDW_Magazine",1,1); // if not out of ammo, countinue reloading
+		goto ReloadEnd;
+		NULL A 0 A_JumpIfInventory("PDWClip",180,"ReloadEnd"); // if clip full, finish reload
+	goto ReloadAmmoLoop; // otherwise continue
+	ReloadAmmoLoop_SG:
+		NULL A 0 A_TakeInventory("PDW_Magazine",1);
+		NULL A 0 A_GiveInventory("PDWClip",180);
+		NULL A 0 A_JumpIfInventory("PDW_Magazine",1,1); // if not out of ammo, countinue reloading
+		goto ReloadEnd_SG;
+		NULL A 0 A_JumpIfInventory("PDWClip",180,"ReloadEnd_SG"); // if clip full, finish reload
+	goto ReloadAmmoLoop_SG; // otherwise continue
+	ReloadEnd:
+		TNT1 A 0 A_PlaySound("Hellstorm/MagSlap",CHAN_7,0.99,0,2);
+		TNT1 A 0 A_TakeInventory("TyphoonDryFireToken",1);
+		BER2 MNOPQRS 1 A_WeaponReady(WRF_NOFIRE);
+		BER2 TUVWXYZ 1 A_WeaponReady(WRF_NOFIRE);
+		BER3 ABC 1 A_WeaponReady(WRF_NOFIRE);
+	Goto ReadyChecker;
+	ReloadEnd_SG:
+		TNT1 A 0 A_PlaySound("Hellstorm/MagSlap",CHAN_7,0.99,0,2);
+		TNT1 A 0 A_TakeInventory("TyphoonDryFireToken",1);
+		SGR2 MNOPQRS 1 A_WeaponReady(WRF_NOFIRE);
+		SGR2 TUVWXYZ 1 A_WeaponReady(WRF_NOFIRE);
+		SGR3 ABC 1 A_WeaponReady(WRF_NOFIRE);
+	Goto ReadyChecker;
+	GunFlash:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true);
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add);
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6);
+		TNT1 A 0 Bright A_FireProjectile("HellstormFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0);
+		TNT1 A 1 Bright;
+		Stop;
+	Spawn:
+		BLSG X -1;
+		Stop;
+	}
+}
+
+Class Typhoon : IR2Weapon
+{
+  //$Category IR_Weapons
+  //$Title TY-99A Typhoon
+  //$Sprite QWOPA0
+  Default
+  {
+  obituary "%o got caught in %k's Typhoon.";
+  radius 20;
+  height 16;
+  +NOEXTREMEDEATH
+  +WEAPON.AMMO_OPTIONAL
+  +WEAPON.NOAUTOFIRE
+  +WEAPON.NOAUTOAIM
+  +INVENTORY.UNDROPPABLE
+  +INVENTORY.UNCLEARABLE
+  Tag "TY-99A Typhoon Mk.II";
+  IR2Weapon.BulletGraphics "graphics/MikkOS/RifleBullet.png", "graphics/MikkOS/RifleShell.png";
+  Weapon.PreferredSkin "Typhoon";
+  inventory.pickupmessage "You got the NDTR Industries TY-99A ''Typhoon'' Mk.II It knows only one purpose, Only one end.";
+  Inventory.PickupSound "misc/w_pkup";
+  Weapon.UpSound "Weapons/LeadspitterUp";
+  weapon.slotnumber 7;
+  weapon.kickback 100;
+  weapon.ammotype "LeadClip";
+  Weapon.AmmoType2 "PRifle_Magazine";
+  weapon.ammouse 1;
+  weapon.ammouse2 0;
+  Weapon.AmmoGive2 1;
+  weapon.bobstyle "smooth";
+  weapon.bobrangeX 0.4;
+  weapon.bobrangeY 0.6;
+  weapon.bobspeed 2.5;
+  weapon.weaponscalex 1.2;
+  scale 0.85;
+  Decal "None";
+  }
+  action void A_FireTyphoon()
+	{
+		A_SpawnItem("LightProjectile2",0,0,0,0);
+		A_StartSound("Leadspitter/FireLoop",100,CHANF_LOOPING,1.0,2);
+		A_GiveInventory("Typhoon_Heat_Index", 1);
+		//A_SpawnItemEx("PRifle_Casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireProjectile("P_Typhoon_Tracer", frandom(-4,4), 1, 2.5, 5,0,frandom(-2,2));
+		A_FireProjectile("P_Typhoon_Tracer_NoBlood", frandom(-6,6), 0, 2.5, 5,0,frandom(-3,3));
+		//A_SpawnItemEx("PRifle_Casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireProjectile("P_Typhoon_Tracer", frandom(-4,4), 0, 2.5, 5,0,frandom(-2,2));
+		A_FireProjectile("P_Typhoon_Tracer_NoBlood", frandom(-6,6), 0, 2.5, 5,0,frandom(-3,3));
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+	}
+	
+	action void A_FireTyphoonWA()
+	{
+		A_SpawnItem("LightProjectile2",0,0,0,0);
+		A_StartSound("Leadspitter/WarnAmmo",99,CHANF_DEFAULT,0.99,2);
+		A_StartSound("Leadspitter/FireLoop",100,CHANF_LOOPING,1.0,2);
+		A_GiveInventory("Typhoon_Heat_Index", 1);
+		//A_SpawnItemEx("PRifle_Casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireProjectile("P_Typhoon_Tracer", frandom(-4,4), 1, 2.5, 5,0,frandom(-2,2));
+		A_FireProjectile("P_Typhoon_Tracer_NoBlood", frandom(-6,6), 0, 2.5, 5,0,frandom(-3,3));
+		//A_SpawnItemEx("PRifle_Casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireProjectile("P_Typhoon_Tracer", frandom(-4,4), 0, 2.5, 5,0,frandom(-2,2));
+		A_FireProjectile("P_Typhoon_Tracer_NoBlood", frandom(-6,6), 0, 2.5, 5,0,frandom(-3,3));
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+	}
+	
+	action void A_FireTyphoonWH()
+	{
+		A_SpawnItem("LightProjectile2",0,0,0,0);
+		A_StartSound("Leadspitter/WarnHeat",99,CHANF_DEFAULT,0.99,2);
+		A_StartSound("Leadspitter/FireLoop",100,CHANF_LOOPING,1.0,2);
+		A_GiveInventory("Typhoon_Heat_Index", 1);
+		//A_SpawnItemEx("PRifle_Casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireProjectile("P_Typhoon_Tracer", frandom(-4,4), 1, 2.5, 5,0,frandom(-2,2));
+		A_FireProjectile("P_Typhoon_Tracer_NoBlood", frandom(-6,6), 0, 2.5, 5,0,frandom(-3,3));
+		//A_SpawnItemEx("PRifle_Casing", 20,-20,32, 8,frandom(-2,2),frandom(0,4), frandom(-55,-80), SXF_NOCHECKPOSITION);
+		A_FireProjectile("P_Typhoon_Tracer", frandom(-4,4), 0, 2.5, 5,0,frandom(-2,2));
+		A_FireProjectile("P_Typhoon_Tracer_NoBlood", frandom(-6,6), 0, 2.5, 5,0,frandom(-3,3));
+		A_SetPitch(pitch - 0.35);
+		A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+		A_Overlay(-3, "GunFlash");
+	}
+	
+  states
+  {
+  HeatHandler:
+	TNT1 A 1 A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	Loop;
+
+  HeatIdle:
+	TNT1 A 0 A_OverlayFlags(3, PSPF_FORCEALPHA, True);
+    QUCH D 1 A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	Stop;
+
+  HeatAltIdle:
+	TNT1 A 0 A_OverlayFlags(3, PSPF_FORCEALPHA, True);
+    QUH1 E 1 A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	Stop;
+
+  Ready:
+	TNT1 A 0 A_JumpIfInventory("TyphoonWildfireToken",1,"ReadyAlt");
+	TNT1 A 0 A_TakeInventory("TyphoonInitialFire", 1);
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+	//TNT1 A 0 A_Overlay(2, "RGBIdle");
+	TNT1 A 0 A_Overlay(3, "HeatIdle");
+    QUAG A 1 A_WeaponReady(WRF_ALLOWRELOAD);
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+	TNT1 A 0 A_StopSound(CHAN_6);
+    loop;
+  ReadyAltEmpty:
+  ReadyEmpty:
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+	//TNT1 A 0 A_Overlay(2, "RGBIdle");
+    QUAG D 1 A_WeaponReady(WRF_ALLOWRELOAD);
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+	TNT1 A 0 A_StopSound(CHAN_6);
+	loop;
+  ReadyAlt:
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+	//TNT1 A 0 A_Overlay(2, "RGBIdle");
+	TNT1 A 0 A_Overlay(3, "HeatAltIdle");
+    QUAG D 1 A_WeaponReady(WRF_ALLOWRELOAD);
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+	TNT1 A 0 A_StopSound(CHAN_6);
+    loop;
+  Select:
+	TNT1 A 0 A_JumpIfInventory("TyphoonWildfireToken",1,"SelectShredder");
+	TNT1 A 0 A_JumpIfInventory("TyphoonFirstTime",1,"FirstTime");
+	Goto SelectAuto;
+  FirstTime:
+	TNT1 A 0 A_StartSound("RW/SLOT7B",251,0,2.0,2);
+  SelectAuto:
+	TNT1 A 0 A_TakeInventory("TyphoonFirstTime",1);
+	TNT1 A 0 A_SetCrosshair(10);
+	TNT1 A 1;
+	QUAS E 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON);
+	TNT1 A 0 SetPlayerProperty(0, 0, PROP_INSTANTWEAPONSWITCH);
+	QUAS EDCBA 1;
+  SelectLoopAuto:
+	QUAG A 1 A_Raise;
+	Goto SelectLoopAuto;
+  SelectShredder:
+	TNT1 A 0 A_TakeInventory("TyphoonFirstTime",1);
+	TNT1 A 0 A_SetCrosshair(10);
+	TNT1 A 1;
+	QUAS E 1 A_PlaySound("Weapons/CS_Select", CHAN_WEAPON);
+	TNT1 A 0 SetPlayerProperty(0, 0, PROP_INSTANTWEAPONSWITCH);
+	QUAS EDCBA 1;
+	TNT1 A 0 A_PlaySound("Leadspitter/ShutterOpen",8,1.0,0,2);
+	QUAG AABC 1;
+  SelectLoopShredder:
+	QUAG D 1 A_Raise;
+	Goto SelectLoopShredder;
+  Deselect:
+	TNT1 A 0 A_SetCrosshair(1);
+	TNT1 A 0 A_ClearOverlays(0,0);
+	QUAS A 1 A_PlaySound("Weapons/CS_Deselect", CHAN_WEAPON);
+	TNT1 A 0 SetPlayerProperty(0, 1, PROP_INSTANTWEAPONSWITCH);
+	QUAS ABCDE 1;
+	TNT1 A 2 ;
+  DeselectLoop:
+	TNT1 A 1 A_Lower;
+	Goto deselectLoop;
+  Fire: // Plasma Bolts
+	TNT1 A 0 A_JumpIfInventory("TyphoonDryFireToken",1,"TrueDryFire");
+	TNT1 A 0 A_JumpIfInventory("TyphoonWildfireToken",1,"FireShredder");
+    TNT1 A 0 A_JumpIfInventory("LeadClip",1,1);
+    Goto DryFire;
+	TNT1 A 0 A_JumpIfInventory("Typhoon_Heat_Index", 200, "Overheated");
+	TNT1 A 0 
+	{
+	if(CountInv("LeadClip") == 300 || CountInv("LeadClip") == 200 || CountInv("Typhoon_Heat_Index") == 80 || CountInv("Typhoon_Heat_Index") == 100 || CountInv("Typhoon_Heat_Index") == 120)
+		{
+		A_FireTyphoonWA();
+		}
+	else if(CountInv("LeadClip") == 100 || CountInv("Typhoon_Heat_Index") == 140 || CountInv("Typhoon_Heat_Index") == 160 || CountInv("Typhoon_Heat_Index") == 180)
+		{
+		A_FireTyphoonWH();
+		}
+	else
+		{
+		A_FireTyphoon();
+		}
+	}
+	TNT1 A 0 A_JumpIfInventory("TyphoonInitialFire", 1, 2);
+    TNT1 A 0 A_Jump(256, "FR_NB", "FR_NC", "FR_ND", "FR_NE", "FR_NF");
+  FR_NA:
+	TNT1 A 0 A_GiveInventory("TyphoonInitialFire", 1);
+	TNT1 A 0 A_Overlay(3, "HeatFire1");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUF1 A 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_FireTyphoon();
+	QUF1 B 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_ReFire;
+	TNT1 A 0 A_StartSound("Plasma/Empty",99,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_StartSound("Leadspitter/FireTail",100,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_Overlay(68, "WarnHandler");
+    Goto FireEnd;
+  FR_NB:
+	TNT1 A 0 A_Overlay(3, "HeatFire2");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUF1 B 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_FireTyphoon();
+	QUF1 G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_ReFire;
+	TNT1 A 0 A_StartSound("Plasma/Empty",99,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_StartSound("Leadspitter/FireTail",100,CHANF_DEFAULT,1.0,2);
+    Goto FireEnd;
+  FR_NC:
+	TNT1 A 0 A_Overlay(3, "HeatFire2");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUF1 C 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_FireTyphoon();
+	QUF1 D 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_ReFire;
+	TNT1 A 0 A_StartSound("Plasma/Empty",99,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_StartSound("Leadspitter/FireTail",100,CHANF_DEFAULT,1.0,2);
+    Goto FireEnd;
+  FR_ND:
+	TNT1 A 0 A_Overlay(3, "HeatFire2");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUF1 E 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_FireTyphoon();
+	QUF1 F 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_ReFire;
+	TNT1 A 0 A_StartSound("Plasma/Empty",99,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_StartSound("Leadspitter/FireTail",100,CHANF_DEFAULT,1.0,2);
+    Goto FireEnd;
+  FR_NE:
+	TNT1 A 0 A_Overlay(3, "HeatFire2");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUF1 G 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_FireTyphoon();
+	QUF1 H 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_ReFire;
+	TNT1 A 0 A_StartSound("Plasma/Empty",99,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_StartSound("Leadspitter/FireTail",100,CHANF_DEFAULT,1.0,2);
+    Goto FireEnd;
+  FR_NF:
+	TNT1 A 0 A_Overlay(3, "HeatFire2");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUF1 A 1 bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_FireTyphoon();
+	QUF1 B 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_ReFire;
+	TNT1 A 0 A_StartSound("Plasma/Empty",99,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_StartSound("Leadspitter/FireTail",100,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_Overlay(68, "WarnHandler");
+    Goto FireEnd;
+ 
+  FireEnd:
+	TNT1 A 0 A_TakeInventory("TyphoonInitialFire", 1);
+	TNT1 A 0 A_Overlay(3, "HeatFireEnd");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	TNT1 A 0 A_StopSound(CHAN_6);
+    QUF1 K 1 A_WeaponReady(WRF_ALLOWRELOAD);
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+    QUF1 L 1 A_WeaponReady(WRF_ALLOWRELOAD);
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+    QUF1 M 1 A_WeaponReady(WRF_ALLOWRELOAD);
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 2);
+    Goto Ready;
+
+  HeatFireEnd:
+	TNT1 A 0 A_OverlayFlags(3, PSPF_FORCEALPHA, True);
+    QUCH ABC 1 A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	Stop;
+
+  HeatFire1:
+	TNT1 A 0 A_OverlayFlags(3, PSPF_FORCEALPHA, True);
+    QUF2 AB 1 Bright A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	Stop;
+	 
+  HeatFire2:
+	TNT1 A 0 A_OverlayFlags(3, PSPF_FORCEALPHA, True);
+    QUF2 CD 1 Bright A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	Stop;
+	
+  RGBIdle:
+	TNT1 A 0 A_OverlayFlags(2, PSPF_FORCEALPHA, True);
+    RGB1 ABCDEFGHIJKLMNOPQR 1 Bright A_OverlayAlpha(2,1.0);
+	RGB2 ABCDEFGHIJKLMNOPQR 1 Bright A_OverlayAlpha(2,1.0);
+	RGB3 ABCDEFGHIJKLMNOPQR 1 Bright A_OverlayAlpha(2,1.0);
+	RGB4 ABCDEFGHIJKLMNOPQR 1 Bright A_OverlayAlpha(2,1.0);
+	Loop;
+	
+  FireShredder:
+	TNT1 A 0 A_JumpIfInventory("LeadClip", 1, 1);
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+    Goto DryFire;
+	TNT1 A 0 A_SpawnItem("LightProjectile2",0,0,0,0);
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_FireProjectile("PRifleCasingSpawner",frandom(-3,3),0,0,0);
+	TNT1 AAAAAAAAAAAAAAAAAAAA 0 A_FireProjectile("P_BouncyTyphoon_Tracer", frandom(-8, 8), 0, 2.5, 5,0,frandom(-8,8));
+	TNT1 AAAAAAAAAA 0 A_FireProjectile("P_Typhoon_Tracer", frandom(-8, 8), 1, 2.5, 5,0,frandom(-8,8));
+	TNT1 A 0 A_SetPitch(pitch - 0.35);
+	TNT1 A 0 A_FireProjectile("MediumSmokeSpawner",0,0,6,8);
+	TNT1 A 0 A_PlaySound("Railgun/Fire",CHAN_Weapon,0.66,0,2);
+	TNT1 A 0 A_PlaySound("Railgun/Add",CHAN_5,1.0,0,2);
+	TNT1 A 0 A_TakeInventory("LeadClip", 80);
+	TNT1 AAAAAAAAAAAAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	TNT1 A 0 A_Overlay(-3, "GunFlash2");
+	//(placeholder alt fire anim)
+	QUF1 AD 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	QUF1 KLM 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_PlaySound("Railgun/Hum",8,1.0,0,2);
+	QUAG A 10 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_PlaySound("Leadspitter/ShutterOpen",8,1.0,0,2);
+	QUAG BCDDD 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyAlt;
+  AltFire: //Does checks, if you have no dummy actors, select semi auto
+    TNT1 A 0 A_JumpIfInventory("LeadClip", 1, 1);
+    Goto Ready;
+	TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2);
+	TNT1 A 0 A_JumpIfInventory("TyphoonWildfireToken", 1, "AltFire2");
+	TNT1 A 0 A_GiveInventory("TyphoonWildfireToken", 1);
+	TNT1 A 0 A_SetCrosshair(10);
+	TNT1 A 0 A_PlaySound("Leadspitter/ShutterOpen",8,1.0,0,2);
+	QUAG ABCD 1 A_WeaponReady(WRF_NOFIRE);
+	QUAG D 10 A_WeaponReady(WRF_NOFIRE);
+	Goto ReadyAlt;
+  AltFire2: //Clears dummy actors, to use full auto
+	TNT1 A 0 A_PlaySoundEX("Weapons/FireSelector","Body",0,2);
+	TNT1 A 0 A_TakeInventory("TyphoonWildfireToken", 1);
+	TNT1 A 0 A_SetCrosshair(10);
+	TNT1 A 0 A_PlaySound("Leadspitter/ShutterClose",8,1.0,0,2);
+	QUAG DCBA 1 A_WeaponReady(WRF_NOFIRE);
+	QUAG A 10 A_WeaponReady(WRF_NOFIRE);
+	Goto Ready;
+	
+  DryFire:
+	TNT1 A 0 A_StopSound(CHAN_5);
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	TNT1 A 0 A_StartSound("Leadspitter/FireTail",100,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_StartSound("Leadspitter/ShutterOpen",99,0,0.99,2);
+	TNT1 A 0 A_GiveInventory("TyphoonDryFireToken", 1);
+	TNT1 A 0 A_Overlay(3, "HeatDryFire");
+	QUAG B 1 A_PlaySound("Plasma/Empty",CHAN_7,1.0,0,2);
+	TNT1 AAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	QUAG CD 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 AAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	QUAG DDD 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 AAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	QUAG D 8 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyEmpty;
+  TrueDryFire:
+	QUAG A 0 A_PlaySound("Plasma/Empty",CHAN_6,1.0,0,2);
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUAG D 8 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyEmpty;
+  DryFireAlt:
+	QUAG B 0 A_PlaySound("Plasma/Empty",CHAN_6,1.0,0,2);
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUAG D 8 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReadyEmpty;
+	
+  HeatDryFire:
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUH0 ABCD 1 A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	QUH1 EEEEEEEEEEE 1 A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	Stop;
+	
+  HeatDryFire2:
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QUH1 EEEEEEEE 1 A_OverlayAlpha(3, 0.005*CountInv("Typhoon_Heat_Index"));
+	Stop;
+	
+  Reload:
+  ReloadBegin:
+	TNT1 A 0 A_JumpIfInventory("TyphoonWildfireToken", 1, "ReloadBegin");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	TNT1 A 0 A_TakeInventory("TyphoonDryFireToken", 1);
+	TNT1 A 0 A_JumpIfInventory("LeadClip", 1, 1);
+    Goto ReloadBegin;
+	QURL A 0 A_JumpIfInventory("PRifle_Magazine",1,1);
+	Goto TrueDryFire;
+	
+  ReloadBegin:
+	TNT1 A 0 A_TakeInventory("TyphoonDryFireToken", 1);
+	TNT1 A 0 A_TakeInventory("TyphoonWildfireToken", 1);
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	QURL A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	QURL BC 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	QURL DEF 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	QUAG B 0 A_PlaySound("Leadspitter/Burst",CHAN_5,0.99,0,2);
+	TNT1 A 0 A_FireProjectile("EmptyLeadClip", random(-2, 2), 0, 5, 3,0,random(-2,2));
+	QURL GH 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	QURL IJ 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto ReloadWork;
+  ReloadWork:
+	QURL M 0 A_TakeInventory("PRifle_Magazine",1);
+	QURL M 0 A_GiveInventory("LeadClip",900);
+	QURL M 0 A_JumpIfInventory("LeadClip",900,"ReloadFinish");
+	QURL M 0 A_JumpIfInventory("PRifle_Magazine",1,"ReloadWork");
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+  ReloadFinish:
+    QURL KLMN 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	QURL NOPQ 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_PlaySound("Leadspitter/Reload",CHAN_6,0.99,0,2);
+	QURL RSTUV 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	QURL V 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	QURL WXYZZ 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 A 0 A_PlaySound("Leadspitter/WarnHeat",8,1.27,0,2);
+	QUAG A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	Goto Ready;
+	
+  Overheated:
+	//TNT1 A 0 A_Overlay(69, "RGBIdle");
+	TNT1 A 0 A_StartSound("Leadspitter/FireTail",100,CHANF_DEFAULT,1.0,2);
+	TNT1 A 0 A_StartSound("Leadspitter/Overheated",88,0,0.88,2);
+	TNT1 A 0 A_StartSound("Leadspitter/ShutterOpen",99,0,0.99,2);
+	QUH1 ABC 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 AAAAAAAAAAAAAAAAAAAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	QUH1 DE 1
+	{
+	A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	A_TakeInventory("Typhoon_Heat_Index", 5);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	}
+	QUH1 FGHIJKLMN 1
+	{
+	A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	A_TakeInventory("Typhoon_Heat_Index", 5);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	}
+	QUH1 FGHIJKLMNFGHIJKLMN 1
+	{
+	A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	A_TakeInventory("Typhoon_Heat_Index", 5);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	}
+	QUH1 FGHIJKLMN 1
+	{
+	A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	A_TakeInventory("Typhoon_Heat_Index", 5);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	}
+	QUH1 FGHIJKLMNFGHIJKLMN 1
+	{
+	A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	A_TakeInventory("Typhoon_Heat_Index", 5);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	}
+	QUH2 ABCDEFGHIJKLMNOPQRSTU 3
+	{
+	A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	A_TakeInventory("Typhoon_Heat_Index", 5);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	}
+	QUH2 VUVUVUVUVUVUVUVVVVVVVV 1
+	{
+	A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	A_TakeInventory("Typhoon_Heat_Index", 5);
+	A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);
+	}
+	QUH3 ABCDDD 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	TNT1 AAA 0 A_FireProjectile("gausssmoke_spawner2",0,0,3,4,0);	
+	TNT1 A 0 A_StartSound("Leadspitter/ShutterClose",99,0,0.99,2);
+	TNT1 A 0 A_TakeInventory("Typhoon_Heat_Index", 999);
+//	QUCH ABC 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+	Goto Ready;
+
+  GunFlash1:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true);
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add);
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6);
+		TNT1 A 1 Bright
+			{
+			A_FireProjectile("TyphoonFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+			}
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0);
+		TNT1 A 1 Bright;
+		Stop;
+  GunFlash2:
+		TNT1 A 0 A_OverlayFlags(-3, PSPF_ALPHA|PSPF_RENDERSTYLE, true);
+		TNT1 A 0 A_OverlayRenderstyle(-3, STYLE_Add);
+		TNT1 A 0 A_OverlayAlpha(-3, 0.6);
+		TNT1 A 1 Bright
+			{
+			A_FireProjectile("EvangelizerFX", 0, 0, 10, 1, FPF_NOAUTOAIM);
+			}
+		TNT1 A 0 A_OverlayAlpha(-3, 9.0);
+		TNT1 A 1 Bright;
+		Stop;
+  Spawn:
+    QWOP A -1;
+	Stop;
+	}
+}

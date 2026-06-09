@@ -1,0 +1,81 @@
+#library "LOSACS"
+#include "zcommon.acs"
+
+script "F5PackSpectreDeath" (int specNum) 
+{
+	SetActivator(0,AAPTR_PLAYER1);
+	switch(specNum) 
+	{
+	case 1:     // Programmer's Spectre (the one fought in the Ruins)
+		Floor_LowerToLowest(999, 8);
+		SendToCommunicator(95,0,0,0);
+		break;
+		
+	case 2:     // Bishop's Spectre
+		PrintBold(l:"TXT_KILLED_BISHOP");
+		SendToCommunicator(74,0,0,0);
+		GiveInventory("QuestItem21",1); // Bishop dead
+		break;
+		
+	case 3:     // Oracle's Spectre
+		PrintBold(l:"TXT_KILLED_ORACLE");
+		Thing_Destroy(900, 0); // Kill all Oracles.
+		Door_Open(222, 8);
+		GiveInventory("QuestItem23",1); // Oracle dead
+		
+		// If bishop is dead, mark Oracle as dead.
+		if(CheckInventory("QuestItem21")) {
+			GiveInventory("QuestItem22",1);
+		}
+		// If Macil still alive...
+		if(!CheckInventory("QuestItem24")) {
+			// Macil is calling us back...
+			SendToCommunicator(87,0,0,0);
+		} else {
+			// You wield the power of the complete sigil.
+			SendToCommunicator(85,0,0,0);
+		}
+		break;
+		
+	case 4:     // Macil's Spectre
+		PrintBold(l:"TXT_KILLED_MACIL");
+		GiveInventory("QuestItem24",1); //Macil dead.
+		
+		// If Conversion Chapel mission not complete...
+		if(!CheckInventory("QuestItem25")) {
+			// Richter has taken over. Macil is a snake.
+			SendToCommunicator(79,0,0,0);
+		} else {
+			// Back to the factory for another Sigil!
+			SendToCommunicator(106,0,0,0);
+		}
+		break;
+		
+	case 5:     // Loremaster's Spectre
+		PrintBold(l:"TXT_KILLED_LOREMASTER");
+		Floor_LowerToLowest(666, 8);
+		GiveInventory("QuestItem25",1); // Loremaster dead.
+		
+		// If all 5 Sigil pieces are held...
+		if(CheckInventory("AlienSpectreDead") >= 5) {
+			// You wield the power of the complete Sigil.		
+			SendToCommunicator(85,0,0,0);
+		} else {
+			// Another Sigil piece. Woohoo!
+			SendToCommunicator(83,0,0,0);
+		}
+		break;
+	}
+}
+
+//player death
+script "Death" (void){
+		LocalSetMusic("DSNONE");
+		ActivatorSound("KILLAMB",127);
+		ActivatorSound("sfx/deathbeat",127);
+		delay(95);
+		ActivatorSound("sfx/gameover",127);
+		setfont("Skull");
+		hudmessage(s:"A"; HUDMSG_PLAIN, 0, 0, 63.1, 61.1, 0.3);
+		fadeto(0, 0, 0, 1.0, 3.0);
+}

@@ -1,0 +1,66 @@
+//Cue theme goes to Stanley and Zhs2 for this little piece of f*ck I have moderated, heh.
+// Now with the power of controlled ammo expansion because I don't like the tenth here.
+// - Zhs2
+#library "DOPEPACK"
+
+#include "zcommon.acs"
+#define NumAmmoTypes 16
+// This is the position of the ammo to test against for a hard backpack expansion cap.
+#define AMMO_LIMIT_TEST_TYPE 5
+#define AMMO_LIMIT 9999
+
+int ammotypes[NumAmmoTypes] = {
+"LightPistolAmmo",
+"HeavyPistolAmmo",
+"Shotgun_Ammo_X",
+"AShot_Magazine",
+"AShot_Magazine_X",
+"8GaugeShells",
+"NailgunReserve",
+"ARifle_Magazine",
+"ARifle_Magazine_X",
+"PDW_Magazine",
+"Sniper_Reserve",
+"Mauler_Magazine",
+"Flame_Cannister",
+"PRifle_Magazine",
+"Railgun_Magazine",
+"HarbingerReserve",
+};
+
+int capexpansion[NumAmmoTypes] = {
+2,
+2,
+21,
+2,
+2,
+12,
+2,
+2,
+2,
+2,
+2,
+2,
+1,
+1,
+1,
+1,
+};
+
+script "HammerspaceBackpack" (void)
+{
+	int i, new_cap;
+	if (CheckInventory("Backpack") && !((GetAmmoCapacity(ammotypes[AMMO_LIMIT_TEST_TYPE])+capexpansion[AMMO_LIMIT_TEST_TYPE])>AMMO_LIMIT))
+	{
+		for (i = 0; i < NumAmmoTypes; i++)
+		{
+			new_cap = GetAmmoCapacity(ammotypes[i]);
+			new_cap += capexpansion[i];
+			if (new_cap >= 0) {
+				SetAmmoCapacity(ammotypes[i], new_cap);
+			}
+		}
+		GiveInventory("Backpack", 1);
+	}
+	else GiveInventory("Backpack", 1);
+}

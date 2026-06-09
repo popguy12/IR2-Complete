@@ -1,0 +1,164 @@
+
+class SmartBeam_Segment : Actor
+{
+	Color beamCol;
+	Actor parent;
+
+	Default
+	{	
+		Radius 5;
+		Height 5;
+		-SOLID;
+		+NOGRAVITY;
+		Scale 0.05;
+		YScale 0.35;
+		RenderStyle "Shaded";
+	}
+	
+	override void Tick()
+	{		
+		if (alpha < 0)
+		{
+			destroy();
+			return;
+		}
+		if (isFrozen()) return;
+				
+		//animation:
+		if (tics != -1) 
+		{
+			if(tics > 0) tics--;
+			while (!tics) 
+				if(!SetState(CurState.NextState)) return;
+		}
+		
+		// Segments are invisible until they "snap" into place.
+		bInvisible = (GetAge() < 4); 
+		
+		SetShade(beamCol);
+		
+		if(!parent) Destroy();
+		return;
+	}
+	
+	States
+	{
+		Spawn:
+			MODL A 1 Bright;
+		loop;
+	}
+}
+
+class SmartBeam : Actor
+{
+	Actor source;
+	vector3 sourceOffs;
+	vector3 originPos;
+	vector3 followPos;
+	Array<SmartBeam_Segment> segs;
+	
+	static SmartBeam FireBeam(Actor origin, vector3 originOffs, Actor target, int segments, Color col = 0xC4FF0000)
+	{
+		let beam = SmartBeam(Actor.Spawn("SmartBeam", origin.pos));
+		if(beam)
+		{
+			beam.angle = origin.angle;
+			beam.pitch = origin.pitch;
+			beam.source = origin;
+			beam.sourceOffs = originOffs;
+			beam.target = target;
+			beam.updateOriginPos();
+			for(int i = 0; i < segments; i++) beam.AddSegment(col);
+		}
+		
+		return beam;
+	}
+	
+	void updateOriginPos()
+	{
+		vector3 worldOffs = SmartBeamMath.V3Offset(
+			source.angle, source.pitch, source.roll,
+			sourceOffs.x, sourceOffs.y, sourceOffs.z, 1.0 
+		);
+		
+		double viewz = source.player ? source.player.viewz : (source.pos.z + (source.height * 0.5));
+		originPos = level.vec3offset((source.pos.xy, viewz), worldOffs);
+	}
+	
+	void updateFollowPos()
+	{
+		followPos = (target.pos.xy, (target.pos.z + target.height * 0.8));
+	}
+	
+	SmartBeam_Segment AddSegment(Color col)
+	{
+		let seg = SmartBeam_Segment(Actor.Spawn("SmartBeam_Segment", originPos));
+		if(seg)
+		{
+			seg.parent = self;
+			seg.angle = source.angle;
+			seg.pitch = source.pitch - 90;
+			seg.beamCol = col;
+			segs.Push(seg);	
+		}
+		return seg;
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		
+		updateOriginPos();
+		if(target) updateFollowPos();
+		
+		double dist = (originPos - followPos).Length();
+		double segSize = 5;
+		for(int i = 0; i < segs.Size(); i++)
+		{
+			let seg = segs[i];
+
+			// Direction to move based on target location.
+			double lookMod = (double(i) / segs.Size());
+						
+			vector3 look = level.SphericalCoords(seg.pos, followpos, (source.angle, source.pitch));
+			vector2 viewToTarget = (
+				 source.angle - (look.x * lookMod),
+				(source.pitch - 90) - (look.y * lookMod)
+			);
+			
+			// Face other segments
+			vector2 toView = (source.angle, source.pitch - 90);
+			
+			if(i < segs.Size()-1 && i > 0)
+			{
+				let nextSeg = segs[i+1];
+				look = level.SphericalCoords(seg.pos, nextSeg.pos, (seg.angle, seg.pitch + 90));
+				toView = (
+					seg.angle - (look.x * lookMod),
+					seg.pitch - (look.y * lookMod)
+				);
+			}
+			else if(i > 0)
+			{
+				toView = (
+					segs[i-1].angle,
+					segs[i-1].pitch
+				);
+			}
+			
+			
+			seg.angle = toView.x;
+			seg.pitch = toView.y;
+			
+			double forward = (dist / segSize) * (double(i) / segs.Size());
+			vector3 segEnd = SmartBeamMath.V3Offset(
+				viewToTarget.x, viewToTarget.y - 90, seg.roll,
+				-forward, -(sourceOffs.y * lookMod), (sourceOffs.z * lookMod), 1.0
+			);
+			
+			vector3 segPos = level.vec3offset(originPos, segEnd);
+			
+			seg.SetOrigin(segPos, true);
+		}
+	}
+}

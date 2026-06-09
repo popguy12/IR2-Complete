@@ -1,0 +1,422 @@
+namespace = "Strife";
+include = "SCRIPT00";
+
+conversation
+{
+	actor = 2;
+	page
+	{
+		name = "Wolfe";
+		dialog = "What can I get you, citizen?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "10ga Shell Bandolier";
+			cost
+			{
+				item = "Coin";
+				amount = 250;
+			}
+			displaycost = true;
+			yesmessage = "Worth every coin!!";
+			nomessage = "Come on, 250 gold!";
+			giveitem = "8ShellsX1";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "8ga Shell Box";
+			cost
+			{
+				item = "Coin";
+				amount = 500;
+			}
+			displaycost = true;
+			yesmessage = "16 8ga Shells... Here you go.";
+			nomessage = "You don't have enough gold!";
+			giveitem = "8GAShellBox";
+			nextpage = 6;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "FC-GP6 Fuel Cartridge";
+			cost
+			{
+				item = "Coin";
+				amount = 750;
+			}
+			displaycost = true;
+			yesmessage = "Here you go.";
+			nomessage = "Come back when you have enough money.";
+			giveitem = "Flame_Cannister";
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "TY-99A Magcharger";
+			cost
+			{
+				item = "Coin";
+				amount = 1000;
+			}
+			displaycost = true;
+			yesmessage = "Here's your Magcharger.";
+			nomessage = "You don't have enough for that.";
+			giveitem = 505;
+			nextpage = 1;
+			closedialog = false;
+		}
+	}
+}
+
+conversation
+{
+	actor = 4;
+	page //1
+	{
+		name = "Ryan";
+		dialog = "What can I assist you with?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Standard Combat Armor";
+			cost
+			{
+				item = "Coin";
+				amount = 350;
+			}
+			displaycost = true;
+			yesmessage = "Here it is, citizen.";
+			nomessage = "There's no charity given here!";
+			giveitem = "MediumShield";
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Imperial Plate Carier";
+			cost
+			{
+				item = "Coin";
+				amount = 700;
+			}
+			displaycost = true;
+			yesmessage = "An excellent choice, citizen.";
+			nomessage = "You don't have enough for this!";
+			giveitem = "HeavyShield";
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "EVA Protective Suit";
+			cost
+			{
+				item = "Coin";
+				amount = 50;
+			}
+			displaycost = true;
+			yesmessage = "Here you are.";
+			nomessage = "No money, no suit.";
+			giveitem = 161;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Something different";
+			cost
+			{
+				item = "Coin";
+				amount = 250;
+			}
+			displaycost = true;
+			yesmessage = "Go through the door down the hall.";
+			nomessage = "You must pay if you want to play.";
+			giveitem = 302;
+			nextpage = 2;
+			closedialog = true;
+		}
+	}
+	page //2
+	{
+		name = "Ryan";
+		dialog = "What can I get you?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Standard Combat Armor";
+			cost
+			{
+				item = "Coin";
+				amount = 75;
+			}
+			displaycost = true;
+			yesmessage = "Here it is, citizen.";
+			nomessage = "There's no charity given here!";
+			giveitem = "MediumShield";
+			nextpage = 2;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Imperial Plate Carrier";
+			cost
+			{
+				item = "Coin";
+				amount = 170;
+			}
+			displaycost = true;
+			yesmessage = "An excellent choice, citizen.";
+			nomessage = "You don't have enough for this!";
+			giveitem = "HeavyShield";
+			nextpage = 2;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "EVA Protective Suit";
+			yesmessage = "Here you are.";
+			nomessage = "No money, no suit.";
+			giveitem = 161;
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+}
+
+conversation
+{
+	actor = 5;
+	page
+	{
+		name = "Tannis";
+		dialog = "How can I help you today?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Liquigel Medpatch";
+			cost
+			{
+				item = "Coin";
+				amount = 30;
+			}
+			displaycost = true;
+			yesmessage = "Here's your Patch.";
+			nomessage = "That is 30 gold, my friend.";
+			giveitem = 125;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Liquigel MEDKIT";
+			cost
+			{
+				item = "Coin";
+				amount = 60;
+			}
+			displaycost = true;
+			yesmessage = "Here's your Medkit.";
+			nomessage = "You're a bit low on funds for that.";
+			giveitem = 126;
+			nextpage = 1;
+			closedialog = false;
+		}
+		choice
+		{
+			text = "Liquigel Restore Kit";
+			cost
+			{
+				item = "Coin";
+				amount = 90;
+			}
+			displaycost = true;
+			yesmessage = "One Restore Kit.";
+			nomessage = "Come back when you have money!";
+			giveitem = 127;
+			nextpage = 1;
+			closedialog = false;
+		}
+	}
+}
+
+conversation
+{
+	actor = 3;
+	page
+	{
+		name = "Rawlings";
+		dialog = "Hello friend, what can I get you?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "Information";
+			cost
+			{
+				item = "Coin";
+				amount = 5;
+			}
+			displaycost = true;
+			yesmessage = "I've never seen anyone go in or out of the Factory; the forcefield's always up.";
+			nomessage = "No money, no info.";
+			nextpage = 2;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Rawlings";
+		dialog = "Yes, what would you like?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "More info";
+			cost
+			{
+				item = "Coin";
+				amount = 5;
+			}
+			displaycost = true;
+			yesmessage = "The Factory's built on the Comet's impact site. I don't think that's by chance.";
+			nomessage = "Come on, it's a measly 5 gold.";
+			nextpage = 3;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Rawlings";
+		dialog = "Hello again, what'll it be?";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "More info";
+			cost
+			{
+				item = "Coin";
+				amount = 5;
+			}
+			displaycost = true;
+			yesmessage = "The Factory closed when the Order unveiled its new horror; the Inquisitor.";
+			nomessage = "5 gold, please.";
+			nextpage = 4;
+			closedialog = true;
+		}
+	}
+	page
+	{
+		name = "Rawlings";
+		dialog = "That's all I know. Even bartenders run out of stuff to say, sorry.";
+		drop = 0;
+		link = 0;
+	}
+}
+
+conversation
+{
+	actor = 24;
+	page
+	{
+		name = "Timothy";
+		dialog = "Hello.";
+		drop = 0;
+		link = 0;
+		choice
+		{
+			text = "What are you doing?";
+			yesmessage = "I'm doing stuff, go away!";
+			nomessage = "NO.  you don't have what i want for the  WHAT ARE YOU DOING?!";
+		}
+	}
+}
+
+conversation
+{
+	actor = 9;
+	page
+	{
+		name = "Tevick";
+		dialog = "Now, what can I help you with?";
+		drop = 169;
+		link = 0;
+		choice
+		{
+			text = "Tempered Plate Carrier";
+			cost
+			{
+				item = "Coin";
+				amount = 1250;
+			}
+			displaycost = true;
+			yesmessage = "So Ryan Sent you? Here you go, Tempered Armor";
+			nomessage = "Funds look a little thin there... and this ain't cheap.";
+			giveitem = "TemperedShield";
+			nextpage = 1;
+			closedialog = true;
+		}
+	}
+}
+
+conversation
+{
+	actor = 18;
+	page
+	{
+		name = "Richter";
+		panel = "M_RICHTR";
+		voice = "RIC01";
+		dialog = "Thank Deus you got here. To enter the Factory you need a Key. We stole it, but our agent is missing in the web of catacombs under the Order's stronghold. I have sent ten good men into those tunnels to find him, and none have returned. Something is down there!";
+		drop = 301;
+		link = 3;
+		ifitem
+		{
+			item = 335;
+		}
+		choice
+		{
+			text = "What is it? Human or... ?";
+			nomessage = "NO.  you don't have what i want for the  What is it? Human or... ?!";
+			giveitem = 153;
+			nextpage = 2;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Richter";
+		panel = "M_RICHTR";
+		voice = "RIC02";
+		dialog = "Not. Definitely not. Whatever it is, you must fight it to retrieve the key. I'll open the catacombs' entrance. When you've got it, the Factory is next to the mines. Hurry, each second counts.";
+		drop = 301;
+		link = 0;
+		choice
+		{
+			text = "Something inhuman, eh? Great.";
+			nomessage = "NO.  you don't have what i want for the  SOMETHING INHUMAN, EH?, GREAT.!";
+			log = "LOG1029";
+			giveitem = 304;
+			nextpage = 3;
+			closedialog = false;
+		}
+	}
+	page
+	{
+		name = "Richter";
+		panel = "M_RICHTR";
+		voice = "RRTBL";
+		dialog = "You're wasting time and lives! Move!";
+		drop = 301;
+		link = 0;
+	}
+}

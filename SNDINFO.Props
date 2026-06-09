@@ -1,0 +1,65 @@
+// props
+
+$random barrel/hit { barrel/hit1 barrel/hit2 barrel/hit3 }
+barrel/hit1		brlhit1
+barrel/hit2		brlhit2
+barrel/hit3		brlhit3
+
+$random barrel/gib { barrel/gib1 barrel/gib2 barrel/gib3 }
+barrel/gib1		brlgib1
+barrel/gib2		brlgib2
+barrel/gib3		brlgib3
+
+barrel/break	brlbrk
+
+$random props/techlamp/break			{ props/techlamp/break1 props/techlamp/break2}
+props/techlamp/break1					glass1
+props/techlamp/break2					glass2
+$random props/glass/shard				{ props/glass/shard1 props/glass/shard2 props/glass/shard3 props/glass/shard4 }
+props/glass/shard1						shard1
+props/glass/shard2						shard2
+props/glass/shard3						shard3
+props/glass/shard4						shard4
+$volume props/glass/shard 0.5
+
+props/burningbarrel/loop				burnbarl
+$volume props/burningbarrel/loop 0.03
+
+props/lighthum1		lite1
+$volume props/lighthum1 0.01
+
+props/lighthum2		lite2
+$volume props/lighthum2 0.01
+
+props/lighthum3		lite3
+$volume props/lighthum3 0.025
+
+props/techpillar/break				pilrbrek
+
+props/floatingskull					flotskul
+$volume props/floatingskull	 0.05
+
+props/beatingheart					dspunch
+$volume props/beatingheart 0.025
+
+props/torch/large					trchbig
+$volume props/torch/large 0.02
+props/torch/small					trchsmol
+$volume props/torch/small 0.02
+
+props/wood/pain			woodpain
+props/wood/die1			wooddie1
+
+$random props/wood/gib 	{ props/wood/gib1 props/wood/gib2 props/wood/gib3 props/wood/gib4 }
+props/wood/gib1			wood1
+props/wood/gib2			wood2
+props/wood/gib3			wood3
+props/wood/gib4			wood4
+$volume props/wood/gib 0.5
+
+props/candles/candlestick	candles
+$volume props/candles/candlestick 0.01
+props/candles/candelabra	candles
+$volume props/candles/candelabra 0.03
+
+props/evileye/die		eeyedie

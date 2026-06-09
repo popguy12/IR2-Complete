@@ -1,0 +1,21 @@
+#library "overyeet"
+#include "zcommon.acs"
+
+// The cooldown script for Typhoon cuz I'm a lazy bozo that re-uses shit from his mods. - D3ath
+
+script "TyphoonOverheat" Enter
+{
+	while(1)
+	{
+		if(CheckInventory("7BShredderToken"))
+		{
+		GiveInventory("TyphoonOverheatToken", 1);
+		}
+		else
+		{
+		TakeInventory("TyphoonOverheatToken", 2);
+		}
+
+	Delay(1);
+	}
+}

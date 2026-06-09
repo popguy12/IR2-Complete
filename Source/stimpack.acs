@@ -1,0 +1,23 @@
+#library "stimpack.acs"
+#include "zcommon.acs"
+
+//Medkit healing effect
+script "IR_UseStimpack" (void) net { //912
+	if (checkinventory("health") > 0){
+		if (checkinventory("healthstim") > 0 ) {
+			if (checkinventory("health") > 124){	
+				print(s:"\cd-\\ Health is full \\-");
+			}
+			else{
+				sethudsize(320,200,1);
+				setfont("HEALSCRN");	
+				hudmessage (s:"A"; HUDMSG_FADEINOUT, 148, CR_UNTRANSLATED, 0.1, 0.1, 0.1, 0.0, 0.4);//ID 26
+				useinventory("healthstim");
+				takeinventory("healthstim", 1);
+			}
+		}
+		else {
+			print(s:"\cg-\\ No Health Stims avaiable \\-");
+		}
+	}
+}
