@@ -57,7 +57,7 @@ WeaponSection "IR2InEverything"
 SetSlot 1 IR2PunchDagger Sword
 SetSlot 2 Punisher Tormentor StormHound DevastatorPistol
 SetSlot 3 Malefactor Archangel
-SetSlot 4 Boneduster //ImpalerNailgun
+SetSlot 4 Boneduster ImpalerNailgun
 SetSlot 5 Omen Hellstorm
 SetSlot 6 MaulerCannon Longinus
 SetSlot 7 Incinerator Typhoon

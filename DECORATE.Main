@@ -9,7 +9,7 @@
 #include "Actors/dec_wp3a" // D-666a "Malefactor" Shotgun
 #include "Actors/dec_wp3b" // SK-410 "Archangel" Assault Shotgun
 #include "Actors/dec_wp4a" // OE-8 "Boneduster" Coachgun
-//#include "Actors/dec_wp4b" // VLD-919 "Impaler" Rotary Nailgun
+#include "Actors/dec_wp4b" // VLD-919 "Impaler" Rotary Nailgun
 #include "Actors/dec_wp5a" // OMN-106e "Omen" Mk.IV Assault Rifle
 #include "Actors/dec_wp5b" // HST-180f "Hellstorm" Mk.III Personal Defense Weapon
 #include "Actors/dec_wp6a" // FY-2014m "Longinus" Antimateriel Rifle
