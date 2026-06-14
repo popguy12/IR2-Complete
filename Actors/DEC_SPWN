@@ -1,7 +1,7 @@
 actor ZombGuy_Spawner : RandomSpawner {
 	Dropitem "AI_RFTrooper_Storm", 256, 6 //Storm
-	Dropitem "RFTrooperBurst", 256, 5 //Omen
-	Dropitem "RFTrooperAuto", 256, 4 //Hellstorm
+	Dropitem "AI_RFTrooper_Omen", 256, 5 //Omen
+	Dropitem "RFTrooperBurst", 256, 4 //Hellstorm
 	DropItem "BadassRFT", 256, 3 //Badass, Omen/Sidearm
 	DropItem "HH_OnyxGuard_RF", 256, 2 //Mauler
 	DropItem "HH_CrimsonElite", 256, 1 //nondescript minigun

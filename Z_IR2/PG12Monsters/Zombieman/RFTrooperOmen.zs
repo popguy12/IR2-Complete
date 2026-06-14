@@ -1,4 +1,4 @@
-Class AI_RFTrooper_Storm : AI_Monster
+Class AI_RFTrooper_Omen : AI_Monster
 {
 		Default
 		{
@@ -13,7 +13,7 @@ Class AI_RFTrooper_Storm : AI_Monster
 			Scale 1; //Make sure to adjust the values in the See state to match these
 			BloodColor "7F0000";
 			
-			AI_Monster.AttackRange 1000;
+			AI_Monster.AttackRange 2000;
 			AI_Monster.CanIDodge false;
 			AI_Monster.CanIJump false;
 			AI_Monster.MaxLeapHeightDif 60;
@@ -26,7 +26,8 @@ Class AI_RFTrooper_Storm : AI_Monster
 			DeathSound "GNZombie/death";
 			ActiveSound "GNZombie/active";
 			
-			DropItem "ARifle_Magazine", 32, 2;
+			Dropitem "Omen", 16,1;
+			DropItem "ARifle_Magazine", 32,2;
 			DropItem "HeavyPistolAmmo", 96;
 			DropItem "LightPistolAmmo", 128;
 			
@@ -38,13 +39,23 @@ Class AI_RFTrooper_Storm : AI_Monster
 		
 		int HowManyGrenadesHaveIThrown;
 		
-		void FireProjBullets()
+		bool AltAmmoLoaded;
+		
+		void FireProjBullets(bool AltAmmo)
 		{
 			A_Light(2);
-			A_PlaySound("Weapons/StormFire",CHAN_Auto,0.88,0,2);
-			A_PlaySound("Weapons/StormFireAdd",CHAN_5,0.99,0,2);
-			A_SpawnProjectile("apscasing_spawner",30,15,0,5,0);
-			A_SpawnProjectile("p_autopistol_tracer", 43, 2.5, frandom(-8,8), CMF_OFFSETPITCH , frandom(-8,8));
+			if(!AltAmmo)
+			{
+				A_PlaySound("Weapons/OmenFire",CHAN_Auto);
+				A_SpawnProjectile("ARifleCasing_Spawner",30,15,0,5,0);
+				A_SpawnProjectile("p_arifle_tracer", 43, 2.5, frandom(-8,8), CMF_OFFSETPITCH , frandom(-8,8));
+			}
+			else
+			{
+				A_PlaySound("Weapons/OmenFire",CHAN_Auto);
+				A_SpawnProjectile("ARifleCasing_Spawner_X",30,15,0,5,0);
+				A_SpawnProjectile("p_hrifle_tracer", 43, 2.5, frandom(-8,8), CMF_OFFSETPITCH , frandom(-8,8));
+			}
 			AmmoInMag--;
 		}
 		
@@ -63,6 +74,7 @@ Class AI_RFTrooper_Storm : AI_Monster
 		{
 			super.BeginPlay();
 			AmmoInMag = random(20,40); //Storm
+			AltAmmoLoaded = false;
 		}
 		
 		override void Tick()
@@ -74,15 +86,15 @@ Class AI_RFTrooper_Storm : AI_Monster
 		{
 		
 		Spawn:
-			RFR4 A 1;
+			RFR1 A 1;
 			TNT1 A 0;
 		Stand:
-			RFR4 AAAA 5
+			RFR1 AAAA 5
 			{
 				A_LookEx();
 				A_SetScale(scale.X,Scale.Y+0.01);
 			}
-			RFR4 AAAA 5
+			RFR1 AAAA 5
 			{
 				A_LookEx();
 				A_SetScale(scale.X,Scale.Y-0.01);
@@ -90,8 +102,8 @@ Class AI_RFTrooper_Storm : AI_Monster
 			TNT1 A 0 A_Jump(96, "Wander");
 			Loop;
 		Wander:
-			RFR4 AAAABBBB 1 AI_SmartChase();
-			RFR4 CCCCDDDD 1 AI_SmartChase();
+			RFR1 AAAABBBB 1 AI_SmartChase();
+			RFR1 CCCCDDDD 1 AI_SmartChase();
 			TNT1 A 0 A_Jump(32, "Stand");
 			Loop;
 		See:
@@ -109,50 +121,50 @@ Class AI_RFTrooper_Storm : AI_Monster
 				}
 			}
 		SeeContinue:
-			RFR4 AAAABBBB 1 AI_SmartChase();
+			RFR1 AAAABBBB 1 AI_SmartChase();
 			TNT1 A 0 A_Fallback();
-			RFR4 CCCCDDDD 1 AI_SmartChase();
+			RFR1 CCCCDDDD 1 AI_SmartChase();
 			TNT1 A 0 A_Fallback();
 			Loop;
 		FallBack:
 			TNT1 A 0 A_Jump(255, "Fallback1", "Roll", "See");
 		FallBack1:
-			RFR4 D 3 {
+			RFR1 D 3 {
 				A_FaceTarget(10);
 				A_Recoil(2);
 				return A_Jump(64,"Missile");
 			}
-			RFR4 C 3 {
+			RFR1 C 3 {
 				A_FaceTarget(10);
 				A_Recoil(2);
 				return A_Jump(64,"Missile");
 			}
-			RFR4 B 3 {
+			RFR1 B 3 {
 				A_FaceTarget(10);
 				A_Recoil(2);
 				return A_Jump(64,"Missile");
 			}
-			RFR4 A 3 {
+			RFR1 A 3 {
 				A_FaceTarget(10);
 				A_Recoil(2);
 				return A_Jump(64,"Missile");
 			}
-			RFR4 D 3 {
+			RFR1 D 3 {
 				A_FaceTarget(10);
 				A_Recoil(2);
 				return A_Jump(64,"Missile");
 			}
-			RFR4 C 3 {
+			RFR1 C 3 {
 				A_FaceTarget(10);
 				A_Recoil(2);
 				return A_Jump(64,"Missile");
 			}
-			RFR4 B 3 {
+			RFR1 B 3 {
 				A_FaceTarget(10);
 				A_Recoil(2);
 				return A_Jump(64,"Missile");
 			}
-			RFR4 A 3 {
+			RFR1 A 3 {
 				A_FaceTarget(10);
 				A_Recoil(2);
 			}
@@ -162,9 +174,9 @@ Class AI_RFTrooper_Storm : AI_Monster
 		//Attack Logic// 
 		////////////////
 		Melee:
-			RFR4 A 1 A_CheckLOF(1);
+			RFR1 A 1 A_CheckLOF(1);
 			Goto See;
-			RFR4 A 1 A_FaceTarget(45, 45, 0, 0, FAF_MIDDLE);
+			RFR1 A 1 A_FaceTarget(45, 45, 0, 0, FAF_MIDDLE);
 			RFR1 E random(10,20);
 			RFR1 G 6
 			{
@@ -172,11 +184,11 @@ Class AI_RFTrooper_Storm : AI_Monster
 				A_StartSound("Fists/Swing");
 				A_CustomMeleeAttack(random(10, 30), "Fists/HitFlesh");
 			}
-			RFR4 E 6;
+			RFR1 E 6;
 			Goto See;
 		Missile:
 			TNT1 A 0 A_JumpIf(AttackDelay > 3, "See");
-			RFR4 E 1 A_CheckLOFRanged("AttackHandler", "Roll");
+			RFR1 E 1 A_CheckLOFRanged("AttackHandler", "Roll");
 			Goto See;
 		AttackHandler:
 			TNT1 A 0
@@ -195,10 +207,29 @@ Class AI_RFTrooper_Storm : AI_Monster
 				
 				AttackDelay = AttackDelay + 35;
 				
-				return A_Jump(256, "Attack1");
+				return A_Jump(256, "Attack1", "Attack2");
 			}
 		
 		Attack1:
+			TNT1 A 0
+			{
+				if(AmmoInMag <= 3)
+				{
+					A_Jump(256,"Reload");
+				}
+			}
+			RFR1 E 1 A_FaceTarget();
+			RFR1 F 1 BRIGHT FireProjBullets(AltAmmoLoaded);
+			RFR1 E 1;
+			RFR1 F 1 BRIGHT FireProjBullets(AltAmmoLoaded);
+			RFR1 E 1;
+			RFR1 F 1 BRIGHT FireProjBullets(AltAmmoLoaded);
+			RFR1 E 1;
+			RFR1 F 1 BRIGHT FireProjBullets(AltAmmoLoaded);
+			RFR1 E 1 A_SetTics(random(8,16));
+			RFR1 A 0 A_Jump(128,"Attack1");
+			Goto See;
+		Attack2:
 			TNT1 A 0
 			{
 				if(AmmoInMag <= 0)
@@ -206,10 +237,10 @@ Class AI_RFTrooper_Storm : AI_Monster
 					A_Jump(256,"Reload");
 				}
 			}
-			RFR4 E 1 A_FaceTarget();
-			RFR4 F 1 BRIGHT FireProjBullets;
-			RFR4 E 2;
-			RFR4 A 0 A_Jump(240,"Attack1");
+			RFR1 E 1 A_FaceTarget();
+			RFR1 F 1 BRIGHT FireProjBullets(AltAmmoLoaded);
+			RFR1 E 3;
+			RFR1 A 0 A_Jump(240,"Attack2");
 			Goto See;
 			
 		Grenade:
@@ -218,46 +249,53 @@ Class AI_RFTrooper_Storm : AI_Monster
 			TNT1 A 0 A_JumpIfCloser(90, "Attack1");
 		ThrowGrenade:
 			TNT1 A 0; //Grenade sound
-			RFR4 E 6
+			RFR1 E 6
 			{
 				A_ActiveSound();
 				A_FaceTarget(90,45);
 			}
-			RFR4 E 6;
-			RFR4 E 6
+			RFR1 E 6;
+			RFR1 E 6
 			{
 				A_FaceTarget(90,45);
 				FireProjGren();
 			}
-			RFR4 E 6;
+			RFR1 E 6;
 			Goto See;
 		
 		NoAmmo:
-			RFR4 E 1 A_FaceTarget();
-			RFR4 E 4 A_PlaySound("Weapons/TormentorCycle");
-			RFR4 E 1 A_FaceTarget();
-			RFR4 E 4 A_PlaySound("Weapons/TormentorCycle");
-			RFR4 E 1 A_FaceTarget();
-			RFR4 E 4 A_PlaySound("Weapons/TormentorCycle");
-			RFR4 E 1 A_FaceTarget();
-			RFR4 E 4 A_PlaySound("Weapons/TormentorCycle");
-			RFR4 E 1 A_FaceTarget();
-			RFR4 E 4 A_PlaySound("Weapons/TormentorCycle");
-			RFR4 E 10;
+			RFR1 E 1 A_FaceTarget();
+			RFR1 E 4 A_PlaySound("Weapons/TormentorCycle");
+			RFR1 E 1 A_FaceTarget();
+			RFR1 E 4 A_PlaySound("Weapons/TormentorCycle");
+			RFR1 E 1 A_FaceTarget();
+			RFR1 E 4 A_PlaySound("Weapons/TormentorCycle");
+			RFR1 E 1 A_FaceTarget();
+			RFR1 E 4 A_PlaySound("Weapons/TormentorCycle");
+			RFR1 E 1 A_FaceTarget();
+			RFR1 E 4 A_PlaySound("Weapons/TormentorCycle");
+			RFR1 E 10;
 			TNT1 A 0 A_Jump(256, "See", "Reload");
 			Goto See;
 		Reload:
-			RFR4 A 6;
-			RFR4 E 9 A_PlaySound("Weapons/StormMagOut");
-			RFR4 E 16;
-			RFR4 E 11 A_PlaySound("Weapons/DevMagOut");
-			RFR4 E 6 A_PlaySound("Weapons/StormMagIn");
-			RFR4 E 8 A_PlaySound("Weapons/StormMagLock");
+			RFR1 A 6;
+			RFR1 E 1 A_PlaySound("ArchangelK61/MagHit");
+			RFR1 E 1 A_PlaySound("ArchangelK61/MagOut");
+			RFR1 E 6;
+			//Spawn empty mag
+			RFR1 E 25;
+			RFR1 E 16 A_PlaySound("ArchangelK61/MagIn");
+			RFR1 E 20 A_PlaySound("SK410/MagHit");
+			RFR1 E 8 A_PlaySound("ArchangelK61/BoltRelease");
 			TNT1 A 0
 			{
-				AmmoInMag = 32;
+				if(random(1,3))
+				{
+					AltAmmoLoaded = !AltAmmoLoaded;
+				}
+				AmmoInMag = 80;
 			}
-			RFR4 A 4;
+			RFR1 A 4;
 			Goto See;
 
 		////////////////
@@ -265,11 +303,11 @@ Class AI_RFTrooper_Storm : AI_Monster
 		////////////////
 		Pain:
 			TNT1 A 0 A_JumpIf(kickeddown, "KickedPain");
-			RFR4 G 6 A_Pain();
+			RFR1 G 6 A_Pain();
 			Goto See;
 		
 		Raise:
-			RFR4 LKJIHG 3;
+			RFR1 LKJIHG 3;
 			Goto Spawn;
 		
 		
@@ -280,36 +318,36 @@ Class AI_RFTrooper_Storm : AI_Monster
 		Roll:
 			TNT1 A 0 A_Jump(256, "SHR", "SHL", "See");
 		SHR:
-			RFR4 A 3 A_FaceTarget;
-			RFR4 E 3
+			RFR1 A 3 A_FaceTarget;
+			RFR1 E 3
 			{
 				A_FaceTarget();
 				A_ChangeVelocity(frandom(5,-5), -8, 0, CVF_RELATIVE);
 			}
-			RFR4 E 24;
+			RFR1 E 24;
 		SHRL:
-			RFR4 E 1 A_CheckFloor("SHRE");
-			RFR4 E 1;
+			RFR1 E 1 A_CheckFloor("SHRE");
+			RFR1 E 1;
 			Loop;
 		SHRE:
-			RFR4 E 1 A_FaceTarget;
+			RFR1 E 1 A_FaceTarget;
 			TNT1 A 0 A_Stop();
 			TNT1 A 0 A_Jump(256, "See", "Missile");
 			Goto See;
 		SHL:
-			RFR4 A 3 A_FaceTarget;
-			RFR4 E 3
+			RFR1 A 3 A_FaceTarget;
+			RFR1 E 3
 			{
 				A_FaceTarget();
 				A_ChangeVelocity(frandom(5,-5), 8, 0, CVF_RELATIVE);
 			}
-			RFR4 E 24;
+			RFR1 E 24;
 		SHLL:
-			RFR4 E 1 A_CheckFloor("SHLE");
-			RFR4 E 1 A_CheckCeiling("SHLE");
+			RFR1 E 1 A_CheckFloor("SHLE");
+			RFR1 E 1 A_CheckCeiling("SHLE");
 			Loop;
 		SHLE:
-			RFR4 E 1 A_FaceTarget;
+			RFR1 E 1 A_FaceTarget;
 			TNT1 A 0 A_Stop();
 			TNT1 A 0 A_Jump(256, "Roll", "See", "Missile");
 			Goto See;
@@ -324,8 +362,8 @@ Class AI_RFTrooper_Storm : AI_Monster
 				A_Scream();
 				A_NoBlocking();
 			}
-			RFR4 HIJK 3;
-			RFR4 L -1;
+			RFR1 HIJK 3;
+			RFR1 L -1;
 			Stop;
 		XDeath:
 			TNT1 A 0
@@ -333,8 +371,8 @@ Class AI_RFTrooper_Storm : AI_Monster
 				A_XScream();
 				A_NoBlocking();
 			}
-			RFR4 MNOP 3;
-			RFR4 Q -1;
+			RFR1 MNOP 3;
+			RFR1 Q -1;
 			Stop;
 	}
 }
