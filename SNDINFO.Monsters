@@ -427,6 +427,12 @@ Heavy/Boot4		HHFStep4
 Heavy/Boot5		HHFStep5
 Heavy/Boot6		HHFStep6
 
+$random Badass/Boot {Badass/Boot1 Badass/Boot2 Badass/Boot3}
+
+Badass/Boot1		BAASSTE1
+Badass/Boot2		BAASSTE2
+Badass/Boot3		BAASSTE3
+
 $random hhtyrant/sight {TSEE1 TSEE2 TSEE3 TSEE4 TSEE5}
 $random hhtyrant/active {TACT1 TACT2 TACT3 TACT4}
 $random hhtyrant/pain {TPAIN1 TPAIN2 TPAIN3}

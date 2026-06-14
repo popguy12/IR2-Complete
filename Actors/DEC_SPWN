@@ -1,21 +1,19 @@
 actor ZombGuy_Spawner : RandomSpawner {
-	Dropitem "RFTrooperBurst", 256, 1
-	Dropitem "RFTrooperAuto", 256, 1
-	DropItem "MalefactorZombieNorm", 256, 1
-	DropItem "HH_CrimsonElite", 256, 1
-	DropItem "HH_OnyxGuard_RF", 256, 1
-	DropItem "BadassRFT", 256, 1
-	DropItem "MalefactorZombieATP", 256, 1
+	Dropitem "AI_RFTrooper_Storm", 256, 6 //Storm
+	Dropitem "RFTrooperBurst", 256, 5 //Omen
+	Dropitem "RFTrooperAuto", 256, 4 //Hellstorm
+	DropItem "BadassRFT", 256, 3 //Badass, Omen/Sidearm
+	DropItem "HH_OnyxGuard_RF", 256, 2 //Mauler
+	DropItem "HH_CrimsonElite", 256, 1 //nondescript minigun
 }
 
-actor SZombGuy_Spawner : RandomSpawner {
-	Dropitem "StealthTrooperBurst", 256, 1
-	Dropitem "StealthTrooperAuto", 256, 1
-	DropItem "StealthMalefactorZombieNorm", 256, 1
-	DropItem "StealthCrimsonElite", 256, 1
-	DropItem "StealthOnyxGuardRF", 256, 1
-	DropItem "StealthBadassRFT", 256, 1
-	DropItem "StealthMalefactorZombieATP", 256, 1
+actor ShotGuy_Spawner : RandomSpawner {
+	Dropitem "MalefactorZombieNorm", 256, 6 //Malefactor
+	Dropitem "MalefactorZombieATP", 256, 5 //Malefactor Dragons Breath
+	Dropitem "MalefactorZombieNorm", 256, 4 //Archangel
+	DropItem "MalefactorZombieATP", 256, 3 //Badass, Archangel Dragons Breath/Sidearm
+	DropItem "HH_OnyxGuard_RF", 256, 2 //Boneduster
+	DropItem "HH_CrimsonElite", 256, 1 //nondescript minigun probably change to something else in the future
 }
 
 actor WolfenGuy_Spawner : RandomSpawner {
@@ -31,19 +29,12 @@ actor WolfenGuy_Spawner : RandomSpawner {
 }
 
 actor HeavyGuy_Spawner : RandomSpawner {
-	Dropitem "RFTrooperAuto", 256, 1
-	DropItem "RFTrooperBurst", 256, 1
-	DropItem "HH_CrimsonElite", 256, 1
-	DropItem "HH_OnyxGuard_RF", 256, 1
-	DropItem "BadassRFT", 256, 1
-}
-
-actor SHeavyGuy_Spawner : RandomSpawner {
-	Dropitem "StealthTrooperAuto", 256, 1
-	DropItem "StealthTrooperBurst", 256, 1
-	DropItem "StealthBadassRFT", 256, 1
-	DropItem "StealthCrimsonElite", 256, 1
-	DropItem "StealthOnyxGuardRF", 256, 1
+	Dropitem "AI_RFTrooper_Storm", 256, 6 //Storm
+	Dropitem "RFTrooperBurst", 256, 5 //Omen
+	Dropitem "RFTrooperAuto", 256, 4 //Hellstorm
+	DropItem "BadassRFT", 256, 3 //Badass, Omen/Sidearm
+	DropItem "HH_OnyxGuard_RF", 256, 2 //Triple Minigun
+	DropItem "HH_CrimsonElite", 256, 1 //nondescript minigun
 }
 
 actor Caco_Spawner : RandomSpawner {
@@ -55,14 +46,6 @@ actor Caco_Spawner : RandomSpawner {
 }
 
 actor Pain_Spawner : RandomSpawner {
-	DropItem "BabyAgatho", 256, 18
-    DropItem "AgathoDemon", 256, 12
-	DropItem "DarkAgathoDemon", 256, 6
-	DropItem "ImpureElemental", 256, 3
-	DropItem "TiberiumElemental", 256, 1
-}
-
-actor SCaco_Spawner : RandomSpawner {
 	DropItem "BabyAgatho", 256, 18
     DropItem "AgathoDemon", 256, 12
 	DropItem "DarkAgathoDemon", 256, 6
@@ -94,26 +77,12 @@ actor DoomImp_Spawner : RandomSpawner {
     DropItem "CHellion", 256, 1
 }
 
-actor SDoomImp_Spawner : RandomSpawner {
-	DropItem "StealthDevil", 256, 1
-	DropItem "StealthHellion", 256, 1
-    DropItem "StealthCHellion", 256, 1
-}
-
 actor Knight_Spawner : RandomSpawner {
 	DropItem "LesserFiend", 256, 18
     DropItem "ArchonOfHell", 256, 12
     DropItem "WarlordOfHell", 256, 6
 	DropItem "CataclysmLord", 256, 3
 	DropItem "HH_OnyxGuard_CG", 256, 1
-}
-
-actor SKnight_Spawner : RandomSpawner {
-	DropItem "LesserFiend", 256, 18
-    DropItem "ArchonOfHell", 256, 12
-    DropItem "WarlordOfHell", 256, 6
-	DropItem "CataclysmLord", 256, 3
-	DropItem "StealthOnyxGuardCG", 256, 1
 }
 
 actor Baron_Spawner : RandomSpawner {
@@ -124,14 +93,6 @@ actor Baron_Spawner : RandomSpawner {
 	DropItem "HH_Tyrant", 256, 1
 }
 
-actor SBaron_Spawner : RandomSpawner {
-	DropItem "LesserFiend", 256, 18
-    DropItem "ArchonOfHell", 256, 12
-    DropItem "WarlordOfHell", 256, 6
-	DropItem "CataclysmLord", 256, 3
-	DropItem "StealthTyrant", 256, 1
-}
-
 actor Revenant_Spawner : RandomSpawner {
 	DropItem "Berserker", 256, 18
 	DropItem "Yeetzerker", 256, 12
@@ -140,21 +101,7 @@ actor Revenant_Spawner : RandomSpawner {
 	DropItem "Widowmaker", 256, 1
 }
 
-actor SRevenant_Spawner : RandomSpawner {
-	DropItem "Berserker", 256, 18
-	DropItem "Yeetzerker", 256, 12
-	DropItem "SoulKeeper", 256, 6
-    DropItem "Rasklapanje", 256, 3
-	DropItem "Widowmaker", 256, 1
-}
-
 actor Fatso_Spawner : RandomSpawner {
-	DropItem "RocketFatso", 256, 1
-	DropItem "FlakFatso", 256, 1
-    DropItem "PlasmaFatso", 256, 1
-}
-
-actor SFatso_Spawner : RandomSpawner {
 	DropItem "RocketFatso", 256, 1
 	DropItem "FlakFatso", 256, 1
     DropItem "PlasmaFatso", 256, 1

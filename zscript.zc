@@ -12,6 +12,16 @@ version "4.10"
 #Include "Z_IR2/IR2_Terrain.zsc"
 #include "Z_IR2/IR2_PlayEvents.zsc"
 
+//Weapons
+
+//Monsters
+#include "Z_IR2/PG12Monsters/IR2MonBase.zs"
+#include "Z_IR2/PG12Monsters/Zombieman/RFTrooperStorm.zs"
+//#include "Z_IR2/PG12Monsters/Zombieman/AIRFTrooperOmen.zsc"
+//#include "Z_IR2/PG12Monsters/Zombieman/AIRFTrooperHellstorm.zsc"
+//#include "Z_IR2/PG12Monsters/Zombieman/AIRFTrooperBadass.zsc"
+//#include "Z_IR2/PG12Monsters/Zombieman/AIHHOnyxGuardRF.zsc"
+
 //Droplets: TGL
 #include "Z_IR2/Droplets/Pools.txt"
 #include "Z_IR2/Droplets/Gibs.txt"
