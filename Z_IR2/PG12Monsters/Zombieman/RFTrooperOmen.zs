@@ -46,13 +46,17 @@ Class AI_RFTrooper_Omen : AI_Monster
 			A_Light(2);
 			if(!AltAmmo)
 			{
+				A_StartSound("Weapons/OmenPunchBullet",CHAN_AUTO);
 				A_PlaySound("Weapons/OmenFire",CHAN_Auto);
+				A_StartSound("Weapons/OmenFireAdd",CHAN_AUTO);
 				A_SpawnProjectile("ARifleCasing_Spawner",30,15,0,5,0);
 				A_SpawnProjectile("p_arifle_tracer", 43, 2.5, frandom(-8,8), CMF_OFFSETPITCH , frandom(-8,8));
 			}
 			else
 			{
-				A_PlaySound("Weapons/OmenFire",CHAN_Auto);
+				A_StartSound("Weapons/OmenPunchPlasma",CHAN_AUTO);
+				A_PlaySound("Weapons/OmenFireX",CHAN_Auto);
+				A_StartSound("Weapons/OmenFireAdd",CHAN_AUTO);
 				A_SpawnProjectile("ARifleCasing_Spawner_X",30,15,0,5,0);
 				A_SpawnProjectile("p_hrifle_tracer", 43, 2.5, frandom(-8,8), CMF_OFFSETPITCH , frandom(-8,8));
 			}

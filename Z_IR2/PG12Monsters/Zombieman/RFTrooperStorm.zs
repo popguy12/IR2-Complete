@@ -41,8 +41,9 @@ Class AI_RFTrooper_Storm : AI_Monster
 		void FireProjBullets()
 		{
 			A_Light(2);
-			A_PlaySound("Weapons/StormFire",CHAN_Auto,0.88,0,2);
-			A_PlaySound("Weapons/StormFireAdd",CHAN_5,0.99,0,2);
+			A_PlaySound("Weapons/StormFireN",CHAN_Auto);
+			A_PlaySound("Weapons/StormFireAdd",CHAN_AUTO);
+			A_PlaySound("Weapons/StormPunch",CHAN_AUTO);
 			A_SpawnProjectile("apscasing_spawner",30,15,0,5,0);
 			A_SpawnProjectile("p_autopistol_tracer", 43, 2.5, frandom(-8,8), CMF_OFFSETPITCH , frandom(-8,8));
 			AmmoInMag--;
